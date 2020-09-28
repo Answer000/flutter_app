@@ -2,18 +2,19 @@
 import 'package:dio/dio.dart';
 import 'dart:io';
 import 'dart:convert';
-import 'package:flutter/services.dart';
+import 'package:flutter_app/common/extension/extension.dart';
 
 typedef OnSuccess = void Function(Map response);
 typedef OnFailure = void Function(Object obj);
 
 class Https {
-  // 注册一个通知 （用于接收iOS的通知）
-  static const eventChannel = const EventChannel('ios_flutter/commonParams');
 
-  Map<String,dynamic> headers = {};
+  Map<String,dynamic> _headers = {
+    'clientVersion' : '2.0.0',
+    'Authorization' : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3OTUxIiwiZXhwIjoxNjAxMTc1NTg4LCJpYXQiOjE2MDA5MTYzODh9.pod3e267Tsc-rASOLz3nmlhnA3rKbTgBzr3t2pVcKEqr6AY22q3tC7BgKHspjEvzgq9PB919HWOr5dv_ZF2VBQ"
+  };
 
-  String contentType;
+  String _contentType = '"application/x-www-form-urlencoded"';
 
   // 单列
   factory Https() => _share();
@@ -22,10 +23,7 @@ class Https {
 
   static Https _instance;
 
-  Https._internal() {
-    // 监听事件，同事可发送参数
-    eventChannel.receiveBroadcastStream('commonParams').listen(_configure);
-  }
+  Https._internal();
 
   static Https _share() {
     if(_instance == null){
@@ -33,36 +31,27 @@ class Https {
     }
     return _instance;
   }
+  /// 接口域名
+  String _baseUrl = 'http://dev-api.chaojimei.cn';
 
-  Function initRequest;
-
-  /// 配置公共参数
-  void _configure(Object obj) {
-    var params = Map<String, dynamic>.from(obj);
-    print('$params');
-    contentType = params['Content-Type'] ?? "application/x-www-form-urlencoded";
-    params.forEach((key, value) {
-      if(key != 'Content-Type') { headers[key] = value; }
-    });
-    initRequest();
-  }
-
-  post(String url, Map<String,dynamic> params, OnSuccess onSuccess, OnFailure onFailure) async{
+  post({
+    APIPath apiPath,
+    Map<String,dynamic> params,
+    OnSuccess onSuccess,
+    OnFailure onFailure}) async{
     try {
+      String url = '$_baseUrl/${apiPath.toString().split('.').last}';
       Response response = await new Dio().post(
         url,
-        data: FormData.fromMap(params),
+        data: params.isValid ? FormData.fromMap(params) : null,
         onSendProgress: (int progress, int total) {
           print('$progress   =====   $total');
         },
         options: Options(
             method: 'Post',
             sendTimeout: 1000 * 15,
-            contentType: "application/x-www-form-urlencoded",
-            headers: {
-              'clientVersion' : '2.0.0',
-              'Authorization' : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3OTUxIiwiZXhwIjoxNjAxMTc1NTg4LCJpYXQiOjE2MDA5MTYzODh9.pod3e267Tsc-rASOLz3nmlhnA3rKbTgBzr3t2pVcKEqr6AY22q3tC7BgKHspjEvzgq9PB919HWOr5dv_ZF2VBQ"
-            }
+            contentType: _contentType,
+            headers: _headers
         ),
       );
 
@@ -83,4 +72,8 @@ class Https {
       onFailure(exception);
     }
   }
+}
+
+enum APIPath {
+  home_banner,  /// 首页轮播图
 }

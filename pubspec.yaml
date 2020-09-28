@@ -66,6 +66,16 @@ flutter:
     - resource/cjm_tabbarIcon_profileSelected@3x.png
     - resource/cjm_tabbarIcon_publish@3x.png
 
+    - resource/1.png
+    - resource/2.png
+    - resource/3.png
+    - resource/4.png
+    - resource/5.png
+    - resource/6.png
+    - resource/7.png
+    - resource/8.png
+    - resource/9.png
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

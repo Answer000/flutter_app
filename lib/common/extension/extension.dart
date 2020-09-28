@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:transparent_image/transparent_image.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 extension Screen on ScreenUtil {
   /// 状态栏高度
@@ -29,19 +31,19 @@ extension double_extension on double {
 
 /// string extension
 extension String_extension on String {
-  bool get isValid => (this != null && (this.length ?? 0 != 0));
+  bool get isValid => (this != null && ((this.length ?? 0) > 0));
   bool get isNotValid => !isValid;
 }
 
 /// List extension
 extension List_extension on List {
-  bool get isValid => (this != null && (this.length ?? 0 != 0));
+  bool get isValid => (this != null && ((this.length ?? 0) > 0));
   bool get isNotValid => !isValid;
 }
 
 /// Map extension
 extension Map_extension on Map {
-  bool get isValid => (this != null && (this.length ?? 0 != 0));
+  bool get isValid => (this != null && ((this.length ?? 0) > 0));
   bool get isNotValid => !isValid;
 }
 
@@ -51,6 +53,50 @@ extension CustomAssetImage on Image {
       image: AssetImage(image),
       fit: fit,
       filterQuality: FilterQuality.high,
+    );
+  }
+}
+
+/// 加载网络图片（渐变动画）
+extension CustomImage on FadeInImage {
+  static FadeInImage memoryNetwork({
+    String image,
+    BoxFit fit = BoxFit.cover,
+    Size size = Size.zero}) {
+    return FadeInImage.memoryNetwork(
+      placeholder: kTransparentImage,
+      image: image,
+      fit: fit,
+      width: size.width,
+      height: size.height,
+    );
+  }
+
+  static FadeInImage assetNetwork({
+    String image,
+    BoxFit fit = BoxFit.cover,
+    Size size = Size.zero}) {
+    return FadeInImage.assetNetwork(
+      placeholder: 'resource/placeholder.png',
+      image: image,
+      fit: fit,
+      width: size.width,
+      height: size.height,
+    );
+  }
+}
+
+/// 提示框
+extension CustomToast on Fluttertoast {
+  static show(String msg) {
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 2,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 15,
     );
   }
 }
