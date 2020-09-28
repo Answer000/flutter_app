@@ -8,7 +8,6 @@ import 'package:flutter_app/class/game/game.dart';
 import 'package:flutter_app/class/profile/profile.dart';
 import 'package:flutter_app/class/publish/publish.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/common/tools/custom_route.dart';
 
 class ASTabBar extends StatefulWidget {
 
@@ -120,9 +119,7 @@ class ASTabBarState extends State<ASTabBar> {
                 ),
                 onPressed: (){
                   if(i==2){
-                    Navigator.push(context,
-                      new CustomRoute(page: Publish()),
-                    );
+                    CustomNavigator.push(context, Publish());
                   }else{
                     this.selectIndex = i;
                   }

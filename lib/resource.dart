@@ -11,6 +11,7 @@ extension ResourceExtension on ImageName {
 }
 
 enum ImageName {
+  placeholder,
   cjm_navigationBar_backIcon_white,
   cjm_navigationBar_logo,
   cjm_navigationBar_left_background,

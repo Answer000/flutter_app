@@ -40,7 +40,7 @@ class Https {
     OnSuccess onSuccess,
     OnFailure onFailure}) async{
     try {
-      String url = '$_baseUrl/${apiPath.toString().split('.').last}';
+      String url = '$_baseUrl/${apiPath.toString().split('.').last.replaceAll('_', '/')}';
       Response response = await new Dio().post(
         url,
         data: params.isValid ? FormData.fromMap(params) : null,

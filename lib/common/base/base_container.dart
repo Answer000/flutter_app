@@ -3,6 +3,7 @@ import 'package:flutter_app/common/extension/extension.dart';
 import '../../resource.dart';
 import '../extension/extension.dart';
 import '../extension/extension.dart';
+import '../extension/extension.dart';
 import 'base_navigation_bar.dart';
 
 // ignore: must_be_immutable
@@ -95,9 +96,7 @@ abstract class BaseContainerState<T extends BaseContainer> extends State<T> {
                   child: GestureDetector(
                     child: setContentView(context),
                     onTap: (){
-                      if(Navigator.canPop(context)){
-                        Navigator.pop(context);
-                      }
+                      CustomNavigator.pop(context);
                     },
                   ),
                 ),

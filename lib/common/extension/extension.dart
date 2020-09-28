@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_app/common/tools/custom_route.dart';
+
+import '../../resource.dart';
 
 extension Screen on ScreenUtil {
   /// 状态栏高度
@@ -77,7 +80,7 @@ extension CustomImage on FadeInImage {
     BoxFit fit = BoxFit.cover,
     Size size = Size.zero}) {
     return FadeInImage.assetNetwork(
-      placeholder: 'resource/placeholder.png',
+      placeholder: ImageName.placeholder.imagePath,
       image: image,
       fit: fit,
       width: size.width,
@@ -98,5 +101,18 @@ extension CustomToast on Fluttertoast {
       textColor: Colors.white,
       fontSize: 15,
     );
+  }
+}
+
+
+extension CustomNavigator on Navigator {
+  static pop(context) {
+    if(Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
+  }
+
+  static push(context, Widget page) {
+    Navigator.push(context, new CustomRoute(page: page),);
   }
 }
