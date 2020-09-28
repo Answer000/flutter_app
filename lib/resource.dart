@@ -1,21 +1,5 @@
 import 'package:flutter/material.dart';
 
-// enum ResourceType {
-//   none,
-//   image,
-// }
-
-class Resource {
-  static ResourceImage image = ResourceImage();
-}
-
-class ResourceImage {
-
-  ImageName imageName;
-  // String get path => 'resource/${this.toString().split('.').last}@3x.png';
-  // Image get assetImage => this.path.localImage;
-}
-
 extension String_extension on String {
   Image get localImage =>
       Image(image: AssetImage(this), fit: BoxFit.cover,);
@@ -27,6 +11,9 @@ extension ResourceExtension on ImageName {
 }
 
 enum ImageName {
+  cjm_navigationBar_backIcon_white,
+  cjm_navigationBar_logo,
+  cjm_navigationBar_left_background,
   cjm_tabbarIcon_fashionNormal,
   cjm_tabbarIcon_fashionSelected,
   cjm_tabbarIcon_homeNormal,

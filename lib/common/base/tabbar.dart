@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/resource.dart';
+import 'package:flutter_app/class/home/home.dart';
+import 'package:flutter_app/class/fashion/fashion.dart';
+import 'package:flutter_app/class/game/game.dart';
+import 'package:flutter_app/class/profile/profile.dart';
+import 'package:flutter_app/class/publish/publish.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_app/common/tools/custom_route.dart';
 
 class ASTabBar extends StatefulWidget {
 
@@ -15,36 +22,64 @@ class ASTabBarState extends State<ASTabBar> {
 
   double get barHeight => 49.0;
 
+  PageController _pageController;
+
   int _selectIndex = 0;
+  int get selectIndex => _selectIndex;
+  set selectIndex(int index){
+    setState(() {
+      this._selectIndex = index;
+      this._pageController.jumpToPage(index);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(
+      initialPage: this.selectIndex,
+      keepPage: true,
+      viewportFraction: 1.0,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    print('${ImageName.cjm_tabbarIcon_fashionNormal.assetImage}');
-    return MaterialApp(
-      home: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: Container(
-                color: Colors.red,
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            child: Container(
+              child: PageView(
+                scrollDirection: Axis.horizontal,
+                controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  Home(),
+                  Fashion(),
+                  Publish(),
+                  Game(),
+                  Profile(),
+                ],
               ),
             ),
+          ),
 
-            Container(
-              color: Color(0xff232323),
-              height: this.barHeight + Screen.bottomBarHeight,
-              padding: EdgeInsets.only(left: 24.dp, right: 24.dp),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: _createItems(),
-              ),
+          Container(
+            color: Color(0xff232323),
+            height: this.barHeight + Screen.bottomBarHeight,
+            padding: EdgeInsets.only(left: 24.dp, right: 24.dp),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: _createItems(),
             ),
-          ],
-        ),
-      )
+          ),
+        ],
+      ),
     );
   }
 
@@ -77,16 +112,20 @@ class ASTabBarState extends State<ASTabBar> {
             Container(
               width: isPublish ? 50.dp : 35.dp,
               height: isPublish ? 50.dp : 35.dp,
-              transform: Matrix4.translationValues(0, isPublish ? -25.dp : 0, 0),
+              transform: Matrix4.translationValues(0, isPublish ? -15.dp : 0, 0),
               child: FlatButton(
                 padding: EdgeInsets.all(isPublish ? 0 : 8.dp),
                 child: CustomAssetImage.image(
-                  image: this._selectIndex == i ? info['selectIcon'] : info['normalIcon'],
+                  image: this.selectIndex == i ? info['selectIcon'] : info['normalIcon'],
                 ),
                 onPressed: (){
-                  this.setState(() {
-                    this._selectIndex = i;
-                  });
+                  if(i==2){
+                    Navigator.push(context,
+                      new CustomRoute(page: Publish()),
+                    );
+                  }else{
+                    this.selectIndex = i;
+                  }
                 },
               ),
             ),

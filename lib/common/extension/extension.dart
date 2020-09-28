@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 extension Screen on ScreenUtil {
   /// 状态栏高度
   static double get statusBarHeight => ScreenUtil().statusBarHeight;
+  /// 导航栏高度
+  static double get navigationBarHeight => 60;
   /// 底部安全距离
   static double get bottomBarHeight => ScreenUtil().bottomBarHeight;
   /// 屏幕宽度
@@ -48,6 +50,7 @@ extension CustomAssetImage on Image {
     return Image(
       image: AssetImage(image),
       fit: fit,
+      filterQuality: FilterQuality.high,
     );
   }
 }
