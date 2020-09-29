@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_app/common/tools/custom_route.dart';
+import 'package:flutter_app/common/base/base_container.dart';
 
 import '../../resource.dart';
 
@@ -112,7 +113,11 @@ extension CustomNavigator on Navigator {
     }
   }
 
-  static push(context, Widget page) {
+  static push(context, BaseContainer page) {
+    if(page.isNeedLogin) {
+      print('login');
+      return;
+    }
     Navigator.push(context, new CustomRoute(page: page),);
   }
 }

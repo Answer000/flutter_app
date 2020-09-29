@@ -4,6 +4,10 @@ import 'package:flutter_app/common/base/base_container.dart';
 
 // ignore: must_be_immutable
 class Publish extends BaseContainer {
+
+  @override
+  bool get isNeedLogin => true;
+
   @override
   BaseContainerState<BaseContainer> getState() {
     return PublishState();

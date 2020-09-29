@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import '../../resource.dart';
 import '../extension/extension.dart';
-import '../extension/extension.dart';
-import '../extension/extension.dart';
 import 'base_navigation_bar.dart';
 
 // ignore: must_be_immutable
@@ -11,7 +9,6 @@ abstract class BaseContainer extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return getState();
   }
 
@@ -19,6 +16,8 @@ abstract class BaseContainer extends StatefulWidget {
   BaseContainerState getState();
 
   Function backHandle;
+
+  bool get isNeedLogin => false;
 }
 
 abstract class BaseContainerState<T extends BaseContainer> extends State<T> {
