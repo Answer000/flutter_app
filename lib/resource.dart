@@ -15,6 +15,7 @@ enum ImageName {
   cjm_navigationBar_backIcon_white,
   cjm_navigationBar_logo,
   cjm_navigationBar_left_background,
+
   cjm_tabbarIcon_fashionNormal,
   cjm_tabbarIcon_fashionSelected,
   cjm_tabbarIcon_homeNormal,
@@ -24,4 +25,12 @@ enum ImageName {
   cjm_tabbarIcon_profileNormal,
   cjm_tabbarIcon_profileSelected,
   cjm_tabbarIcon_publish,
+
+  cjm_login_background,
+  cjm_login_logo,
+  cjm_login_phone,
+  cjm_login_password,
+  cjm_login_wechat,
+  cjm_login_agree,
+  cjm_login_disagree,
 }

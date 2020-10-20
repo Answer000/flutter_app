@@ -5,8 +5,8 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_app/common/tools/custom_route.dart';
 import 'package:flutter_app/common/base/base_container.dart';
-
 import '../../resource.dart';
+import 'package:flutter_app/class/login/login.dart';
 
 extension Screen on ScreenUtil {
   /// 状态栏高度
@@ -115,7 +115,7 @@ extension CustomNavigator on Navigator {
 
   static push(context, BaseContainer page) {
     if(page.isNeedLogin) {
-      print('login');
+      Navigator.push(context, new CustomRoute(page: Login()),);
       return;
     }
     Navigator.push(context, new CustomRoute(page: page),);

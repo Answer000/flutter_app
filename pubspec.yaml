@@ -56,6 +56,7 @@ flutter:
     - resource/cjm_navigationBar_backIcon_white@3x.png
     - resource/cjm_navigationBar_logo@3x.png
     - resource/cjm_navigationBar_left_background@3x.png
+    -
     - resource/cjm_tabbarIcon_fashionNormal@3x.png
     - resource/cjm_tabbarIcon_fashionSelected@3x.png
     - resource/cjm_tabbarIcon_homeNormal@3x.png
@@ -67,6 +68,15 @@ flutter:
     - resource/cjm_tabbarIcon_publish@3x.png
 
     - resource/placeholder@3x.png
+
+    ### login
+    - resource/cjm_login_background@3x.png
+    - resource/cjm_login_logo@3x.png
+    - resource/cjm_login_phone@3x.png
+    - resource/cjm_login_password@3x.png
+    - resource/cjm_login_wechat@3x.png
+    - resource/cjm_login_agree@3x.png
+    - resource/cjm_login_disagree@3x.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
