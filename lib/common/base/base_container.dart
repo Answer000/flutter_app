@@ -20,7 +20,7 @@ abstract class BaseContainer extends StatefulWidget {
   bool get isNeedLogin => false;
 }
 
-abstract class BaseContainerState<T extends BaseContainer> extends State<T> {
+abstract class BaseContainerState<T extends BaseContainer> extends State<T> with AutomaticKeepAliveClientMixin {
 
   /// 是否显示导航条
   bool _isShowNavigationBar = true;
@@ -64,6 +64,9 @@ abstract class BaseContainerState<T extends BaseContainer> extends State<T> {
   /// 子类实现，构建各自页面UI控件 相当于setContentView()
   @required
   Widget setContentView(BuildContext context);
+
+  @protected
+  bool get wantKeepAlive => true;
 
   /// 构建默认布局
   Widget _buildWidgetDefault() {

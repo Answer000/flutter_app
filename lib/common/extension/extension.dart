@@ -7,6 +7,7 @@ import 'package:flutter_app/common/tools/custom_route.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import '../../resource.dart';
 import 'package:flutter_app/class/login/login.dart';
+import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 
 extension Screen on ScreenUtil {
   /// 状态栏高度
@@ -25,12 +26,18 @@ extension Screen on ScreenUtil {
 extension int_extension on int {
   double get dp => ScreenUtil().pixelRatio * ScreenUtil().setWidth(this.toDouble());
   double get dpFontSize => ScreenUtil().setSp(this) * ScreenUtil().pixelRatio;
+
+  bool get isValid => (this != null);
+  bool get isNotValid => !isValid;
 }
 
 /// double extension
 extension double_extension on double {
   double get dp => ScreenUtil().pixelRatio * ScreenUtil().setWidth(this.toDouble());
   double get dpFontSize => ScreenUtil().setSp(this) * ScreenUtil().pixelRatio;
+
+  bool get isValid => (this != null);
+  bool get isNotValid => !isValid;
 }
 
 /// string extension
@@ -105,7 +112,7 @@ extension CustomToast on Fluttertoast {
   }
 }
 
-
+/// 导航
 extension CustomNavigator on Navigator {
   static pop(context) {
     if(Navigator.canPop(context)) {
@@ -113,11 +120,21 @@ extension CustomNavigator on Navigator {
     }
   }
 
-  static push(context, BaseContainer page) {
-    if(page.isNeedLogin) {
+  static push(context, BaseContainer page) async {
+    bool isLogin;
+    await LoginUserInfoManager()
+        .isLogin
+        .then((value) => isLogin = value);
+    if(page.isNeedLogin && !isLogin) {
       Navigator.push(context, new CustomRoute(page: Login()),);
       return;
     }
     Navigator.push(context, new CustomRoute(page: page),);
   }
+}
+
+/// 日期时间
+extension Date on DateTime {
+  // 当前时间戳
+  static int get currentTimeStamp => new DateTime.now().millisecondsSinceEpoch;
 }

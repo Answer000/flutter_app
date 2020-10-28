@@ -67,13 +67,13 @@ homeBannerDataBannerListFromJson(HomeBannerDataBannerList data, Map<String, dyna
 		data.activityId = json['activityId'];
 	}
 	if (json['createUser'] != null) {
-		data.createUser = json['createUser']?.toInt();
+		data.createUser = json['createUser'];
 	}
 	if (json['linkUrl'] != null) {
 		data.linkUrl = json['linkUrl']?.toString();
 	}
 	if (json['videoUrl'] != null) {
-		data.videoUrl = json['videoUrl'];
+		data.videoUrl = json['videoUrl']?.toString();
 	}
 	if (json['orderStatus'] != null) {
 		data.orderStatus = json['orderStatus']?.toInt();
@@ -82,10 +82,10 @@ homeBannerDataBannerListFromJson(HomeBannerDataBannerList data, Map<String, dyna
 		data.route = json['route']?.toString();
 	}
 	if (json['postId'] != null) {
-		data.postId = json['postId'];
+		data.postId = json['postId']?.toInt();
 	}
 	if (json['createUserName'] != null) {
-		data.createUserName = json['createUserName'];
+		data.createUserName = json['createUserName']?.toString();
 	}
 	if (json['strStatus'] != null) {
 		data.strStatus = json['strStatus']?.toString();

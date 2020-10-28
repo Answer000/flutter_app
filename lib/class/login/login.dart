@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/class/login/loginViewModel.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/resource.dart';
 
@@ -13,7 +14,7 @@ class LoginState extends State<Login> {
 
   final TextEditingController _controller = TextEditingController();
 
-  bool _isAgree = false;
+  final LoginViewModel _viewModel = LoginViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +93,17 @@ class LoginState extends State<Login> {
                                     child: Container(
                                       margin: EdgeInsets.only(left: 20.dp, right: 32.dp),
                                       child: new TextField(
-                                        controller: _controller,
+                                        controller: TextEditingController.fromValue(
+                                            TextEditingValue(
+                                                text: this._viewModel.phoneString ?? "",
+                                                selection: TextSelection.fromPosition(
+                                                    TextPosition(
+                                                        affinity: TextAffinity.downstream,
+                                                        offset: "${this._viewModel.phoneString}".length
+                                                    )
+                                                )
+                                            )
+                                        ),
                                         decoration: new InputDecoration(
                                           hintText: '请输入登录手机号码',
                                           hintStyle: TextStyle(
@@ -102,6 +113,11 @@ class LoginState extends State<Login> {
                                           ),
                                           border: InputBorder.none,
                                         ),
+                                        onChanged: (value){
+                                          this.setState(() {
+                                            this._viewModel.phoneString = value;
+                                          });
+                                        },
                                       ),
                                     ),
                                   )
@@ -133,7 +149,17 @@ class LoginState extends State<Login> {
                                     child: Container(
                                       margin: EdgeInsets.only(left: 20.dp, right: 32.dp),
                                       child: new TextField(
-                                        controller: _controller,
+                                        controller: TextEditingController.fromValue(
+                                          TextEditingValue(
+                                            text: this._viewModel.codeString ?? "",
+                                            selection: TextSelection.fromPosition(
+                                              TextPosition(
+                                                affinity: TextAffinity.downstream,
+                                                offset: "${this._viewModel.codeString}".length
+                                              )
+                                            )
+                                          )
+                                        ),
                                         decoration: new InputDecoration(
                                           hintText: '请输入手机验证码',
                                           hintStyle: TextStyle(
@@ -143,6 +169,11 @@ class LoginState extends State<Login> {
                                           ),
                                           border: InputBorder.none,
                                         ),
+                                        onChanged: (value){
+                                          this.setState(() {
+                                            this._viewModel.codeString = value;
+                                          });
+                                        },
                                       ),
                                     ),
                                   )
@@ -165,12 +196,12 @@ class LoginState extends State<Login> {
                                 height: 15.dp,
                                 child: FlatButton(
                                   padding: EdgeInsets.all(0),
-                                  child: this._isAgree
+                                  child: this._viewModel.isAgree
                                       ? ImageName.cjm_login_agree.assetImage
                                       : ImageName.cjm_login_disagree.assetImage,
                                   onPressed: (){
                                     setState(() {
-                                      this._isAgree = !this._isAgree;
+                                      this._viewModel.isAgree = !this._viewModel.isAgree;
                                     });
                                   },
                                 )
@@ -293,7 +324,7 @@ class LoginState extends State<Login> {
                       ),
                     ),
                     onPressed: () {
-                      print('登录');
+                      loginWithPhone();
                     },
                   ),
                 ),
@@ -302,5 +333,13 @@ class LoginState extends State<Login> {
           )
       ),
     );
+  }
+
+  void loginWithPhone() async {
+    this._viewModel.loginWithPhone(context, (isSucc){
+      if(isSucc) {
+        CustomNavigator.pop(context);
+      }
+    });
   }
 }
