@@ -58,6 +58,18 @@ extension Map_extension on Map {
   bool get isNotValid => !isValid;
 }
 
+/// Size extension
+extension Size_extension on Size {
+  bool get isValid => (this != null && ((this.width ?? 0) > 0) && ((this.height ?? 0) > 0));
+  bool get isNotValid => !isValid;
+}
+
+/// EdgeInsets extension
+extension EdgeInsets_extension on EdgeInsets {
+  bool get isValid => (this != null && ((this.left ?? 0) > 0) ) && ((this.right ?? 0) > 0 && ((this.top ?? 0) > 0) && ((this.bottom ?? 0) > 0));
+  bool get isNotValid => !isValid;
+}
+
 extension CustomAssetImage on Image {
    static Image image({String image, BoxFit fit = BoxFit.cover}) {
     return Image(

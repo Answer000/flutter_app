@@ -9,7 +9,7 @@ import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 
 class LoginViewModel {
 
-  bool isAgree = false;
+  bool isAgree = true;
 
   String phoneString = '17665367175';
 

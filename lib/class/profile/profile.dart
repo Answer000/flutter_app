@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/base/base_navigation_bar.dart';
+import 'package:flutter_app/resource.dart';
 
 
 // ignore: must_be_immutable
@@ -21,6 +22,7 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
     this.navigationBar.title = "我的，";
     this.navigationBar.detailTitle = '最美的';
     this.navigationBar.descriptionText = '用真心对世界微笑';
+    this.navigationBar.addRightItem(iconName: ImageName.cjm_login_agree.imagePath).addRightItem(title: "哈哈");
   }
 
   @override
