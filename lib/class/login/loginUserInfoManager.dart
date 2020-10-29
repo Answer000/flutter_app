@@ -65,6 +65,16 @@ class LoginUserInfoManager {
     preferences.setInt(kUserId, entity.data.userId);
   }
 
+  /// 清除用户存储信息
+  Future clearUserInfo() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.remove(kAccessToken);
+    preferences.remove(kRefreshToken);
+    preferences.remove(kTokenExpiryDate);
+    preferences.remove(kTimeDifference);
+    preferences.remove(kUserId);
+  }
+
   /// 获取持久化用户信息
   Future<int> _getIntValue(String key) async {
     SharedPreferences instance = await SharedPreferences.getInstance();

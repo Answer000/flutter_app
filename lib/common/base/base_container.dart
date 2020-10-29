@@ -98,7 +98,9 @@ abstract class BaseContainerState<T extends BaseContainer> extends State<T> with
                   child: GestureDetector(
                     child: setContentView(context),
                     onTap: (){
-                      CustomNavigator.pop(context);
+                      if(!this.isShowNavigationBar) {
+                        CustomNavigator.pop(context);
+                      }
                     },
                   ),
                 ),

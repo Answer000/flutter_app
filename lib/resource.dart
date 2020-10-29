@@ -33,4 +33,7 @@ enum ImageName {
   cjm_login_wechat,
   cjm_login_agree,
   cjm_login_disagree,
+
+  cjm_profile_setting,
+  cjm_profile_more,
 }

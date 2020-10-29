@@ -33,8 +33,19 @@ class NavigationBar extends StatefulWidget {
     return _navigationBarState;
   }
 
-  NavigationBar addRightItem({String iconName, String title, Size size = Size.zero}) {
-    _navigationBarState.addRightItem(iconName: iconName, title: title, size: size);
+  NavigationBar addRightItem({
+    String iconName,
+    String title,
+    Size size = Size.zero,
+    EdgeInsets margin = EdgeInsets.zero,
+    Function onPress
+  }) {
+    _navigationBarState.addRightItem(
+        iconName: iconName,
+        title: title,
+        size: size,
+        margin: margin,
+        onPress: onPress);
     return this;
   }
 
@@ -68,15 +79,24 @@ class NavigationBarState extends State<NavigationBar> {
     }
   }
 
-  addRightItem({String iconName = "", String title = "", Size size, EdgeInsets margin = EdgeInsets.zero}) {
+  addRightItem({
+    String iconName = "",
+    String title = "",
+    Size size,
+    EdgeInsets margin,
+    Function onPress
+  }) {
     var item = Container(
       margin: margin.isValid ? margin : EdgeInsets.only(left: 10.dp, right: 10.dp),
       width: size.isValid ? size.width : 30,
       height: size.isValid ? size.height : 30,
+      padding: EdgeInsets.all(0),
       child: FlatButton(
+        padding: EdgeInsets.all(0),
         child: iconName.isValid
             ? CustomAssetImage.image(image: iconName)
-            : Text(title),
+            : Text(title, style: TextStyle(color: Colors.white, fontSize: 13.dp),),
+        onPressed: onPress,
       ),
     );
     this.rightItems.add(item);
@@ -156,7 +176,7 @@ class NavigationBarState extends State<NavigationBar> {
         ),
 
         Positioned(
-          right: 10.dp,
+          right: 0.dp,
           child: Container(
             child: Row(
               children: this.rightItems ?? [Container()],
@@ -186,7 +206,7 @@ class NavigationBarState extends State<NavigationBar> {
                       padding: EdgeInsets.all(3.dp),
                     ),
                     Text(
-                        this.widget.title,
+                        this.widget.title ?? "",
                         style: TextStyle(
                             fontSize: 15.dp,
                             color: Colors.white,
@@ -222,6 +242,15 @@ class NavigationBarState extends State<NavigationBar> {
                 constraints: BoxConstraints(),
               ),
             )
+        ),
+
+        Positioned(
+          right: 0.dp,
+          child: Container(
+            child: Row(
+              children: this.rightItems ?? [Container()],
+            ),
+          ),
         )
       ],
     );

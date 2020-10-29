@@ -36,6 +36,8 @@ dependencies:
   transparent_image: ^0.1.0   #加载网络图片
   flutter_easyhub: ^1.0.0     #指示器
   shared_preferences: 0.4.3   #数据持久化
+  package_info: ^0.4.0+4      #获取APP包的信息
+  path_provider: ^1.6.22       #获取文件路径
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +80,11 @@ flutter:
     - resource/cjm_login_wechat@3x.png
     - resource/cjm_login_agree@3x.png
     - resource/cjm_login_disagree@3x.png
+
+
+    ### 我的
+    - resource/cjm_profile_setting@3x.png
+    - resource/cjm_profile_more@3x.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
