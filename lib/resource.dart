@@ -36,4 +36,12 @@ enum ImageName {
 
   cjm_profile_setting,
   cjm_profile_more,
+  cjm_profile_collect,
+  cjm_profile_coupon,
+  cjm_profile_diary,
+  cjm_profile_feedBack,
+  cjm_profile_integral,
+  cjm_profile_order,
+  cjm_profile_post,
+  cjm_profile_sign,
 }

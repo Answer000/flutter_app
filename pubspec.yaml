@@ -85,6 +85,14 @@ flutter:
     ### 我的
     - resource/cjm_profile_setting@3x.png
     - resource/cjm_profile_more@3x.png
+    - resource/cjm_profile_collect@3x.png
+    - resource/cjm_profile_coupon@3x.png
+    - resource/cjm_profile_diary@3x.png
+    - resource/cjm_profile_feedBack@3x.png
+    - resource/cjm_profile_integral@3x.png
+    - resource/cjm_profile_order@3x.png
+    - resource/cjm_profile_post@3x.png
+    - resource/cjm_profile_sign@3x.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
