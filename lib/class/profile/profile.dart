@@ -4,7 +4,7 @@ import 'package:flutter_app/common/base/base_navigation_bar.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/resource.dart';
 import 'package:flutter_app/class/profile/setting/setting.dart';
-
+import 'package:flutter_app/class/profile/profileViewModel.dart';
 
 // ignore: must_be_immutable
 class Profile extends BaseContainer {
@@ -15,6 +15,8 @@ class Profile extends BaseContainer {
 }
 
 class ProfileState extends BaseContainerState<Profile> with TickerProviderStateMixin {
+
+  ProfileViewModel _viewModel = ProfileViewModel();
 
   @override
   void initState() {
@@ -94,11 +96,7 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
   }
 
   Widget _getNumberContentView() {
-    List<Map<String,dynamic>> source = [
-      {'name' : '粉丝', 'count' : '260'},
-      {'name' : '关注', 'count' : '38'},
-      {'name' : '获赞', 'count' : '42'},
-    ];
+    var source = this._viewModel.getNumberContentViewSource();
     List<Widget> items = [];
     for (var i=0; i<source.length; i++) {
       if(i > 0) {
@@ -147,12 +145,7 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
   }
 
   Widget _getItemsContentView() {
-    List<Map<String,dynamic>> source = [
-      {'title' : '订单', 'iconName' : ImageName.cjm_profile_order.imagePath, 'iconSize' : Size(25.dp,30.dp)},
-      {'title' : '优惠券', 'iconName' : ImageName.cjm_profile_coupon.imagePath, 'iconSize' : Size(30.dp,23.dp)},
-      {'title' : '意见反馈', 'iconName' : ImageName.cjm_profile_feedBack.imagePath, 'iconSize' : Size(25.dp,25.dp)},
-      {'title' : '收藏', 'iconName' : ImageName.cjm_profile_collect.imagePath, 'iconSize' : Size(25.dp,30.dp)},
-    ];
+    List<Map<String,dynamic>> source = this._viewModel.getItemsContentViewSource();
     List<Widget> items = [];
     for (var i=0; i<source.length; i++) {
       Size iconSize = source[i]['iconSize'];
@@ -198,9 +191,8 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
   }
 
   Widget _getCellContentView(int index) {
-    List<Map<String,dynamic>> iconNames = [
-
-    ];
+    print(index-3);
+    ProfileCellEntity entity = this._viewModel.getCellContentViewSource()[index-3];
     return Container(
       height: 60.dp,
       margin: EdgeInsets.only(left: 36.dp, right: 36.dp),
@@ -224,14 +216,65 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 25.dp,
-                height: 25.dp,
-                margin: EdgeInsets.only(left: 21.dp),
+                width: entity.iconSize.width,
+                height: entity.iconSize.height,
+                margin: EdgeInsets.only(left: entity.iconLeftMargin.dp),
                 child: CustomAssetImage.image(
-                  image: ImageName.cjm_profile_integral.imagePath
+                  image: entity.iconName,
                 ),
-              )
+              ),
+
+              Container(
+                margin: EdgeInsets.only(left: 11.dp),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      height: 14.dp,
+                      child: Text(
+                        '${entity.titleZH}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.dp,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(top: 3.dp),
+                      height: 3.dp,
+                      width: entity.lineWidth.dp,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(1.5.dp),
+                        color: entity.lineColor,
+                      ),
+                    ),
+
+                    Container(
+                      height: 12.dp,
+                      child: Text(
+                        '${entity.titleEN}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10.dp,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
+          ),
+
+          Positioned(
+              right: 21,
+              child: entity.detailText.isValid
+                  ? Text('${entity.detailText}', style: entity.detailTextStyle,)
+                  : Container()
           )
         ],
       ),
