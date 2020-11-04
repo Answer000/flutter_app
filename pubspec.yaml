@@ -37,7 +37,7 @@ dependencies:
   flutter_easyhub: ^1.0.0     #指示器
   shared_preferences: 0.4.3   #数据持久化
   package_info: ^0.4.0+4      #获取APP包的信息
-  path_provider: ^1.6.22       #获取文件路径
+  path_provider: ^1.6.22      #获取文件路径
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +80,17 @@ flutter:
     - resource/cjm_login_wechat@3x.png
     - resource/cjm_login_agree@3x.png
     - resource/cjm_login_disagree@3x.png
+
+
+    ### home
+    - resource/cjm_home_functionalSelect_icon@3x.png
+    - resource/cjm_home_officialRecommend_icon@3x.png
+    - resource/cjm_home_offline_icon@3x.png
+    - resource/cjm_home_online_icon@3x.png
+    - resource/cjm_home_scan@3x.png
+    - resource/cjm_home_searchIcon@3x.png
+    - resource/cjm_home_videoInstructional_icon@3x.png
+    - resource/cjm_home_message@3x.png
 
 
     ### 我的

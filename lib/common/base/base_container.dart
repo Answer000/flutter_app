@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/extension/extension.dart';
+import 'package:flutter_app/common/tools/custom_route.dart';
 import '../../resource.dart';
 import '../extension/extension.dart';
 import 'base_navigation_bar.dart';
@@ -15,36 +16,30 @@ abstract class BaseContainer extends StatefulWidget {
   // 子类实现
   BaseContainerState getState();
 
+  /// 返回按钮事件回调
   Function backHandle;
 
+  /// 是否需要登录
   bool get isNeedLogin => false;
+
+  /// 转场动画类型
+  CustomRouteModalType get modalType => CustomRouteModalType.rightLeft;
+
+  /// 是否显示导航条
+  bool get isShowNavigationBar => true;
+
+  /// 导航条样式
+  NavigationBarType get navigationBarType => NavigationBarType.child;
 }
 
 abstract class BaseContainerState<T extends BaseContainer> extends State<T> with AutomaticKeepAliveClientMixin {
-
-  /// 是否显示导航条
-  bool _isShowNavigationBar = true;
-  bool get isShowNavigationBar => _isShowNavigationBar;
-  set isShowNavigationBar(bool isShow) {
-    setState(() {
-      this._isShowNavigationBar = isShow;
-    });
-  }
-
-  NavigationBarType _barType = NavigationBarType.child;
-  NavigationBarType get barType => _barType;
-  set barType(NavigationBarType type) {
-    setState(() {
-      this._barType = type;
-    });
-  }
 
   NavigationBar _navigationBar;
   NavigationBar get navigationBar {
     if(_navigationBar == null) {
       setState(() {
         _navigationBar = NavigationBar(
-            barType: this.barType,
+            barType: this.widget.navigationBarType,
         );
       });
     }
@@ -58,6 +53,7 @@ abstract class BaseContainerState<T extends BaseContainer> extends State<T> with
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return _buildWidgetDefault();
   }
 
@@ -71,10 +67,10 @@ abstract class BaseContainerState<T extends BaseContainer> extends State<T> with
   /// 构建默认布局
   Widget _buildWidgetDefault() {
     return Container(
-      color: Color(0xff1d1d1d),
+      color: this.widget.modalType == CustomRouteModalType.transparent ? Colors.transparent : CustomColor.blackGroundColor,
       child: Stack(
         children: [
-          this.barType == NavigationBarType.root
+          this.widget.navigationBarType == NavigationBarType.root
               ? Container(
                     width: 127.dp,
                     height: 200.dp,
@@ -91,14 +87,14 @@ abstract class BaseContainerState<T extends BaseContainer> extends State<T> with
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                this.isShowNavigationBar
+                this.widget.isShowNavigationBar
                     ? this.navigationBar
                     : Container(),
                 Expanded(
                   child: GestureDetector(
                     child: setContentView(context),
                     onTap: (){
-                      if(!this.isShowNavigationBar) {
+                      if(!this.widget.isShowNavigationBar) {
                         CustomNavigator.pop(context);
                       }
                     },

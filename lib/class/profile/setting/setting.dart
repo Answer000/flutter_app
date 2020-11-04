@@ -13,6 +13,10 @@ class Setting extends BaseContainer {
   BaseContainerState<BaseContainer> getState() {
     return SettingState();
   }
+
+  @override
+  // TODO: implement isNeedLogin
+  bool get isNeedLogin => true;
 }
 
 class SettingState extends BaseContainerState<Setting> {
@@ -166,7 +170,7 @@ class SettingState extends BaseContainerState<Setting> {
                     ),
                   ),
                   onPressed: () {
-                    LoginUserInfoManager().clearUserInfo();
+                    LoginUserInfoManager().clearUserInfo(context);
                     CustomNavigator.pop(context);
                   },
                 ),

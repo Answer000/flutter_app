@@ -1,6 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app/class/login/login_entity.dart';
 import 'package:flutter_app/common/extension/extension.dart';
+import 'package:flutter_app/common/base/event_manager.dart';
+
+class LoginNotification extends Notification {
+  final bool isLogin;
+  LoginNotification({Key key, this.isLogin});
+}
 
 class LoginUserInfoManager {
 
@@ -17,6 +24,9 @@ class LoginUserInfoManager {
     }
     return _manager;
   }
+
+  /// 全局Context
+  static BuildContext appContext;
 
   static const kUserId = "kUserId";
   static const kPhoneNumber = "kPhoneNumber";
@@ -49,7 +59,7 @@ class LoginUserInfoManager {
   Future<bool> get isValidOfAccessToken => _isValidOfAccessToken();
 
   /// 持久化用户信息
-  Future saveUserInfo(LoginEntity entity) async {
+  Future saveUserInfo(LoginEntity entity, {BuildContext context}) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(kAccessToken, entity.data.token.toString());
     preferences.setString(kRefreshToken, entity.data.refreshToken.toString());
@@ -63,16 +73,22 @@ class LoginUserInfoManager {
     }
 
     preferences.setInt(kUserId, entity.data.userId);
+
+    // 发送登录成功的通知
+    eventManager.emit(EventName.login, true);
   }
 
   /// 清除用户存储信息
-  Future clearUserInfo() async{
+  Future clearUserInfo(BuildContext context) async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.remove(kAccessToken);
     preferences.remove(kRefreshToken);
     preferences.remove(kTokenExpiryDate);
     preferences.remove(kTimeDifference);
     preferences.remove(kUserId);
+
+    // 发送退出登录的通知
+    eventManager.emit(EventName.login, false);
   }
 
   /// 获取持久化用户信息

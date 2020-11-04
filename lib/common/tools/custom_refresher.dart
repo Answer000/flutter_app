@@ -6,8 +6,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 // ignore: must_be_immutable
 class CustomRefresher extends StatefulWidget {
 
-  VoidCallback onRefresh;
-  VoidCallback onLoading;
+  Function(RefreshController) onRefresh;
+  Function(RefreshController) onLoading;
   Widget child;
 
   CustomRefresher({
@@ -41,8 +41,12 @@ class CustomRefresherState extends State<CustomRefresher> {
       enablePullDown: true,
       enablePullUp: true,
       controller: this.widget._controller,
-      onRefresh: this.widget.onRefresh,
-      onLoading: this.widget.onLoading,
+      onRefresh: (){
+        this.widget.onRefresh(this.widget._controller);
+      },
+      onLoading: (){
+        this.widget.onLoading(this.widget._controller);
+      },
       header: WaterDropHeader(
         completeDuration: Duration(milliseconds: 300),
         waterDropColor: Colors.red,

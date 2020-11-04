@@ -34,6 +34,15 @@ enum ImageName {
   cjm_login_agree,
   cjm_login_disagree,
 
+  cjm_home_functionalSelect_icon,
+  cjm_home_officialRecommend_icon,
+  cjm_home_offline_icon,
+  cjm_home_online_icon,
+  cjm_home_scan,
+  cjm_home_searchIcon,
+  cjm_home_videoInstructional_icon,
+  cjm_home_message,
+
   cjm_profile_setting,
   cjm_profile_more,
   cjm_profile_collect,

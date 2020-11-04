@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'dart:ui';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/resource.dart';
@@ -10,7 +11,6 @@ import 'package:flutter_app/class/publish/publish.dart';
 import 'package:flutter/services.dart';
 
 class ASTabBar extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return ASTabBarState();
@@ -44,6 +44,7 @@ class ASTabBarState extends State<ASTabBar> {
 
   @override
   Widget build(BuildContext context) {
+    LoginUserInfoManager.appContext = context;
     SystemChrome.setEnabledSystemUIOverlays([]);
     return Scaffold(
       body: Column(

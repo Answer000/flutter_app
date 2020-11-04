@@ -89,7 +89,7 @@ class LoginViewModel {
         onSuccess: (data) {
           CustomLoading.hideLoading(context);
           var entity = LoginEntity().fromJson(data);
-          LoginUserInfoManager().saveUserInfo(entity);
+          LoginUserInfoManager().saveUserInfo(entity, context: context);
           callback(true);
         }, onFailure: (error) {
           CustomLoading.hideLoading(context);

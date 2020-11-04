@@ -14,4 +14,15 @@ class HomeViewModel {
           callback([]);
         });
   }
+
+  /// 获取列表数据
+  static loadPageSources(APIPath apiPath, Function(dynamic) callback) async {
+    await Https().post(
+        apiPath: apiPath,
+        onSuccess: (data){
+          callback(data);
+        }, onFailure: (error){
+          callback(null);
+    });
+  }
 }

@@ -14,7 +14,7 @@ class Https {
 
   Map<String,dynamic> _headers = {
     'clientVersion' : '2.0.0',
-    'Authorization' : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3OTUxIiwiZXhwIjoxNjAxMTc1NTg4LCJpYXQiOjE2MDA5MTYzODh9.pod3e267Tsc-rASOLz3nmlhnA3rKbTgBzr3t2pVcKEqr6AY22q3tC7BgKHspjEvzgq9PB919HWOr5dv_ZF2VBQ"
+//    'Authorization' : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3OTUxIiwiZXhwIjoxNjAxMTc1NTg4LCJpYXQiOjE2MDA5MTYzODh9.pod3e267Tsc-rASOLz3nmlhnA3rKbTgBzr3t2pVcKEqr6AY22q3tC7BgKHspjEvzgq9PB919HWOr5dv_ZF2VBQ"
   };
 
   // 单列
@@ -76,6 +76,10 @@ class Https {
     ContentType contentType = ContentType.urlEncoded,
     OnSuccess onSuccess,
     OnFailure onFailure}) async{
+    String accessToken;
+    await LoginUserInfoManager().accessToken.then((value) => accessToken = value);
+    _headers['Authorization'] = 'Bearer $accessToken';
+
     if (headers.isValid) {
       _headers.addAll(headers);
     }
@@ -98,8 +102,8 @@ class Https {
     ContentType contentType = ContentType.urlEncoded,
     OnSuccess onSuccess,
     OnFailure onFailure}) async {
+    String url = '$_baseUrl/${apiPath.toString().split('.').last.replaceAll('_', '/')}';
     try {
-      String url = '$_baseUrl/${apiPath.toString().split('.').last.replaceAll('_', '/')}';
       Response response = await new Dio().post(
         url,
         data: contentType == ContentType.urlEncoded ? FormData.fromMap(params) : params,
@@ -115,7 +119,7 @@ class Https {
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        print(response);
+        print('$url  =========> \n$response');
         Map data = json.decode(response.toString());
         if(data["resultCode"] == "0000") {
           onSuccess(data);
@@ -129,7 +133,7 @@ class Https {
         onFailure(response);
       }
     } catch (exception) {
-      print(exception.toString());
+      print('$url  =========> \n$exception.toString()');
       onFailure(exception);
     }
   }
@@ -150,4 +154,9 @@ enum APIPath {
 
   /// 首页
   home_banner,                // 首页轮播图
+  home_saveBeauty,            // 美丽救急列表
+  home_nightBeauty,           // 超级夜美人列表
+
+  /// 个人中心
+  user_getUserDetail,         // 获取用户资料
 }

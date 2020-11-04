@@ -8,7 +8,13 @@ class HomeBannerView extends StatefulWidget {
 
   final List<HomeBannerDataBannerList> banners;
 
-  const HomeBannerView({Key key, @required this.banners}) : super(key : key);
+  final double viewHeight;
+
+  const HomeBannerView({
+    Key key,
+    @required this.banners,
+    this.viewHeight
+  }) : super(key : key);
 
   @override
   State<StatefulWidget> createState() {
@@ -62,7 +68,7 @@ class HomeBannerViewState extends State<HomeBannerView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 335.dp,
+      height: this.widget.viewHeight ?? 335.dp,
       child: NotificationListener(
         // ignore: missing_return
           onNotification: (ScrollNotification notification) {
@@ -98,7 +104,10 @@ class HomeBannerViewState extends State<HomeBannerView> {
                   });
                 },
                 children: this.dataSource.map((item) =>
-                    CustomImage.assetNetwork(image: item.picUrl)
+                    Container(
+                      color: CustomColor.blackGroundColor,
+                      child: CustomImage.assetNetwork(image: item.picUrl),
+                    )
                 ).toList(),
               ),
 

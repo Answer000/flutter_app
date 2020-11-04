@@ -70,6 +70,13 @@ extension EdgeInsets_extension on EdgeInsets {
   bool get isNotValid => !isValid;
 }
 
+extension CustomColor on Color {
+  // 背景黑色
+  static Color get blackGroundColor => Color(0xff1d1d1d);
+  // 主题红色
+  static Color get mainRedColor => Color(0xffDA3F47);
+}
+
 extension CustomAssetImage on Image {
    static Image image({String image, BoxFit fit = BoxFit.cover}) {
     return Image(
@@ -138,10 +145,10 @@ extension CustomNavigator on Navigator {
         .isLogin
         .then((value) => isLogin = value);
     if(page.isNeedLogin && !isLogin) {
-      Navigator.push(context, new CustomRoute(page: Login()),);
+      Navigator.push(context, new CustomRoute(page: Login(), modalType: CustomRouteModalType.bottomTop),);
       return;
     }
-    Navigator.push(context, new CustomRoute(page: page),);
+    Navigator.push(context, new CustomRoute(page: page, modalType: page.modalType));
   }
 }
 

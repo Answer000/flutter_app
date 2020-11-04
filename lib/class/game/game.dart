@@ -8,6 +8,9 @@ class Game extends BaseContainer {
   BaseContainerState<BaseContainer> getState() {
     return GameState();
   }
+
+  @override
+  bool get isShowNavigationBar => false;
 }
 
 class GameState extends BaseContainerState<Game> with TickerProviderStateMixin {
@@ -16,7 +19,6 @@ class GameState extends BaseContainerState<Game> with TickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
-    this.isShowNavigationBar = false;
   }
 
   @override

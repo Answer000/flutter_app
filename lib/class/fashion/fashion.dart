@@ -9,6 +9,9 @@ class Fashion extends BaseContainer {
   BaseContainerState<BaseContainer> getState() {
     return FashionState();
   }
+
+  @override
+  NavigationBarType get navigationBarType => NavigationBarType.root;
 }
 
 class FashionState extends BaseContainerState<Fashion> with TickerProviderStateMixin {
@@ -17,7 +20,6 @@ class FashionState extends BaseContainerState<Fashion> with TickerProviderStateM
   void initState() {
     // TODO: implement initState
     super.initState();
-    this.barType = NavigationBarType.root;
     this.navigationBar.title = "美IN，";
     this.navigationBar.detailTitle = '美超你的想象';
     this.navigationBar.descriptionText = '用真心对世界微笑';
