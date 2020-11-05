@@ -85,7 +85,7 @@ class HomeState extends BaseContainerState<Home> {
   /// 请求轮播图数据
   _loadBanner({BuildContext context, Function callback}) async {
     if(context != null) {
-      CustomLoading.showLoading(context);
+      CustomLoading.showLoading(context: context);
     }
     await _viewModel.loadBannerSources((banners){
       if(banners.isValid) {
@@ -93,7 +93,7 @@ class HomeState extends BaseContainerState<Home> {
           this._banners = banners;
         });
       }
-      if(context != null) { CustomLoading.hideLoading(context); }
+      if(context != null) { CustomLoading.hideLoading(context: context); }
       if(callback != null) { callback(); }
     });
   }

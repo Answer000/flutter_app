@@ -133,13 +133,15 @@ extension CustomToast on Fluttertoast {
 
 /// 导航
 extension CustomNavigator on Navigator {
-  static pop(context) {
-    if(Navigator.canPop(context)) {
+  static pop({context}) {
+    context ??= LoginUserInfoManager.appContext;
+    if(Navigator.canPop(context )) {
       Navigator.pop(context);
     }
   }
 
-  static push(context, BaseContainer page) async {
+  static push({context, @required BaseContainer page}) async {
+    context ??= LoginUserInfoManager.appContext;
     bool isLogin;
     await LoginUserInfoManager()
         .isLogin

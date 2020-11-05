@@ -1,15 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 
 class CustomLoading {
   static bool _isShow = false;
 
-  static showLoading(BuildContext context) {
+  static showLoading({BuildContext context}) {
     if(!_isShow) {
       _isShow = true;
       showGeneralDialog(
-          context: context,
+          context: context ?? LoginUserInfoManager.appContext,
           barrierDismissible: false,
           transitionDuration: const Duration(milliseconds: 150),
           pageBuilder: (BuildContext context,
@@ -39,9 +40,9 @@ class CustomLoading {
     }
   }
 
-  static hideLoading(BuildContext context) {
+  static hideLoading({BuildContext context}) {
     if(_isShow){
-      Navigator.of(context).pop();
+      Navigator.of(context ?? LoginUserInfoManager.appContext).pop();
     }
   }
 }

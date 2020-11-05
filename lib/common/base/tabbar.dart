@@ -120,7 +120,7 @@ class ASTabBarState extends State<ASTabBar> {
                 ),
                 onPressed: (){
                   if(i==2){
-                    CustomNavigator.push(context, Publish());
+                    CustomNavigator.push(context: context, page: Publish());
                   }else{
                     this.selectIndex = i;
                   }

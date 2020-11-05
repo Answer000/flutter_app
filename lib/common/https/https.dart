@@ -1,20 +1,20 @@
-
 import 'package:dio/dio.dart';
+import 'package:flutter_app/common/base/constant.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_app/class/login/login_entity.dart';
+import 'package:package_info/package_info.dart';
+
 
 typedef OnSuccess = void Function(Map response);
 typedef OnFailure = void Function(Object obj);
 
-
 class Https {
 
   Map<String,dynamic> _headers = {
-    'clientVersion' : '2.0.0',
-//    'Authorization' : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3OTUxIiwiZXhwIjoxNjAxMTc1NTg4LCJpYXQiOjE2MDA5MTYzODh9.pod3e267Tsc-rASOLz3nmlhnA3rKbTgBzr3t2pVcKEqr6AY22q3tC7BgKHspjEvzgq9PB919HWOr5dv_ZF2VBQ"
+//    'clientVersion' : '2.0.0',
   };
 
   // 单列
@@ -32,8 +32,6 @@ class Https {
     }
     return _instance;
   }
-  /// 接口域名
-  String _baseUrl = 'http://dev-api.chaojimei.cn';
 
   /// 校验 AccessToken 是否过期
   checkAccessToken(Function(bool) callback) async {
@@ -78,7 +76,16 @@ class Https {
     OnFailure onFailure}) async{
     String accessToken;
     await LoginUserInfoManager().accessToken.then((value) => accessToken = value);
-    _headers['Authorization'] = 'Bearer $accessToken';
+    if(accessToken.isValid) {
+      _headers['Authorization'] = 'Bearer $accessToken';
+    }
+
+    // 获取APP版本号信息
+    String version;
+    await PackageInfo.fromPlatform().then((value) => version = value.version);
+    if(version.isValid) {
+      _headers['clientVersion'] = version;
+    }
 
     if (headers.isValid) {
       _headers.addAll(headers);
@@ -102,7 +109,7 @@ class Https {
     ContentType contentType = ContentType.urlEncoded,
     OnSuccess onSuccess,
     OnFailure onFailure}) async {
-    String url = '$_baseUrl/${apiPath.toString().split('.').last.replaceAll('_', '/')}';
+    String url = '$baseURL/${apiPath.toString().split('.').last.replaceAll('_', '/')}';
     try {
       Response response = await new Dio().post(
         url,

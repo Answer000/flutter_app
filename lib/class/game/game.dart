@@ -1,30 +1,20 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/common/base/base_container.dart';
-
+import 'package:flutter_app/common/base/base_webView.dart';
+import 'package:flutter_app/common/base/constant.dart';
 
 // ignore: must_be_immutable
-class Game extends BaseContainer {
+class Game extends BaseWebView {
+
   @override
   BaseContainerState<BaseContainer> getState() {
-    return GameState();
+    return super.getState();
   }
 
   @override
   bool get isShowNavigationBar => false;
-}
-
-class GameState extends BaseContainerState<Game> with TickerProviderStateMixin {
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+  String get url => kPrinceCharming;
 
-  @override
-  Widget setContentView(BuildContext context) {
-    return Container(
-      color: Colors.blueGrey,
-    );
-  }
 }

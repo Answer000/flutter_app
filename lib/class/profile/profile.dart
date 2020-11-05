@@ -36,7 +36,7 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
         size: Size(20.dp,30.dp),
         margin: EdgeInsets.only(right: 12.dp),
         onPress: (){
-          CustomNavigator.push(context, Setting());
+          CustomNavigator.push(context: context, page: Setting());
         }
     );
     _getUserInfo();

@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: 0.4.3   #数据持久化
   package_info: ^0.4.0+4      #获取APP包的信息
   path_provider: ^1.6.22      #获取文件路径
+  webview_flutter: ^0.3.10+4  #网页组件
 
 dev_dependencies:
   flutter_test:

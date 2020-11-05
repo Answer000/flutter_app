@@ -21,42 +21,20 @@ class Setting extends BaseContainer {
 
 class SettingState extends BaseContainerState<Setting> {
 
-  String _version = '';
-  String _cacheSize = '';
-  List<Map<String,dynamic>> _source = [
-    {'title' : "清除缓存", 'isShowMore' : true},
-    {'title' : "当前版本", 'isShowMore' : false},
-    {'title' : "绑定微信号", 'isShowMore' : true},
-    {'title' : "用户注册协议", 'isShowMore' : false},
-    {'title' : "用户隐私协议", 'isShowMore' : false}];
-
   SettingViewModel _viewModel = SettingViewModel();
+
+  List<SettingItemEntity> _dataSource = [];
 
   @override
   void initState() {
     super.initState();
     this.navigationBar.title = "设置";
 
-    _viewModel.getVersion().then((value) {
+    _viewModel.dataSource.then((value) {
       setState(() {
-        this._version = value;
+        this._dataSource = value;
       });
     });
-
-    _viewModel.loadCache().then((value) {
-      setState(() {
-        this._cacheSize = value;
-      });
-    });
-  }
-
-  String _getDescText(int index) {
-    switch (index) {
-      case 0:   return _cacheSize;
-      case 1:   return _version;
-      case 2:   return "未绑定";
-      default:  return null;
-    }
   }
 
   @override
@@ -66,77 +44,83 @@ class SettingState extends BaseContainerState<Setting> {
         children: [
           ListView.separated(
             padding: EdgeInsets.all(0),
-            itemCount: this._source.length,
+            itemCount: this._dataSource.length,
             scrollDirection: Axis.vertical,
             primary: false,
             itemBuilder: (BuildContext context, int index) {
-              return Stack(
-                children: [
-                  Container(
-                    height: 50.dp,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(left: 12.dp),
-                          child: Text(
-                            '${this._source[index]['title']}',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.dpFontSize,
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  Positioned(
-                      right: 12.dp,
-                      height: 50.dp,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          (_getDescText(index) != null) ?
-                          Container(
-                            child: Text(
-                              _getDescText(index),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12.dpFontSize,
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none
+              return GestureDetector(
+                onTap: this._dataSource[index].function,
+                child: Container(
+                  color: Colors.transparent,
+                  child: Stack(
+                    children: [
+                      Container(
+                        height: 50.dp,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 12.dp),
+                              child: Text(
+                                '${this._dataSource[index].title}',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12.dpFontSize,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none
+                                ),
                               ),
                             ),
-                          ) :
-                          Container(),
+                          ],
+                        ),
+                      ),
 
-                          Padding(
-                            padding: EdgeInsets.only(
-                                right: (_getDescText(index) != null && this._source[index]['isShowMore'] == false) ? 0 : 12.dp
-                            ),
-                          ),
+                      Positioned(
+                          right: 12.dp,
+                          height: 50.dp,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              this._dataSource[index].descText.isValid ?
+                              Container(
+                                child: Text(
+                                  '${this._dataSource[index].descText}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12.dpFontSize,
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none
+                                  ),
+                                ),
+                              ) :
+                              Container(),
 
-                          (this._source[index]['isShowMore'] == true) ?
-                          Container(
-                            alignment: Alignment.centerRight,
-                            width: 6.dp,
-                            height: 11.dp,
-                            child: CustomAssetImage.image(
-                                image: ImageName.cjm_profile_more.imagePath
-                            ),
-                          ) :
-                          Container(),
-                        ],
-                      )
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    right: this._dataSource[index].paddingRight.dp
+                                ),
+                              ),
 
+                              (this._dataSource[index].isShowMore) ?
+                              Container(
+                                alignment: Alignment.centerRight,
+                                width: 6.dp,
+                                height: 11.dp,
+                                child: CustomAssetImage.image(
+                                    image: ImageName.cjm_profile_more.imagePath
+                                ),
+                              ) :
+                              Container(),
+                            ],
+                          )
+
+                      ),
+                    ],
                   ),
-                ],
+                ),
               );
             },
             separatorBuilder: (BuildContext context, int index) {
@@ -171,7 +155,7 @@ class SettingState extends BaseContainerState<Setting> {
                   ),
                   onPressed: () {
                     LoginUserInfoManager().clearUserInfo(context);
-                    CustomNavigator.pop(context);
+                    CustomNavigator.pop(context: context);
                   },
                 ),
               ),

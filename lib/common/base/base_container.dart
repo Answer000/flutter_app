@@ -95,7 +95,7 @@ abstract class BaseContainerState<T extends BaseContainer> extends State<T> with
                     child: setContentView(context),
                     onTap: (){
                       if(!this.widget.isShowNavigationBar) {
-                        CustomNavigator.pop(context);
+                        CustomNavigator.pop(context: context);
                       }
                     },
                   ),

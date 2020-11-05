@@ -25,7 +25,7 @@ class LoginViewModel {
 
   /// 发送获取手机验证码的请求
   _sendRequesetOfGetCode(BuildContext context) async {
-    CustomLoading.showLoading(context);
+    CustomLoading.showLoading(context: context);
     await Https().post(
         apiPath: APIPath.message_getverifycode,
         onSuccess: (data){
@@ -34,9 +34,9 @@ class LoginViewModel {
             Map<String, dynamic> params = {'phone' : phoneString, 'code' : code, 'areaCode' : '86'};
             _sendCode(context, params);
           });
-          CustomLoading.hideLoading(context);
+          CustomLoading.hideLoading(context: context);
         }, onFailure: (error){
-          CustomLoading.hideLoading(context);
+          CustomLoading.hideLoading(context: context);
     });
   }
 
@@ -47,10 +47,10 @@ class LoginViewModel {
       params: params,
       headers: params,
       onSuccess: (data) {
-        CustomLoading.hideLoading(context);
+        CustomLoading.hideLoading(context: context);
         CustomToast.show(data["msg"]);
       }, onFailure: (error) {
-        CustomLoading.hideLoading(context);
+        CustomLoading.hideLoading(context: context);
     });
   }
 
@@ -80,19 +80,19 @@ class LoginViewModel {
       CustomToast.show("没有同意注册协议和隐私政策？");
       return;
     }
-    CustomLoading.showLoading(context);
+    CustomLoading.showLoading(context: context);
     Map<String,dynamic> params = {'phone' : phoneString, 'code' : codeString};
     await Https().post(
         apiPath: APIPath.user_loginuser,
         params: params,
         contentType: ContentType.json,
         onSuccess: (data) {
-          CustomLoading.hideLoading(context);
+          CustomLoading.hideLoading(context: context);
           var entity = LoginEntity().fromJson(data);
           LoginUserInfoManager().saveUserInfo(entity, context: context);
           callback(true);
         }, onFailure: (error) {
-          CustomLoading.hideLoading(context);
+          CustomLoading.hideLoading(context: context);
           callback(false);
         }
     );

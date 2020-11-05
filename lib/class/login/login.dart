@@ -239,7 +239,7 @@ class LoginState extends State<Login> {
                               ),
                             ),
                             onPressed: (){
-                              CustomNavigator.pop(context);
+                              CustomNavigator.pop(context: context);
                             },
                           ),
                         )
@@ -338,7 +338,7 @@ class LoginState extends State<Login> {
   void loginWithPhone() async {
     this._viewModel.loginWithPhone(context, (isSucc){
       if(isSucc) {
-        CustomNavigator.pop(context);
+        CustomNavigator.pop(context: context);
       }
     });
   }
