@@ -66,7 +66,7 @@ extension Size_extension on Size {
 
 /// EdgeInsets extension
 extension EdgeInsets_extension on EdgeInsets {
-  bool get isValid => (this != null && ((this.left ?? 0) > 0) ) && ((this.right ?? 0) > 0 && ((this.top ?? 0) > 0) && ((this.bottom ?? 0) > 0));
+  bool get isValid => (this != null && ((this.left ?? 0) > 0 || (this.right ?? 0) > 0 || (this.top ?? 0) > 0 || (this.bottom ?? 0) > 0));
   bool get isNotValid => !isValid;
 }
 
@@ -93,13 +93,11 @@ extension CustomImage on FadeInImage {
     String image,
     BoxFit fit = BoxFit.cover,
     Size size = Size.zero}) {
-    return FadeInImage.memoryNetwork(
-      placeholder: kTransparentImage,
-      image: image,
-      fit: fit,
-      width: size.width,
-      height: size.height,
-    );
+    if(image.isValid) {
+      return FadeInImage.memoryNetwork(placeholder: kTransparentImage, image: image, fit: fit, width: size.width, height: size.height,);
+    }else{
+      return FadeInImage.assetNetwork(image: ImageName.placeholder.imagePath, fit: fit, width: size.width,height: size.height,);
+    }
   }
 
   static FadeInImage assetNetwork({

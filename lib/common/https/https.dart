@@ -8,6 +8,33 @@ import 'package:flutter_app/class/login/login_entity.dart';
 import 'package:package_info/package_info.dart';
 
 
+enum ContentType {
+  urlEncoded,
+  json
+}
+
+enum APIPath {
+  /// 系统
+  user_refreshToken,          // 刷新AccessToken
+  /// 登录
+  message_getverifycode,      // 请求获取验证码时的秘钥
+  message_sendverifymessage,  // 获取手机验证码
+  user_loginuser,             // 手机号登录
+
+  /// 首页
+  home_banner,                // 首页轮播图
+  home_saveBeauty,            // 美丽救急列表
+  home_nightBeauty,           // 超级夜美人列表
+
+  /// 潮区
+  postTag_list,               // 推荐标签
+  post_newList,               // 推荐列表
+
+  /// 个人中心
+  user_getUserDetail,         // 获取用户资料
+}
+
+
 typedef OnSuccess = void Function(Map response);
 typedef OnFailure = void Function(Object obj);
 
@@ -52,15 +79,16 @@ class Https {
 
   /// 请求新的 AccessToken
   getAccessTokenWithRefreshToken(Function(bool) callback) async {
+    String refreshToken = '';
+    await LoginUserInfoManager().refreshToken.then((value) => refreshToken = value);
     _request(
       apiPath: APIPath.user_refreshToken,
       headers: {
-        'Authorization' : 'Bearer ${LoginUserInfoManager().refreshToken}'
+        'Authorization' : 'Bearer $refreshToken'
       },
-      onSuccess: (data){
+      onSuccess: (data) async {
         var entity = LoginEntity().fromJson(data);
-        LoginUserInfoManager().saveUserInfo(entity);
-        callback(true);
+        await LoginUserInfoManager().saveToken(entity).then((value) => callback(value));
       },onFailure: (error){
         callback(false);
     });
@@ -144,26 +172,4 @@ class Https {
       onFailure(exception);
     }
   }
-}
-
-enum ContentType {
-  urlEncoded,
-  json
-}
-
-enum APIPath {
-  /// 系统
-  user_refreshToken,          // 刷新AccessToken
-  /// 登录
-  message_getverifycode,      // 请求获取验证码时的秘钥
-  message_sendverifymessage,  // 获取手机验证码
-  user_loginuser,             // 手机号登录
-
-  /// 首页
-  home_banner,                // 首页轮播图
-  home_saveBeauty,            // 美丽救急列表
-  home_nightBeauty,           // 超级夜美人列表
-
-  /// 个人中心
-  user_getUserDetail,         // 获取用户资料
 }

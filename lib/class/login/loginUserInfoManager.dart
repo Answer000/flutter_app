@@ -59,7 +59,17 @@ class LoginUserInfoManager {
   Future<bool> get isValidOfAccessToken => _isValidOfAccessToken();
 
   /// 持久化用户信息
-  Future saveUserInfo(LoginEntity entity, {BuildContext context}) async {
+  Future<bool> saveUserInfo(LoginEntity entity, {BuildContext context}) async {
+    await saveToken(entity);
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setInt(kUserId, entity.data.userId);
+    // 发送登录成功的通知
+    eventManager.emit(EventName.login, true);
+
+    return true;
+  }
+
+  Future<bool> saveToken(LoginEntity entity) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(kAccessToken, entity.data.token.toString());
     preferences.setString(kRefreshToken, entity.data.refreshToken.toString());
@@ -71,11 +81,7 @@ class LoginUserInfoManager {
       int timeDifference = entity.data.systemDate - currentTimeStamp;
       preferences.setInt(kTimeDifference, timeDifference);
     }
-
-    preferences.setInt(kUserId, entity.data.userId);
-
-    // 发送登录成功的通知
-    eventManager.emit(EventName.login, true);
+    return true;
   }
 
   /// 清除用户存储信息
@@ -119,6 +125,7 @@ class LoginUserInfoManager {
         .then((value) => expiryTimeStamp = value);
 
     bool result = (expiryTimeStamp + timeDifference) >= currentTimeStamp;
+
     return result;
   }
 }

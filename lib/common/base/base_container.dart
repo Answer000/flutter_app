@@ -30,6 +30,9 @@ abstract class BaseContainer extends StatefulWidget {
 
   /// 导航条样式
   NavigationBarType get navigationBarType => NavigationBarType.child;
+
+  /// 是否允许重复刷新
+  bool get isWantKeepAlive => true;
 }
 
 abstract class BaseContainerState<T extends BaseContainer> extends State<T> with AutomaticKeepAliveClientMixin {
@@ -57,12 +60,12 @@ abstract class BaseContainerState<T extends BaseContainer> extends State<T> with
     return _buildWidgetDefault();
   }
 
+  @protected
+  bool get wantKeepAlive => this.widget.isWantKeepAlive;
+
   /// 子类实现，构建各自页面UI控件 相当于setContentView()
   @required
   Widget setContentView(BuildContext context);
-
-  @protected
-  bool get wantKeepAlive => true;
 
   /// 构建默认布局
   Widget _buildWidgetDefault() {

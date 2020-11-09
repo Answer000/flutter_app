@@ -39,6 +39,7 @@ dependencies:
   package_info: ^0.4.0+4      #获取APP包的信息
   path_provider: ^1.6.22      #获取文件路径
   webview_flutter: ^0.3.10+4  #网页组件
+  waterfall_flow: ^2.0.4      #瀑布流
 
 dev_dependencies:
   flutter_test:
@@ -92,6 +93,12 @@ flutter:
     - resource/cjm_home_searchIcon@3x.png
     - resource/cjm_home_videoInstructional_icon@3x.png
     - resource/cjm_home_message@3x.png
+
+
+    ### 潮IN
+    - resource/cjm_waterfall_like@3x.png
+    - resource/cjm_waterfall_unlike@3x.png
+    - resource/cjm_navigationBar_publish@3x.png
 
 
     ### 我的

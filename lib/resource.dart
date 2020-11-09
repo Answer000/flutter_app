@@ -43,6 +43,10 @@ enum ImageName {
   cjm_home_videoInstructional_icon,
   cjm_home_message,
 
+  cjm_waterfall_like,
+  cjm_waterfall_unlike,
+  cjm_navigationBar_publish,
+
   cjm_profile_setting,
   cjm_profile_more,
   cjm_profile_collect,
