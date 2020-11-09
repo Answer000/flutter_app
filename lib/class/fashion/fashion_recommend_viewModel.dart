@@ -24,6 +24,8 @@ class FashionRecommendViewModel {
 
   int _pageNo = 1;
 
+  int _pageSize = 10;
+
   /// 请求标签数据
   loadTagList(Function(List<FashionRecommandTagListDataPostTagsLists>) callback) async {
     await
@@ -39,20 +41,25 @@ class FashionRecommendViewModel {
   }
 
   /// 请求帖子列表数据
-  loadPostList(int postTagId, Function(List<PostEntity>) callback) async {
-    await
-    Https().post(
+  loadPosts(int postTagId, Function(List<PostEntity>, bool hasMore) callback) async {
+    this._pageNo = 1;
+    await loadMorePosts(postTagId, callback);
+  }
+
+  loadMorePosts(int postTagId, Function(List<PostEntity>, bool hasMore) callback) async {
+    await Https().post(
         apiPath: APIPath.post_newList,
-        params: {'pageSize' : 10, 'pageNo' : _pageNo, 'postTagId' : postTagId ?? 0},
+        params: {'pageSize' : _pageSize, 'pageNo' : _pageNo, 'postTagId' : postTagId},
         onSuccess: (data){
+          this._pageNo += 1;
           var entity = FashionRecommendPostEntity()
               .fromJson(data)
               .data.postList.lists
               .map((e) => PostEntity(post: e))
               .toList();
-          callback(entity);
+          callback(entity, entity.length >= _pageSize);
         }, onFailure: (error){
-      callback([]);
+      callback([], false);
     });
   }
 }

@@ -6,6 +6,7 @@ import 'package:flutter_app/class/fashion/fashion_recommend_tagList_entity.dart'
 import 'package:flutter_app/class/fashion/fashion_recommend_viewModel.dart';
 import 'package:flutter_app/common/base/base_post_entity.dart';
 import 'package:flutter_app/common/extension/extension.dart';
+import 'package:flutter_app/common/tools/custom_refresher.dart';
 import 'package:flutter_app/resource.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
@@ -29,22 +30,35 @@ class FashionRecommendPageViewState extends FashionBasePageViewState<FashionReco
   @override
   void initState() {
     super.initState();
-    _viewModel.loadTagList((list){
-      if(list.isValid && this._currentTagIndex < list.length) {
-        _getPostList(list[this._currentTagIndex].postTagId);
-      }
+    _viewModel.loadTagList((list) async {
       setState(() {
         this._tagList = list;
       });
+      await _getPosts(isLoadMore: false);
     });
   }
 
-  _getPostList(int postTagId) {
-    _viewModel.loadPostList(postTagId, (lists) {
-      setState(() {
-        this._postList = lists;
-      });
-    });
+  _getPosts({bool isLoadMore, Function(bool hasMore) callback}) async {
+    if(this._tagList.isValid && this._currentTagIndex < this._tagList.length) {
+      int postTagId = this._tagList[this._currentTagIndex].postTagId;
+      Function(List<PostEntity>, bool hasMore) onSuccess = (list, hasMore) async {
+        List<PostEntity> tempList = this._postList;
+        isLoadMore
+            ? tempList.addAll(list)
+            : tempList = list;
+        setState(() {
+          this._postList = tempList;
+        });
+        print(this._postList);
+        if(callback != null) {
+          await callback(hasMore);
+        }
+      };
+
+      isLoadMore
+          ? await _viewModel.loadMorePosts(postTagId, onSuccess)
+          : await _viewModel.loadPosts(postTagId, onSuccess);
+    }
   }
 
   @override
@@ -71,19 +85,37 @@ class FashionRecommendPageViewState extends FashionBasePageViewState<FashionReco
 
         Expanded(
           child: Container(
-            child: WaterfallFlow.builder(
-              padding: _viewModel.itemPadding,
-              itemCount: this._postList.length ?? 0,
-              gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
-                crossAxisCount: _viewModel.crossAxisCount,
-                crossAxisSpacing: _viewModel.crossAxisSpacing,
-                mainAxisSpacing: _viewModel.mainAxisSpacing,
-                lastChildLayoutTypeBuilder: (index) => LastChildLayoutType.none
-              ),
-              itemBuilder: (BuildContext context, int index) {
-                return _getItemBuilder(this._postList[index]);
+            child: CustomRefresher(
+              onLoading: (controller){
+                this._getPosts(isLoadMore: true, callback: (hasMore){
+                  print('onLoading   hasMore  $hasMore');
+                  if(controller.isLoading) {
+                    hasMore ? controller.loadComplete() : controller.loadNoData();
+                  }
+                });
               },
-            ),
+              onRefresh: (controller){
+                this._getPosts(isLoadMore: false, callback: (hasMore){
+                  print('onRefresh   hasMore  $hasMore');
+                  if(controller.isRefresh) {
+                    controller.refreshCompleted();
+                  }
+                });
+              },
+              child: WaterfallFlow.builder(
+                padding: _viewModel.itemPadding,
+                itemCount: this._postList.length ?? 0,
+                gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: _viewModel.crossAxisCount,
+                    crossAxisSpacing: _viewModel.crossAxisSpacing,
+                    mainAxisSpacing: _viewModel.mainAxisSpacing,
+                    lastChildLayoutTypeBuilder: (index) => LastChildLayoutType.none
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return _getItemBuilder(this._postList[index]);
+                },
+              ),
+            )
           ),
         )
       ],
