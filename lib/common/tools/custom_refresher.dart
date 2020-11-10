@@ -77,4 +77,10 @@ class CustomRefresherState extends State<CustomRefresher> {
       child: this.widget.child,
     );
   }
+
+  loadComplete() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      this.widget.controller.footerMode?.value = LoadStatus.idle;
+    });
+  }
 }

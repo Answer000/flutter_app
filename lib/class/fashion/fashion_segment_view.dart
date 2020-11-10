@@ -55,7 +55,7 @@ class FashionSegmentViewState extends State<FashionSegmentView> {
             child: Container(
               decoration: BoxDecoration(
                 color: CustomColor.mainRedColor,
-                borderRadius: BorderRadius.circular(1),
+                borderRadius: BorderRadius.circular(2.dp),
               ),
             ),
           )

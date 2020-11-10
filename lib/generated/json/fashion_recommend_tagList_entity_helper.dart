@@ -1,4 +1,4 @@
-import 'package:flutter_app/class/fashion/fashion_recommend_tagList_entity.dart';
+import 'package:flutter_app/class/fashion/recommend/fashion_recommend_tagList_entity.dart';
 
 fashionRecommendTagListEntityFromJson(FashionRecommendTagListEntity data, Map<String, dynamic> json) {
 	if (json['resultCode'] != null) {

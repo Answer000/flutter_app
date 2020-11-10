@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/class/fashion/fashion_base_page_view.dart';
-import 'package:flutter_app/class/fashion/fashion_recommend_page_view.dart';
+import 'package:flutter_app/class/fashion/attention/fashion_attention_page_view.dart';
+import 'package:flutter_app/class/fashion/recommend/fashion_recommend_page_view.dart';
 import 'package:flutter_app/class/fashion/fashion_segment_view.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/base/base_navigation_bar.dart';
@@ -77,9 +77,7 @@ class FashionState extends BaseContainerState<Fashion> {
               controller: this._pageController,
               children: [
                 FashionRecommendPageView(),
-                Container(
-                  color: Colors.white,
-                ),
+                FashionAttentionPageView(),
                 Container(
                   color: Colors.red,
                 ),

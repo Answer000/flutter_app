@@ -12,10 +12,14 @@ abstract class FashionBasePageView extends StatefulWidget {
   FashionBasePageViewState getState();
 }
 
-abstract class FashionBasePageViewState<T extends FashionBasePageView> extends State<T> {
+abstract class FashionBasePageViewState<T extends FashionBasePageView> extends State<T> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return setContentView(context);
   }
 

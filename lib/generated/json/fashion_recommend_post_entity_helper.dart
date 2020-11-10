@@ -1,4 +1,4 @@
-import 'package:flutter_app/class/fashion/fashion_recommend_post_entity.dart';
+import 'package:flutter_app/class/fashion/recommend/fashion_recommend_post_entity.dart';
 
 fashionRecommendPostEntityFromJson(FashionRecommendPostEntity data, Map<String, dynamic> json) {
 	if (json['resultCode'] != null) {

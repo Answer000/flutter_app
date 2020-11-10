@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/class/fashion/fashion_base_page_view.dart';
-import 'package:flutter_app/class/fashion/fashion_recommend_post_entity.dart';
-import 'package:flutter_app/class/fashion/fashion_recommend_tagList_entity.dart';
-import 'package:flutter_app/class/fashion/fashion_recommend_viewModel.dart';
-import 'package:flutter_app/common/base/base_post_entity.dart';
+import 'package:flutter_app/class/fashion/recommend/fashion_recommend_tagList_entity.dart';
+import 'package:flutter_app/class/fashion/recommend/fashion_recommend_viewModel.dart';
+import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
 import 'package:flutter_app/resource.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 class FashionRecommendPageView extends FashionBasePageView {
@@ -49,7 +49,6 @@ class FashionRecommendPageViewState extends FashionBasePageViewState<FashionReco
         setState(() {
           this._postList = tempList;
         });
-        print(this._postList);
         if(callback != null) {
           await callback(hasMore);
         }
@@ -88,21 +87,21 @@ class FashionRecommendPageViewState extends FashionBasePageViewState<FashionReco
             child: CustomRefresher(
               onLoading: (controller){
                 this._getPosts(isLoadMore: true, callback: (hasMore){
-                  print('onLoading   hasMore  $hasMore');
                   if(controller.isLoading) {
-                    hasMore ? controller.loadComplete() : controller.loadNoData();
+                    controller.footerMode.value = hasMore ? LoadStatus.idle : LoadStatus.noMore;
                   }
                 });
               },
               onRefresh: (controller){
                 this._getPosts(isLoadMore: false, callback: (hasMore){
-                  print('onRefresh   hasMore  $hasMore');
                   if(controller.isRefresh) {
                     controller.refreshCompleted();
                   }
                 });
               },
-              child: WaterfallFlow.builder(
+              child: this._postList.length == 0
+                  ? Container()
+                  : WaterfallFlow.builder(
                 padding: _viewModel.itemPadding,
                 itemCount: this._postList.length ?? 0,
                 gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
@@ -260,6 +259,7 @@ class FashionRecommendPageViewState extends FashionBasePageViewState<FashionReco
             function(e);
             setState(() {
               this._currentTagIndex = index;
+              _getPosts(isLoadMore: false);
             });
           },
           child: Container(

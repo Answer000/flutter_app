@@ -1,7 +1,7 @@
-import 'package:flutter_app/class/fashion/fashion_recommend_post_entity.dart';
-import 'package:flutter_app/class/fashion/fashion_recommend_tagList_entity.dart';
-import 'package:flutter_app/common/base/base_post_entity.dart';
+import 'package:flutter_app/class/fashion/recommend/fashion_recommend_post_entity.dart';
+import 'package:flutter_app/class/fashion/recommend/fashion_recommend_tagList_entity.dart';
 import 'package:flutter_app/common/https/https.dart';
+import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter/material.dart';
 
@@ -51,15 +51,12 @@ class FashionRecommendViewModel {
         apiPath: APIPath.post_newList,
         params: {'pageSize' : _pageSize, 'pageNo' : _pageNo, 'postTagId' : postTagId},
         onSuccess: (data){
-          this._pageNo += 1;
-          var entity = FashionRecommendPostEntity()
-              .fromJson(data)
-              .data.postList.lists
-              .map((e) => PostEntity(post: e))
-              .toList();
-          callback(entity, entity.length >= _pageSize);
+          var entity = FashionRecommendPostEntity().fromJson(data);
+          var list = entity.data.postList.lists.map((e) => PostEntity(post: e)).toList();
+          this._pageNo = entity.data.postList.pageNum + 1;
+          callback(list, list.length >= _pageSize);
         }, onFailure: (error){
-      callback([], false);
+          callback([], false);
     });
   }
 }

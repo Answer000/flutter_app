@@ -1,7 +1,5 @@
-//import 'package:flutter_app/generated/json/base/json_convert_content.dart';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app/class/fashion/fashion_recommend_post_entity.dart';
+import 'package:flutter_app/class/fashion/recommend/fashion_recommend_post_entity.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 
 enum PostType {
