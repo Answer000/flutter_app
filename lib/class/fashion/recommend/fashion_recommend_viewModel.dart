@@ -1,3 +1,4 @@
+import 'package:flutter_app/class/fashion/post_model_entity.dart';
 import 'package:flutter_app/class/fashion/recommend/fashion_recommend_post_entity.dart';
 import 'package:flutter_app/class/fashion/recommend/fashion_recommend_tagList_entity.dart';
 import 'package:flutter_app/common/https/https.dart';
@@ -51,10 +52,10 @@ class FashionRecommendViewModel {
         apiPath: APIPath.post_newList,
         params: {'pageSize' : _pageSize, 'pageNo' : _pageNo, 'postTagId' : postTagId},
         onSuccess: (data){
-          var entity = FashionRecommendPostEntity().fromJson(data);
-          var list = entity.data.postList.lists.map((e) => PostEntity(post: e)).toList();
-          this._pageNo = entity.data.postList.pageNum + 1;
-          callback(list, list.length >= _pageSize);
+          this._pageNo += 1;
+          List<dynamic> list = data['data']['postList']['lists'];
+          List<PostEntity> entitys = list.map((e) => PostEntity(post: PostModelEntity().fromJson(e))).toList();
+          callback(entitys, list.length >= _pageSize);
         }, onFailure: (error){
           callback([], false);
     });

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app/class/fashion/recommend/fashion_recommend_post_entity.dart';
+import 'package:flutter_app/class/fashion/post_model_entity.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 
 enum PostType {
@@ -55,10 +55,10 @@ class PostEntity {
   // 帖子类型
   PostType postType = PostType.image;
 
-  FashionRecommandPostDataPostListLists _post;
-  FashionRecommandPostDataPostListLists get post => _post;
+  PostModelEntity _post;
+  PostModelEntity get post => _post;
 
-  PostEntity({FashionRecommandPostDataPostListLists post}) {
+  PostEntity({PostModelEntity post}) {
     this._post = post;
     this.postType = post.type == 1 ? PostType.image : PostType.video;
   }

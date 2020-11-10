@@ -1,10 +1,16 @@
 
 
 import 'package:flutter_app/class/fashion/attention/fashion_attention_user_entity.dart';
+import 'package:flutter_app/class/fashion/post_entity.dart';
+import 'package:flutter_app/class/fashion/post_model_entity.dart';
 import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_app/common/https/https.dart';
 
 class FashionAttentionViewModel {
+
+  int _pageNo = 1;
+
+  int _pageSize = 10;
 
   /// 请求标签数据
   loadUserAttentionList(Function(List<FashionAttentionUserDataPostListList>) callback) async {
@@ -19,6 +25,26 @@ class FashionAttentionViewModel {
           callback(entity.data.postList.lists);
         }, onFailure: (error){
         callback([]);
+    });
+  }
+
+  /// 请求帖子列表数据
+  loadPosts(int postTagId, Function(List<PostEntity>, bool hasMore) callback) async {
+    this._pageNo = 1;
+    await loadMorePosts(postTagId, callback);
+  }
+
+  loadMorePosts(int postTagId, Function(List<PostEntity>, bool hasMore) callback) async {
+    await Https().post(
+        apiPath: APIPath.post_attentionList,
+        params: {'pageSize' : _pageSize, 'pageNo' : _pageNo},
+        onSuccess: (data){
+          this._pageNo += 1;
+          List<dynamic> list = data['data']['postList']['lists'];
+          List<PostEntity> entitys = list.map((e) => PostEntity(post: PostModelEntity().fromJson(e))).toList();
+          callback(entitys, list.length >= _pageSize);
+        }, onFailure: (error){
+      callback([], false);
     });
   }
 }

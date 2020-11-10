@@ -1,86 +1,6 @@
-import 'package:flutter_app/class/fashion/recommend/fashion_recommend_post_entity.dart';
+import 'package:flutter_app/class/fashion/post_model_entity.dart';
 
-fashionRecommendPostEntityFromJson(FashionRecommendPostEntity data, Map<String, dynamic> json) {
-	if (json['resultCode'] != null) {
-		data.resultCode = json['resultCode']?.toString();
-	}
-	if (json['msg'] != null) {
-		data.msg = json['msg']?.toString();
-	}
-	if (json['data'] != null) {
-		data.data = new FashionRecommendPostData().fromJson(json['data']);
-	}
-	return data;
-}
-
-Map<String, dynamic> fashionRecommendPostEntityToJson(FashionRecommendPostEntity entity) {
-	final Map<String, dynamic> data = new Map<String, dynamic>();
-	data['resultCode'] = entity.resultCode;
-	data['msg'] = entity.msg;
-	if (entity.data != null) {
-		data['data'] = entity.data.toJson();
-	}
-	return data;
-}
-
-fashionRecommendPostDataFromJson(FashionRecommendPostData data, Map<String, dynamic> json) {
-	if (json['postList'] != null) {
-		data.postList = new FashionRecommendPostDataPostList().fromJson(json['postList']);
-	}
-	return data;
-}
-
-Map<String, dynamic> fashionRecommendPostDataToJson(FashionRecommendPostData entity) {
-	final Map<String, dynamic> data = new Map<String, dynamic>();
-	if (entity.postList != null) {
-		data['postList'] = entity.postList.toJson();
-	}
-	return data;
-}
-
-fashionRecommendPostDataPostListFromJson(FashionRecommendPostDataPostList data, Map<String, dynamic> json) {
-	if (json['pageNum'] != null) {
-		data.pageNum = json['pageNum']?.toInt();
-	}
-	if (json['pageSize'] != null) {
-		data.pageSize = json['pageSize']?.toInt();
-	}
-	if (json['total'] != null) {
-		data.total = json['total']?.toInt();
-	}
-	if (json['pages'] != null) {
-		data.pages = json['pages']?.toInt();
-	}
-	if (json['lists'] != null) {
-		data.lists = new List<FashionRecommandPostDataPostListLists>();
-		(json['lists'] as List).forEach((v) {
-			data.lists.add(new FashionRecommandPostDataPostListLists().fromJson(v));
-		});
-	}
-	if (json['isFirstPage'] != null) {
-		data.isFirstPage = json['isFirstPage'];
-	}
-	if (json['isLastPage'] != null) {
-		data.isLastPage = json['isLastPage'];
-	}
-	return data;
-}
-
-Map<String, dynamic> fashionRecommendPostDataPostListToJson(FashionRecommendPostDataPostList entity) {
-	final Map<String, dynamic> data = new Map<String, dynamic>();
-	data['pageNum'] = entity.pageNum;
-	data['pageSize'] = entity.pageSize;
-	data['total'] = entity.total;
-	data['pages'] = entity.pages;
-	if (entity.lists != null) {
-		data['lists'] =  entity.lists.map((v) => v.toJson()).toList();
-	}
-	data['isFirstPage'] = entity.isFirstPage;
-	data['isLastPage'] = entity.isLastPage;
-	return data;
-}
-
-fashionRecommandPostDataPostListListsFromJson(FashionRecommandPostDataPostListLists data, Map<String, dynamic> json) {
+postModelEntityFromJson(PostModelEntity data, Map<String, dynamic> json) {
 	if (json['id'] != null) {
 		data.id = json['id']?.toInt();
 	}
@@ -103,7 +23,7 @@ fashionRecommandPostDataPostListListsFromJson(FashionRecommandPostDataPostListLi
 		data.createTime = json['createTime']?.toString();
 	}
 	if (json['updateTime'] != null) {
-		data.updateTime = json['updateTime'];
+		data.updateTime = json['updateTime']?.toString();
 	}
 	if (json['status'] != null) {
 		data.status = json['status']?.toInt();
@@ -172,9 +92,9 @@ fashionRecommandPostDataPostListListsFromJson(FashionRecommandPostDataPostListLi
 		data.collectionPost = json['collectionPost']?.toString();
 	}
 	if (json['postImgList'] != null) {
-		data.postImgList = new List<FashionRecommandPostDataPostListListsPostImgList>();
+		data.postImgList = new List<PostModelPostImgList>();
 		(json['postImgList'] as List).forEach((v) {
-			data.postImgList.add(new FashionRecommandPostDataPostListListsPostImgList().fromJson(v));
+			data.postImgList.add(new PostModelPostImgList().fromJson(v));
 		});
 	}
 	if (json['stick'] != null) {
@@ -193,15 +113,15 @@ fashionRecommandPostDataPostListListsFromJson(FashionRecommandPostDataPostListLi
 		data.level = json['level']?.toInt();
 	}
 	if (json['postTags'] != null) {
-		data.postTags = new List<FashionRecommandPostDataPostListListsPostTags>();
+		data.postTags = new List<PostModelPostTag>();
 		(json['postTags'] as List).forEach((v) {
-			data.postTags.add(new FashionRecommandPostDataPostListListsPostTags().fromJson(v));
+			data.postTags.add(new PostModelPostTag().fromJson(v));
 		});
 	}
 	if (json['postTopics'] != null) {
-		data.postTopics = new List<FashionRecommandPostDataPostListListsPostTopics>();
+		data.postTopics = new List<PostModelPostTopic>();
 		(json['postTopics'] as List).forEach((v) {
-			data.postTopics.add(new FashionRecommandPostDataPostListListsPostTopics().fromJson(v));
+			data.postTopics.add(new PostModelPostTopic().fromJson(v));
 		});
 	}
 	if (json['route'] != null) {
@@ -213,7 +133,7 @@ fashionRecommandPostDataPostListListsFromJson(FashionRecommandPostDataPostListLi
 	return data;
 }
 
-Map<String, dynamic> fashionRecommandPostDataPostListListsToJson(FashionRecommandPostDataPostListLists entity) {
+Map<String, dynamic> postModelEntityToJson(PostModelEntity entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
 	data['userId'] = entity.userId;
@@ -264,7 +184,7 @@ Map<String, dynamic> fashionRecommandPostDataPostListListsToJson(FashionRecomman
 	return data;
 }
 
-fashionRecommandPostDataPostListListsPostImgListFromJson(FashionRecommandPostDataPostListListsPostImgList data, Map<String, dynamic> json) {
+postModelPostImgListFromJson(PostModelPostImgList data, Map<String, dynamic> json) {
 	if (json['id'] != null) {
 		data.id = json['id']?.toInt();
 	}
@@ -283,7 +203,7 @@ fashionRecommandPostDataPostListListsPostImgListFromJson(FashionRecommandPostDat
 	return data;
 }
 
-Map<String, dynamic> fashionRecommandPostDataPostListListsPostImgListToJson(FashionRecommandPostDataPostListListsPostImgList entity) {
+Map<String, dynamic> postModelPostImgListToJson(PostModelPostImgList entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
 	data['picUrl'] = entity.picUrl;
@@ -293,7 +213,7 @@ Map<String, dynamic> fashionRecommandPostDataPostListListsPostImgListToJson(Fash
 	return data;
 }
 
-fashionRecommandPostDataPostListListsPostTagsFromJson(FashionRecommandPostDataPostListListsPostTags data, Map<String, dynamic> json) {
+postModelPostTagFromJson(PostModelPostTag data, Map<String, dynamic> json) {
 	if (json['postTagId'] != null) {
 		data.postTagId = json['postTagId']?.toInt();
 	}
@@ -306,7 +226,7 @@ fashionRecommandPostDataPostListListsPostTagsFromJson(FashionRecommandPostDataPo
 	return data;
 }
 
-Map<String, dynamic> fashionRecommandPostDataPostListListsPostTagsToJson(FashionRecommandPostDataPostListListsPostTags entity) {
+Map<String, dynamic> postModelPostTagToJson(PostModelPostTag entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['postTagId'] = entity.postTagId;
 	data['postTagName'] = entity.postTagName;
@@ -314,7 +234,7 @@ Map<String, dynamic> fashionRecommandPostDataPostListListsPostTagsToJson(Fashion
 	return data;
 }
 
-fashionRecommandPostDataPostListListsPostTopicsFromJson(FashionRecommandPostDataPostListListsPostTopics data, Map<String, dynamic> json) {
+postModelPostTopicFromJson(PostModelPostTopic data, Map<String, dynamic> json) {
 	if (json['topicId'] != null) {
 		data.topicId = json['topicId']?.toInt();
 	}
@@ -327,7 +247,7 @@ fashionRecommandPostDataPostListListsPostTopicsFromJson(FashionRecommandPostData
 	return data;
 }
 
-Map<String, dynamic> fashionRecommandPostDataPostListListsPostTopicsToJson(FashionRecommandPostDataPostListListsPostTopics entity) {
+Map<String, dynamic> postModelPostTopicToJson(PostModelPostTopic entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['topicId'] = entity.topicId;
 	data['topicName'] = entity.topicName;

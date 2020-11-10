@@ -30,6 +30,7 @@ enum APIPath {
   postTag_list,               // 推荐标签
   post_newList,               // 推荐列表
   user_attentionList,         // 关注用户列表
+  post_attentionList,         // 关注用户的post列表
 
   /// 个人中心
   user_getUserDetail,         // 获取用户资料
