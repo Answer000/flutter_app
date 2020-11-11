@@ -52,9 +52,9 @@ fashionRecommendTagListDataPostTagsFromJson(FashionRecommendTagListDataPostTags 
 		data.pages = json['pages']?.toInt();
 	}
 	if (json['lists'] != null) {
-		data.lists = new List<FashionRecommandTagListDataPostTagsLists>();
+		data.lists = new List<FashionRecommendTagListDataPostTagsLists>();
 		(json['lists'] as List).forEach((v) {
-			data.lists.add(new FashionRecommandTagListDataPostTagsLists().fromJson(v));
+			data.lists.add(new FashionRecommendTagListDataPostTagsLists().fromJson(v));
 		});
 	}
 	if (json['isFirstPage'] != null) {
@@ -80,7 +80,7 @@ Map<String, dynamic> fashionRecommendTagListDataPostTagsToJson(FashionRecommendT
 	return data;
 }
 
-fashionRecommandTagListDataPostTagsListsFromJson(FashionRecommandTagListDataPostTagsLists data, Map<String, dynamic> json) {
+fashionRecommendTagListDataPostTagsListsFromJson(FashionRecommendTagListDataPostTagsLists data, Map<String, dynamic> json) {
 	if (json['postTagId'] != null) {
 		data.postTagId = json['postTagId']?.toInt();
 	}
@@ -93,7 +93,7 @@ fashionRecommandTagListDataPostTagsListsFromJson(FashionRecommandTagListDataPost
 	return data;
 }
 
-Map<String, dynamic> fashionRecommandTagListDataPostTagsListsToJson(FashionRecommandTagListDataPostTagsLists entity) {
+Map<String, dynamic> fashionRecommendTagListDataPostTagsListsToJson(FashionRecommendTagListDataPostTagsLists entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['postTagId'] = entity.postTagId;
 	data['postTagName'] = entity.postTagName;

@@ -46,6 +46,7 @@ enum ImageName {
   cjm_waterfall_like,
   cjm_waterfall_unlike,
   cjm_navigationBar_publish,
+  cjm_fashion_item_menu,
 
   cjm_profile_setting,
   cjm_profile_more,

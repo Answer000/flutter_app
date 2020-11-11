@@ -1,10 +1,10 @@
 import 'package:flutter_app/class/fashion/post_model_entity.dart';
-import 'package:flutter_app/class/fashion/recommend/fashion_recommend_post_entity.dart';
 import 'package:flutter_app/class/fashion/recommend/fashion_recommend_tagList_entity.dart';
 import 'package:flutter_app/common/https/https.dart';
 import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/common/tools/custom_loading.dart';
 
 class FashionRecommendViewModel {
 
@@ -28,7 +28,7 @@ class FashionRecommendViewModel {
   int _pageSize = 10;
 
   /// 请求标签数据
-  loadTagList(Function(List<FashionRecommandTagListDataPostTagsLists>) callback) async {
+  loadTagList(Function(List<FashionRecommendTagListDataPostTagsLists>) callback) async {
     await
     Https().post(
         apiPath: APIPath.postTag_list,

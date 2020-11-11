@@ -29,20 +29,25 @@ class FashionAttentionViewModel {
   }
 
   /// 请求帖子列表数据
-  loadPosts(int postTagId, Function(List<PostEntity>, bool hasMore) callback) async {
+  loadPosts(Function(List<PostEntity>, bool hasMore) callback) async {
     this._pageNo = 1;
-    await loadMorePosts(postTagId, callback);
+    await loadMorePosts(callback);
   }
 
-  loadMorePosts(int postTagId, Function(List<PostEntity>, bool hasMore) callback) async {
+  loadMorePosts(Function(List<PostEntity>, bool hasMore) callback) async {
     await Https().post(
         apiPath: APIPath.post_attentionList,
         params: {'pageSize' : _pageSize, 'pageNo' : _pageNo},
         onSuccess: (data){
           this._pageNo += 1;
           List<dynamic> list = data['data']['postList']['lists'];
-          List<PostEntity> entitys = list.map((e) => PostEntity(post: PostModelEntity().fromJson(e))).toList();
-          callback(entitys, list.length >= _pageSize);
+          List<PostEntity> entityList = list.map((e) =>
+              PostEntity(
+                  post: PostModelEntity().fromJson(e),
+                  postStyle: PostStyle.list
+              )
+          ).toList();
+          callback(entityList, list.length >= _pageSize);
         }, onFailure: (error){
       callback([], false);
     });

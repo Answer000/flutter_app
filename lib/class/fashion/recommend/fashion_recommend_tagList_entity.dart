@@ -15,12 +15,12 @@ class FashionRecommendTagListDataPostTags with JsonConvert<FashionRecommendTagLi
 	int pageSize;
 	int total;
 	int pages;
-	List<FashionRecommandTagListDataPostTagsLists> lists;
+	List<FashionRecommendTagListDataPostTagsLists> lists;
 	bool isFirstPage;
 	bool isLastPage;
 }
 
-class FashionRecommandTagListDataPostTagsLists with JsonConvert<FashionRecommandTagListDataPostTagsLists> {
+class FashionRecommendTagListDataPostTagsLists with JsonConvert<FashionRecommendTagListDataPostTagsLists> {
 	int postTagId;
 	String postTagName;
 	int tagIndex;

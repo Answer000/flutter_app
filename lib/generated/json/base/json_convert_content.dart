@@ -51,8 +51,8 @@ class JsonConvert<T> {
 			return homePageDataRecommandListListsFromJson(data as HomePageDataRecommandListLists, json) as T;			case FashionRecommendTagListEntity:
 			return fashionRecommendTagListEntityFromJson(data as FashionRecommendTagListEntity, json) as T;			case FashionRecommendTagListData:
 			return fashionRecommendTagListDataFromJson(data as FashionRecommendTagListData, json) as T;			case FashionRecommendTagListDataPostTags:
-			return fashionRecommendTagListDataPostTagsFromJson(data as FashionRecommendTagListDataPostTags, json) as T;			case FashionRecommandTagListDataPostTagsLists:
-			return fashionRecommandTagListDataPostTagsListsFromJson(data as FashionRecommandTagListDataPostTagsLists, json) as T;    }
+			return fashionRecommendTagListDataPostTagsFromJson(data as FashionRecommendTagListDataPostTags, json) as T;			case FashionRecommendTagListDataPostTagsLists:
+			return fashionRecommendTagListDataPostTagsListsFromJson(data as FashionRecommendTagListDataPostTagsLists, json) as T;    }
     return data as T;
   }
 
@@ -80,8 +80,8 @@ class JsonConvert<T> {
 			return homePageDataRecommandListListsToJson(data as HomePageDataRecommandListLists);			case FashionRecommendTagListEntity:
 			return fashionRecommendTagListEntityToJson(data as FashionRecommendTagListEntity);			case FashionRecommendTagListData:
 			return fashionRecommendTagListDataToJson(data as FashionRecommendTagListData);			case FashionRecommendTagListDataPostTags:
-			return fashionRecommendTagListDataPostTagsToJson(data as FashionRecommendTagListDataPostTags);			case FashionRecommandTagListDataPostTagsLists:
-			return fashionRecommandTagListDataPostTagsListsToJson(data as FashionRecommandTagListDataPostTagsLists);    }
+			return fashionRecommendTagListDataPostTagsToJson(data as FashionRecommendTagListDataPostTags);			case FashionRecommendTagListDataPostTagsLists:
+			return fashionRecommendTagListDataPostTagsListsToJson(data as FashionRecommendTagListDataPostTagsLists);    }
     return data as T;
   }
   //Go back to a single instance by type
@@ -109,8 +109,8 @@ class JsonConvert<T> {
 			return HomePageDataRecommandListLists().fromJson(json);			case 'FashionRecommendTagListEntity':
 			return FashionRecommendTagListEntity().fromJson(json);			case 'FashionRecommendTagListData':
 			return FashionRecommendTagListData().fromJson(json);			case 'FashionRecommendTagListDataPostTags':
-			return FashionRecommendTagListDataPostTags().fromJson(json);			case 'FashionRecommandTagListDataPostTagsLists':
-			return FashionRecommandTagListDataPostTagsLists().fromJson(json);    }
+			return FashionRecommendTagListDataPostTags().fromJson(json);			case 'FashionRecommendTagListDataPostTagsLists':
+			return FashionRecommendTagListDataPostTagsLists().fromJson(json);    }
     return null;
   }
 
@@ -139,8 +139,8 @@ class JsonConvert<T> {
 			return List<HomePageDataRecommandListLists>();			case 'FashionRecommendTagListEntity':
 			return List<FashionRecommendTagListEntity>();			case 'FashionRecommendTagListData':
 			return List<FashionRecommendTagListData>();			case 'FashionRecommendTagListDataPostTags':
-			return List<FashionRecommendTagListDataPostTags>();			case 'FashionRecommandTagListDataPostTagsLists':
-			return List<FashionRecommandTagListDataPostTagsLists>();    }
+			return List<FashionRecommendTagListDataPostTags>();			case 'FashionRecommendTagListDataPostTagsLists':
+			return List<FashionRecommendTagListDataPostTagsLists>();    }
     return null;
   }
 
