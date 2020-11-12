@@ -32,7 +32,6 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
   @override
   Widget build(BuildContext context) {
     return Container(
-//      color: Colors.cyan,
       margin: _margin,
       padding: EdgeInsets.only(bottom: 16.dp),
       child: Column(
@@ -130,8 +129,65 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
           ),
 
           Container(
-            color: Colors.red,
             height: 50.dp,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 20.dp,
+                  height: 20.dp,
+                  child: FlatButton(
+                    padding: EdgeInsets.all(0),
+                    child: CustomAssetImage.image(
+                      image: this.widget.postEntity.isPraise
+                          ? ImageName.cjm_post_list_like.imagePath
+                          : ImageName.cjm_post_list_unlike.imagePath
+                    ),
+                    onPressed: (){
+                      this.widget.postEntity.praisePost((isSucc, postEntity) => this.setState(() {
+                        if(isSucc) {
+                          this.widget.postEntity.isPraise = !postEntity.isPraise;
+                        }
+                      }));
+                    },
+                  ),
+                ),
+
+                Container(
+                  margin: EdgeInsets.only(left: 5.dp),
+                  child: Text(
+                    '${this.widget.postEntity.post.praiseNum ?? 0}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.dp,
+                      fontWeight: FontWeight.normal
+                    ),
+                  ),
+                ),
+
+                Container(
+                  width: 20.dp,
+                  height: 20.dp,
+                  margin: EdgeInsets.only(left: 30.dp),
+                  child: CustomAssetImage.image(
+                      image: ImageName.cjm_post_list_comment.imagePath
+                  ),
+                ),
+
+                Container(
+                  margin: EdgeInsets.only(left: 5.dp),
+                  child: Text(
+                    '${this.widget.postEntity.post.commentNum ?? 0}',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.dp,
+                        fontWeight: FontWeight.normal
+                    ),
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),

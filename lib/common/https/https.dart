@@ -31,6 +31,7 @@ enum APIPath {
   post_newList,               // 推荐列表
   user_attentionList,         // 关注用户列表
   post_attentionList,         // 关注用户的post列表
+  post_praisePost,            // post 点赞、取消点赞
 
   /// 个人中心
   user_getUserDetail,         // 获取用户资料

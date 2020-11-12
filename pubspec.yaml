@@ -100,6 +100,9 @@ flutter:
     - resource/cjm_waterfall_unlike@3x.png
     - resource/cjm_navigationBar_publish@3x.png
     - resource/cjm_fashion_item_menu@3x.png
+    - resource/cjm_post_list_like@3x.png
+    - resource/cjm_post_list_unlike@3x.png
+    - resource/cjm_post_list_comment@3x.png
 
 
     ### 我的
