@@ -8,10 +8,6 @@ import 'package:flutter_app/common/https/https.dart';
 
 class FashionAttentionViewModel {
 
-  List<FashionAttentionUserDataPostListList> _userAttentionList = [];
-
-  List<PostEntity> _postList = [];
-
   int _pageNo = 1;
 
   int _pageSize = 10;
@@ -32,29 +28,15 @@ class FashionAttentionViewModel {
     });
   }
 
-  getPosts({bool isLoadMore, Function(List<PostEntity> list, bool hasMore) callback}) async {
-    Function(List<PostEntity>, bool hasMore) onSuccess = (list, hasMore) async {
-      List<PostEntity> tempList = this._postList;
-      isLoadMore
-          ? tempList.addAll(list)
-          : tempList = list;
-      if(callback != null) {
-        await callback(tempList, hasMore);
-      }
-    };
 
-    isLoadMore
-        ? _loadMorePosts(onSuccess)
-        : _loadPosts(onSuccess);
-  }
 
   /// 请求帖子列表数据
-  _loadPosts(Function(List<PostEntity> postList, bool hasMore) callback) async {
+  loadPosts(Function(List<PostEntity> postList, bool hasMore) callback) async {
     this._pageNo = 1;
-    await _loadMorePosts(callback);
+    await loadMorePosts(callback);
   }
 
-  _loadMorePosts(Function(List<PostEntity> postList, bool hasMore) callback) async {
+  loadMorePosts(Function(List<PostEntity> postList, bool hasMore) callback) async {
     await Https().post(
         apiPath: APIPath.post_attentionList,
         params: {'pageSize' : _pageSize, 'pageNo' : _pageNo},

@@ -6,8 +6,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 // ignore: must_be_immutable
 class CustomRefresher extends StatefulWidget {
 
-  Function(RefreshController) onRefresh;
-  Function(RefreshController) onLoading;
+  Function(CustomRefresher) onRefresh;
+  Function(CustomRefresher) onLoading;
   Widget child;
 
   CustomRefresher({
@@ -23,6 +23,18 @@ class CustomRefresher extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return CustomRefresherState();
+  }
+
+  setLoadStatus(LoadStatus status) {
+    if(this.controller.isLoading) {
+      this.controller.footerMode?.value = status;
+    }
+  }
+
+  setRefreshCompleted() {
+    if(this.controller.isRefresh) {
+      this.controller.refreshCompleted();
+    }
   }
 }
 
@@ -42,10 +54,10 @@ class CustomRefresherState extends State<CustomRefresher> {
       enablePullUp: true,
       controller: this.widget._controller,
       onRefresh: (){
-        this.widget.onRefresh(this.widget._controller);
+        this.widget.onRefresh(this.widget);
       },
       onLoading: (){
-        this.widget.onLoading(this.widget._controller);
+        this.widget.onLoading(this.widget);
       },
       header: WaterDropHeader(
         completeDuration: Duration(milliseconds: 300),
@@ -76,11 +88,5 @@ class CustomRefresherState extends State<CustomRefresher> {
       ),
       child: this.widget.child,
     );
-  }
-
-  loadComplete() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      this.widget.controller.footerMode?.value = LoadStatus.idle;
-    });
   }
 }

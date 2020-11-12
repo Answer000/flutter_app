@@ -14,8 +14,8 @@ class WaterfallFlowView extends StatefulWidget {
   final double crossAxisSpacing;
   final double mainAxisSpacing;
   final EdgeInsets padding;
-  final Function(RefreshController) onLoading;
-  final Function(RefreshController) onRefresh;
+  final Function(CustomRefresher) onLoading;
+  final Function(CustomRefresher) onRefresh;
 
   WaterfallFlowView({
     Key key,

@@ -101,13 +101,13 @@ class HomeState extends BaseContainerState<Home> {
   @override
   Widget setContentView(BuildContext context) {
     return CustomRefresher(
-        onRefresh: (controller){
+        onRefresh: (refresh){
           _loadBanner(callback: (){
-            controller.refreshCompleted();
+            refresh.setRefreshCompleted();
           });
         },
-        onLoading: (controller){
-          controller.loadComplete();
+        onLoading: (refresh){
+          refresh.setLoadStatus(LoadStatus.idle);
         },
         child: NestedScrollView(
           scrollDirection: Axis.vertical,

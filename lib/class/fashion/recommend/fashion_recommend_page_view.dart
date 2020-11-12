@@ -91,18 +91,14 @@ class FashionRecommendPageViewState extends FashionBasePageViewState<FashionReco
               crossAxisSpacing: _viewModel.crossAxisSpacing,
               crossAxisCount: _viewModel.crossAxisCount,
               mainAxisSpacing: _viewModel.mainAxisSpacing,
-              onLoading: (controller){
+              onLoading: (refresh){
                 this._getPosts(isLoadMore: true, callback: (hasMore){
-                  if(controller.isLoading) {
-                    controller.footerMode.value = hasMore ? LoadStatus.idle : LoadStatus.noMore;
-                  }
+                  refresh.setLoadStatus(hasMore ? LoadStatus.idle : LoadStatus.noMore);
                 });
               },
-              onRefresh: (controller){
+              onRefresh: (refresh){
                 this._getPosts(isLoadMore: false, callback: (hasMore){
-                  if(controller.isRefresh) {
-                    controller.refreshCompleted();
-                  }
+                  refresh.setRefreshCompleted();
                 });
               },
             )

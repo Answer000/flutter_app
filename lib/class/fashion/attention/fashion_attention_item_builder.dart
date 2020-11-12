@@ -122,7 +122,6 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
             margin: EdgeInsets.only(top: 8.dp),
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
-              color: Color(0xff424242),
               borderRadius: BorderRadius.circular(5.dp),
             ),
             child: _getImageContainer()
@@ -200,17 +199,23 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
         if (this.widget.postEntity.post.postImgList.isNotValid) {
           return Container();
         }
-        return this.widget.postEntity.post.postImgList.length == 1 ?
+        int imgCount = this.widget.postEntity.post.postImgList.length;
+        Size containerSize = _getImageContainerSize();
+        return imgCount == 1 ?
         Container(
-          width: this.widget.postEntity.getImageSizeWith().width,
-          height: this.widget.postEntity.getImageSizeWith().height,
+          color: Color(0xff424242),
+          width: containerSize.width,
+          height: containerSize.height,
           child: CustomImage.memoryNetwork(
             image: this.widget.postEntity.picUrl,
           ),
         ) :
         Container(
-          color: Colors.red,
+          width: containerSize.width,
+          height: containerSize.height,
           child: GridView.builder(
+            padding: EdgeInsets.all(0),
+            physics: NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: _crossAxisCount,
                 mainAxisSpacing: _mainAxisSpacing,
@@ -218,23 +223,50 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
             ),
             itemBuilder: (BuildContext context, int index){
               return Container(
-                color: Colors.blue,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  color: Color(0xff424242),
+                  borderRadius: BorderRadius.circular(3.dp),
+                ),
+                child: CustomImage.memoryNetwork(
+                  image: this.widget.postEntity.post.postImgList[index].picUrl,
+                ),
               );
             },itemCount: this.widget.postEntity.post.postImgList.length,
           ),
         );
 
       case PostType.video:
-        double itemW = (Screen.width - _margin.left - _margin.right - (_crossAxisCount - 1) * _crossAxisSpacing) / _crossAxisCount;
-        Size imgSize = this.widget.postEntity.getImageSizeWith(width: itemW);
+        Size imgSize = _getImageContainerSize();
         return Container(
           width: imgSize.width,
           height: imgSize.height,
+          color: Color(0xff424242),
           child: CustomImage.memoryNetwork(
             image: this.widget.postEntity.picUrl,
           ),
         );
       default: return Container();
+    }
+  }
+
+  Size _getImageContainerSize() {
+    switch(this.widget.postEntity.postType) {
+      case PostType.image:
+        int imgCount = this.widget.postEntity.post.postImgList.length;
+        if(imgCount == 1) {
+          return this.widget.postEntity.getImageSizeWith();
+        }else{
+          double containerW = Screen.width - _margin.left - _margin.right;
+          double itemW = (containerW - (_crossAxisCount - 1) * _crossAxisSpacing) / _crossAxisCount;
+          int itemLine = (imgCount / _crossAxisCount).floor() + (imgCount % _crossAxisCount == 0 ? 0 : 1);
+          double containerH = (itemLine * itemW) + (itemLine - 1) * _mainAxisSpacing;
+          return Size(containerW, containerH);
+        }
+        break;
+      case PostType.video:
+        return this.widget.postEntity.getImageSizeWith();
+      default: return Size.zero;
     }
   }
 }

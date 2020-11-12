@@ -6,8 +6,10 @@ import 'package:flutter_app/class/fashion/attention/fashion_attention_viewModel.
 import 'package:flutter_app/class/fashion/fashion_base_page_view.dart';
 import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/common/extension/extension.dart';
+import 'package:flutter_app/common/tools/custom_loading.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
 import 'package:flutter_app/resource.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class FashionAttentionPageView extends FashionBasePageView {
 
@@ -33,25 +35,46 @@ class FashionAttentionPageViewState extends FashionBasePageViewState<FashionAtte
         this.setState(() { this._userAttentionList = list; })
     );
 
-    _viewModel.getPosts(isLoadMore: false,
-      callback: (list, hasMore) => this.setState(() { this._postList = list; }),
-    );
+//    CustomLoading.showLoading();
+    _getPosts(isLoadMore: false, callback: (hasMore) {
+//      CustomLoading.hideLoading();
+    });
+  }
+
+  _getPosts({bool isLoadMore, Function(bool hasMore) callback}) async {
+    Function(List<PostEntity>, bool hasMore) onSuccess = (list, hasMore) async {
+      List<PostEntity> tempList = this._postList;
+      isLoadMore
+          ? tempList.addAll(list)
+          : tempList = list;
+      setState(() {
+        this._postList = tempList;
+      });
+      if(callback != null) {
+        await callback(hasMore);
+      }
+    };
+
+    isLoadMore
+        ? await _viewModel.loadMorePosts(onSuccess)
+        : await _viewModel.loadPosts(onSuccess);
   }
 
   @override
   Widget setContentView(BuildContext context) {
     return Container(
       child: CustomRefresher(
-        onRefresh: (controller) {
-          _viewModel.getPosts(isLoadMore: false,
-            callback: (list, hasMore) {
-              this.setState(() { this._postList = list; });
-              controller.refreshCompleted();
-            },
+        onRefresh: (refresh) {
+          _getPosts(
+              isLoadMore: false,
+              callback: (hasMore) => refresh.setRefreshCompleted()
           );
         },
-        onLoading: (controller) {
-
+        onLoading: (refresh) {
+          _getPosts(
+              isLoadMore: true,
+              callback: (hasMore) => refresh.setLoadStatus(LoadStatus.idle)
+          );
         },
         child: ListView.separated(
             padding: EdgeInsets.all(0),
