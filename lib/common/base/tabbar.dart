@@ -9,6 +9,7 @@ import 'package:flutter_app/class/game/game.dart';
 import 'package:flutter_app/class/profile/profile.dart';
 import 'package:flutter_app/class/publish/publish.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ASTabBar extends StatefulWidget {
   @override
@@ -18,8 +19,6 @@ class ASTabBar extends StatefulWidget {
 }
 
 class ASTabBarState extends State<ASTabBar> {
-
-  double get barHeight => 49.0;
 
   PageController _pageController;
 
@@ -44,8 +43,12 @@ class ASTabBarState extends State<ASTabBar> {
 
   @override
   Widget build(BuildContext context) {
+    //设置字体大小根据系统的“字体大小”辅助选项来进行缩放,默认为false
+    ScreenUtil.init(context, designSize: Size(750, 1334), allowFontScaling: true);
+
     LoginUserInfoManager.appContext = context;
     SystemChrome.setEnabledSystemUIOverlays([]);
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -71,7 +74,7 @@ class ASTabBarState extends State<ASTabBar> {
 
           Container(
             color: Color(0xff232323),
-            height: this.barHeight + Screen.bottomBarHeight,
+            height: Screen.tabBarHeight + Screen.bottomBarHeight,
             padding: EdgeInsets.only(left: 24.dp, right: 24.dp),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

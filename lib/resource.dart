@@ -61,4 +61,10 @@ enum ImageName {
   cjm_profile_order,
   cjm_profile_post,
   cjm_profile_sign,
+
+  cjm_publish_display_close,
+  cjm_publish_display_image,
+  cjm_publish_display_topic,
+  cjm_publish_display_video,
+
 }

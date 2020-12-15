@@ -16,9 +16,6 @@ abstract class BaseContainer extends StatefulWidget {
   // 子类实现
   BaseContainerState getState();
 
-  /// 返回按钮事件回调
-  Function backHandle;
-
   /// 是否需要登录
   bool get isNeedLogin => false;
 
@@ -33,6 +30,9 @@ abstract class BaseContainer extends StatefulWidget {
 
   /// 是否允许重复刷新
   bool get isWantKeepAlive => true;
+
+  /// 是否点击空白区域时推出导航
+  bool get isEnablePopWhenClickEmpty => true;
 }
 
 abstract class BaseContainerState<T extends BaseContainer> extends State<T> with AutomaticKeepAliveClientMixin {
@@ -43,6 +43,7 @@ abstract class BaseContainerState<T extends BaseContainer> extends State<T> with
       setState(() {
         _navigationBar = NavigationBar(
             barType: this.widget.navigationBarType,
+            backCallback: () => this.backCallBack(),
         );
       });
     }
@@ -66,6 +67,12 @@ abstract class BaseContainerState<T extends BaseContainer> extends State<T> with
   /// 子类实现，构建各自页面UI控件 相当于setContentView()
   @required
   Widget setContentView(BuildContext context);
+
+  backCallBack() {
+      if(Navigator.canPop(context)){
+        Navigator.pop(context);
+      }
+  }
 
   /// 构建默认布局
   Widget _buildWidgetDefault() {
@@ -97,7 +104,7 @@ abstract class BaseContainerState<T extends BaseContainer> extends State<T> with
                   child: GestureDetector(
                     child: setContentView(context),
                     onTap: (){
-                      if(!this.widget.isShowNavigationBar) {
+                      if(this.widget.isEnablePopWhenClickEmpty) {
                         CustomNavigator.pop(context: context);
                       }
                     },

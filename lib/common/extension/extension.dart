@@ -15,6 +15,10 @@ extension Screen on ScreenUtil {
   /// 导航栏高度
   static double get navigationBarHeight => 60;
   /// 底部安全距离
+  static double get topBarHeight => navigationBarHeight + statusBarHeight;
+  /// tabbar高度
+  static double get tabBarHeight => 49;
+  /// 底部安全距离
   static double get bottomBarHeight => ScreenUtil().bottomBarHeight;
   /// 屏幕宽度
   static double get width => ScreenUtil().screenWidth;

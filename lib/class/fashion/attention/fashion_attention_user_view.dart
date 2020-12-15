@@ -73,7 +73,7 @@ class FashionAttentionUserViewState extends State<FashionAttentionUserView> {
         )
     ).toList();
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -88,37 +88,45 @@ class FashionAttentionUserViewState extends State<FashionAttentionUserView> {
         Padding(padding: EdgeInsets.only(top: 25.dp),),
 
         Container(
-          width: 50.dp,
-          height: 18.dp,
+          width: Screen.width,
           margin: EdgeInsets.only(right: 12.dp, bottom: 26.dp),
-          child: FlatButton(
-            padding: EdgeInsets.all(0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  '全部',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.dpFontSize,
-                      fontWeight: FontWeight.normal
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: 50.dp,
+                height: 18.dp,
+                child: FlatButton(
+                  padding: EdgeInsets.all(0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        '全部',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.dpFontSize,
+                            fontWeight: FontWeight.normal
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 8.dp),
+                        width: 7.dp,
+                        height: 11.dp,
+                        child: CustomAssetImage.image(
+                          image: ImageName.cjm_profile_more.imagePath,
+                        ),
+                      )
+                    ],
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 8.dp),
-                  width: 7.dp,
-                  height: 11.dp,
-                  child: CustomAssetImage.image(
-                    image: ImageName.cjm_profile_more.imagePath,
-                  ),
-                )
-              ],
-            ),
-            onPressed: (){
+                  onPressed: (){
 
-            },
+                  },
+                ),
+              )
+            ],
           ),
-        ),
+        )
       ],
     );
   }

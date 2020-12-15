@@ -24,7 +24,7 @@ class NavigationBar extends StatefulWidget {
 
   /// 初始方法
   NavigationBar({
-    @required this.barType});
+    @required this.barType, this.backCallback});
 
   NavigationBarState _navigationBarState = NavigationBarState();
 
@@ -62,7 +62,7 @@ class NavigationBarState extends State<NavigationBar> {
   Widget build(BuildContext context) {
     return Container(
         color: Colors.transparent,
-        height: Screen.navigationBarHeight + Screen.statusBarHeight,
+        height: Screen.topBarHeight,
         padding: EdgeInsets.only(top: Screen.statusBarHeight),
         child: _createWidget(),
     );
@@ -229,13 +229,7 @@ class NavigationBarState extends State<NavigationBar> {
               child: RawMaterialButton(
                 // 点击事件
                 onPressed: (){
-                  if(this.widget.backCallback != null){
-                    this.widget.backCallback();
-                  }else{
-                    if(Navigator.canPop(context)){
-                      Navigator.pop(context);
-                    }
-                  }
+                  this.widget.backCallback();
                 },
                 // 必须的参数 一般是 Icon 或者是 ImageIcono
                 child: ImageName.cjm_navigationBar_backIcon_white.assetImage,
