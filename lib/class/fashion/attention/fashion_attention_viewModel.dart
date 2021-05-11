@@ -14,12 +14,12 @@ class FashionAttentionViewModel {
 
   /// 请求标签数据
   loadUserAttentionList(Function(List<FashionAttentionUserDataPostListList>) callback) async {
-    int userId = 0;
-    await LoginUserInfoManager().userId.then((value) => userId = value);
+    // int userId = 0;
+    // await LoginUserInfoManager().userId.then((value) => userId = value);
     await
     Https().post(
         apiPath: APIPath.user_attentionList,
-        params: {'pageSize' : 20, 'pageNo' : 1, 'fansId' : userId},
+        params: {'pageSize' : 20, 'pageNo' : 1, 'fansId' : LoginUserInfoManager().userId},
         onSuccess: (data){
           var entity = FashionAttentionUserEntity().fromJson(data);
           callback(entity.data.postList.lists);

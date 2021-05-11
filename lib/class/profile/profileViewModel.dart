@@ -80,11 +80,11 @@ class ProfileViewModel {
   }
 
   getUserInfo(Function(ProfileInfoData) callback) async{
-    int userId;
-    await LoginUserInfoManager().userId.then((value) => userId = value);
+    // int userId;
+    // await LoginUserInfoManager().userId.then((value) => userId = value);
     await Https().post(
         apiPath: APIPath.user_getUserDetail,
-        params: {'userId' : '$userId'},
+        params: {'userId' : '${LoginUserInfoManager().userId}'},
         onSuccess: (response){
           ProfileInfoEntity entity = ProfileInfoEntity().fromJson(response);
           this.info = entity.data;

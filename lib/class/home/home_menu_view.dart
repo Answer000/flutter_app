@@ -58,31 +58,33 @@ class HomeMenuViewState extends State<HomeMenuView> {
 
           Container(
             margin: EdgeInsets.only(left: 22.dp, right: 22.dp),
-            width: Screen.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Flex(
+              direction: Axis.horizontal,
               children: [
-                Container(
-//                  width: 150.dp,
-                  height: 84.dp,
-                  child: CustomAssetImage.image(
-                      image: ImageName.cjm_home_online_icon.imagePath
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    child: CustomAssetImage.image(
+                        image: ImageName.cjm_home_online_icon.imagePath
+                    ),
                   ),
                 ),
 
-//                Padding(padding: EdgeInsets.only(left: 15.dp),),
-
-                Container(
-//                  width: 150.dp,
-                  height: 84.dp,
-                  child: CustomAssetImage.image(
-                      image: ImageName.cjm_home_offline_icon.imagePath
+                Padding(
+                  padding: EdgeInsets.only(left: 12),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: 100,
+                    child: CustomAssetImage.image(
+                        image: ImageName.cjm_home_offline_icon.imagePath
+                    ),
                   ),
                 ),
               ],
             ),
-          ),
+          )
         ],
       ),
     );

@@ -66,7 +66,7 @@ class FashionSegmentViewState extends State<FashionSegmentView> {
 
   List<Widget> _getSegmentItems(int currentIndex) {
     List<Widget> items = [];
-    List<String> titles = ['推荐', '关注', '话题', '主页'];
+    List<String> titles = ['推荐', '关注', '视频', '主页'];
     for(var i=0; i<titles.length; i++) {
       items.add(
         Container(

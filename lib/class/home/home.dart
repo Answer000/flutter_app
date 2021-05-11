@@ -3,8 +3,6 @@ import 'package:flutter_app/class/home/home_page_view.dart';
 import 'package:flutter_app/class/home/home_section_header_view.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/base/base_navigation_bar.dart';
-import 'package:flutter_app/common/tools/customPageView.dart';
-import 'dart:async';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/common/tools/custom_loading.dart';
 import 'package:flutter_app/resource.dart';
@@ -14,6 +12,7 @@ import 'home_banner_entity.dart';
 import 'home_banner_view.dart';
 import 'home_menu_view.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 // ignore: must_be_immutable
@@ -67,7 +66,7 @@ class HomeState extends BaseContainerState<Home> {
     this.navigationBar.addRightItem(
         iconName: ImageName.cjm_home_scan.imagePath,
         size: Size(20.dp,30.dp),
-        margin: EdgeInsets.only(right: 24.dp),
+        margin: EdgeInsets.only(right: 12.dp),
         onPress: (){
 
         }
@@ -100,6 +99,7 @@ class HomeState extends BaseContainerState<Home> {
 
   @override
   Widget setContentView(BuildContext context) {
+
     return CustomRefresher(
         onRefresh: (refresh){
           _loadBanner(callback: (){

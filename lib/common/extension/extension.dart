@@ -10,13 +10,15 @@ import 'package:flutter_app/class/login/login.dart';
 import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 
 extension Screen on ScreenUtil {
+  /// 屏幕适配的size
+  static Size get designSize => Size(750, 1334);
   /// 状态栏高度
   static double get statusBarHeight => ScreenUtil().statusBarHeight;
   /// 导航栏高度
   static double get navigationBarHeight => 60;
   /// 底部安全距离
   static double get topBarHeight => navigationBarHeight + statusBarHeight;
-  /// tabbar高度
+  /// tabTar高度
   static double get tabBarHeight => 49;
   /// 底部安全距离
   static double get bottomBarHeight => ScreenUtil().bottomBarHeight;
@@ -28,8 +30,8 @@ extension Screen on ScreenUtil {
 
 /// int extension
 extension int_extension on int {
-  double get dp => ScreenUtil().pixelRatio * ScreenUtil().setWidth(this.toDouble());
-  double get dpFontSize => ScreenUtil().setSp(this) * ScreenUtil().pixelRatio;
+  double get dp => ScreenUtil().screenWidth / (Screen.designSize.width / 2.0) * this.toDouble();
+  double get dpFontSize => ScreenUtil().screenWidth / (Screen.designSize.width / 2.0) * this.toDouble();
 
   bool get isValid => (this != null);
   bool get isNotValid => !isValid;
@@ -37,8 +39,8 @@ extension int_extension on int {
 
 /// double extension
 extension double_extension on double {
-  double get dp => ScreenUtil().pixelRatio * ScreenUtil().setWidth(this.toDouble());
-  double get dpFontSize => ScreenUtil().setSp(this) * ScreenUtil().pixelRatio;
+  double get dp => this.toInt().dp;
+  double get dpFontSize => this.toInt().dpFontSize;
 
   bool get isValid => (this != null);
   bool get isNotValid => !isValid;
@@ -98,9 +100,20 @@ extension CustomImage on FadeInImage {
     BoxFit fit = BoxFit.cover,
     Size size = Size.zero}) {
     if(image.isValid) {
-      return FadeInImage.memoryNetwork(placeholder: kTransparentImage, image: image, fit: fit, width: size.width, height: size.height,);
+      return FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: image,
+        fit: fit,
+        width: size.width,
+        height: size.height,
+      );
     }else{
-      return FadeInImage.assetNetwork(image: ImageName.placeholder.imagePath, fit: fit, width: size.width,height: size.height,);
+      return FadeInImage.assetNetwork(
+        image: ImageName.placeholder.imagePath,
+        fit: fit,
+        width: size.width,
+        height: size.height,
+      );
     }
   }
 
@@ -153,6 +166,19 @@ extension CustomNavigator on Navigator {
       return;
     }
     Navigator.push(context, new CustomRoute(page: page, modalType: page.modalType));
+  }
+
+  static Future<bool> isNeedsToLogin({context}) async {
+    context ??= LoginUserInfoManager.appContext;
+    bool isLogin;
+    await LoginUserInfoManager()
+        .isLogin
+        .then((value) => isLogin = value);
+    if(!isLogin) {
+      Navigator.push(context, new CustomRoute(page: Login(), modalType: CustomRouteModalType.bottomTop),);
+      return true;
+    }
+    return false;
   }
 }
 

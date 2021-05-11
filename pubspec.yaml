@@ -58,70 +58,72 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - resource/cjm_navigationBar_backIcon_white@3x.png
-    - resource/cjm_navigationBar_logo@3x.png
-    - resource/cjm_navigationBar_left_background@3x.png
-    -
-    - resource/cjm_tabbarIcon_fashionNormal@3x.png
-    - resource/cjm_tabbarIcon_fashionSelected@3x.png
-    - resource/cjm_tabbarIcon_homeNormal@3x.png
-    - resource/cjm_tabbarIcon_homeSelected@3x.png
-    - resource/cjm_tabbarIcon_nearbyNormal@3x.png
-    - resource/cjm_tabbarIcon_nearbySelected@3x.png
-    - resource/cjm_tabbarIcon_profileNormal@3x.png
-    - resource/cjm_tabbarIcon_profileSelected@3x.png
-    - resource/cjm_tabbarIcon_publish@3x.png
 
-    - resource/placeholder@3x.png
+    - resource/cjm_navigationBar_backIcon_white.png
+    - resource/cjm_navigationBar_logo.png
+    - resource/cjm_navigationBar_left_background.png
+
+    - resource/cjm_tabbarIcon_fashionNormal.png
+    - resource/cjm_tabbarIcon_fashionSelected.png
+    - resource/cjm_tabbarIcon_homeNormal.png
+    - resource/cjm_tabbarIcon_homeSelected.png
+    - resource/cjm_tabbarIcon_nearbyNormal.png
+    - resource/cjm_tabbarIcon_nearbySelected.png
+    - resource/cjm_tabbarIcon_profileNormal.png
+    - resource/cjm_tabbarIcon_profileSelected.png
+    - resource/cjm_tabbarIcon_publish.png
+
+    - resource/placeholder.png
+    - resource/cjm_empty_follow.png
 
     ### login
-    - resource/cjm_login_background@3x.png
-    - resource/cjm_login_logo@3x.png
-    - resource/cjm_login_phone@3x.png
-    - resource/cjm_login_password@3x.png
-    - resource/cjm_login_wechat@3x.png
-    - resource/cjm_login_agree@3x.png
-    - resource/cjm_login_disagree@3x.png
+    - resource/cjm_login_background.png
+    - resource/cjm_login_logo.png
+    - resource/cjm_login_phone.png
+    - resource/cjm_login_password.png
+    - resource/cjm_login_wechat.png
+    - resource/cjm_login_agree.png
+    - resource/cjm_login_disagree.png
 
 
     ### home
-    - resource/cjm_home_functionalSelect_icon@3x.png
-    - resource/cjm_home_officialRecommend_icon@3x.png
-    - resource/cjm_home_offline_icon@3x.png
-    - resource/cjm_home_online_icon@3x.png
-    - resource/cjm_home_scan@3x.png
-    - resource/cjm_home_searchIcon@3x.png
-    - resource/cjm_home_videoInstructional_icon@3x.png
-    - resource/cjm_home_message@3x.png
+    - resource/cjm_home_functionalSelect_icon.png
+    - resource/cjm_home_officialRecommend_icon.png
+    - resource/cjm_home_offline_icon.png
+    - resource/cjm_home_online_icon.png
+    - resource/cjm_home_scan.png
+    - resource/cjm_home_searchIcon.png
+    - resource/cjm_home_videoInstructional_icon.png
+    - resource/cjm_home_message.png
 
 
     ### 潮IN
-    - resource/cjm_waterfall_like@3x.png
-    - resource/cjm_waterfall_unlike@3x.png
-    - resource/cjm_navigationBar_publish@3x.png
-    - resource/cjm_fashion_item_menu@3x.png
-    - resource/cjm_post_list_like@3x.png
-    - resource/cjm_post_list_unlike@3x.png
-    - resource/cjm_post_list_comment@3x.png
+    - resource/cjm_waterfall_like.png
+    - resource/cjm_waterfall_unlike.png
+    - resource/cjm_navigationBar_publish.png
+    - resource/cjm_fashion_item_menu.png
+    - resource/cjm_post_list_like.png
+    - resource/cjm_post_list_unlike.png
+    - resource/cjm_post_list_comment.png
 
 
     ### 我的
-    - resource/cjm_profile_setting@3x.png
-    - resource/cjm_profile_more@3x.png
-    - resource/cjm_profile_collect@3x.png
-    - resource/cjm_profile_coupon@3x.png
-    - resource/cjm_profile_diary@3x.png
-    - resource/cjm_profile_feedBack@3x.png
-    - resource/cjm_profile_integral@3x.png
-    - resource/cjm_profile_order@3x.png
-    - resource/cjm_profile_post@3x.png
-    - resource/cjm_profile_sign@3x.png
+    - resource/cjm_profile_setting.png
+    - resource/cjm_profile_more.png
+    - resource/cjm_profile_collect.png
+    - resource/cjm_profile_coupon.png
+    - resource/cjm_profile_diary.png
+    - resource/cjm_profile_feedBack.png
+    - resource/cjm_profile_integral.png
+    - resource/cjm_profile_order.png
+    - resource/cjm_profile_post.png
+    - resource/cjm_profile_sign.png
 
     ### 发布
-    - resource/cjm_publish_display_close@3x.png
-    - resource/cjm_publish_display_image@3x.png
-    - resource/cjm_publish_display_topic@3x.png
-    - resource/cjm_publish_display_video@3x.png
+    - resource/cjm_publish_display_close.png
+    - resource/cjm_publish_display_image.png
+    - resource/cjm_publish_display_topic.png
+    - resource/cjm_publish_display_video.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

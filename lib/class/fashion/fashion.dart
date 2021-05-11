@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/class/fashion/attention/fashion_attention_page_view.dart';
 import 'package:flutter_app/class/fashion/recommend/fashion_recommend_page_view.dart';
 import 'package:flutter_app/class/fashion/fashion_segment_view.dart';
+import 'package:flutter_app/class/fashion/video/fashion_video_page_view.dart';
+import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/base/base_navigation_bar.dart';
+import 'package:flutter_app/common/base/empty_view.dart';
+import 'package:flutter_app/common/base/event_manager.dart';
 import 'package:flutter_app/resource.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 
@@ -30,6 +34,8 @@ class FashionState extends BaseContainerState<Fashion> {
 
   double _segmentViewHeight = 44.dp;
 
+  bool isLogin = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -44,8 +50,22 @@ class FashionState extends BaseContainerState<Fashion> {
     );
 
     _pageController = PageController(initialPage: 0, keepPage: true)
-      ..addListener(() {
+      ..addListener(() { });
+
+    LoginUserInfoManager().isLogin.then((value) => this.isLogin = value);
+
+    /// 监听登录状态变化
+    eventManager.add(EventName.login, (isLogin) {
+      setState(() {
+        this.isLogin = isLogin;
       });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    eventManager.remove(EventName.login);
   }
 
   @override
@@ -77,10 +97,18 @@ class FashionState extends BaseContainerState<Fashion> {
               controller: this._pageController,
               children: [
                 FashionRecommendPageView(),
-                FashionAttentionPageView(),
-                Container(
-                  color: Colors.red,
+                // ignore: unrelated_type_equality_checks
+                (this.isLogin == true
+                    ? FashionAttentionPageView()
+                    : EmptyView(
+                        iconPath: ImageName.cjm_empty_follow,
+                        itemTitle: "去登录",
+                        message: "您还没有登录",
+                        actionCallback: (){
+                          CustomNavigator.isNeedsToLogin(context: context);
+                        })
                 ),
+                FashionVideoPageView(),
                 Container(
                   color: Colors.cyan,
                 )

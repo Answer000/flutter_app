@@ -28,19 +28,6 @@ class Publish extends BaseContainer {
   BaseContainerState<BaseContainer> getState() {
     return PublishState();
   }
-
-
-  // @override
-  // // TODO: implement routeAnimation
-  // CurvedAnimation get routeAnimation {
-  //   return CurvedAnimation(
-  //       parent: ,
-  //       curve: Curves.easeInOut,
-  //       reverseCurve: Curves.easeInOut
-  //   );
-  // }
-  //
-  // Animation _animation;
 }
 
 class PublishState extends BaseContainerState<Publish> with TickerProviderStateMixin {
@@ -60,14 +47,6 @@ class PublishState extends BaseContainerState<Publish> with TickerProviderStateM
       vsync: this,
       duration: Duration(milliseconds: 350)
     );
-    // this._slideAnimation = Tween<Offset>(
-    //   begin: const Offset(0, 1.0),
-    //   end: Offset.zero,
-    // ).animate(
-    //   CurvedAnimation(
-    //     parent: _animationController, curve: Interval(0.0, 1.0)
-    //   )
-    // );
 
     this._fadeAnimation = Tween(
       begin: 0.0,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/resource.dart';
 import 'package:flutter_app/common/extension/extension.dart';
@@ -87,7 +88,7 @@ class NavigationBarState extends State<NavigationBar> {
     Function onPress
   }) {
     var item = Container(
-      margin: margin.isValid ? margin : EdgeInsets.only(left: 10.dp, right: 10.dp),
+      margin: margin.isValid ? margin : EdgeInsets.only(right: 12.dp),
       width: size.isValid ? size.width : 30,
       height: size.isValid ? size.height : 30,
       padding: EdgeInsets.all(0),
@@ -95,8 +96,11 @@ class NavigationBarState extends State<NavigationBar> {
         padding: EdgeInsets.all(0),
         child: iconName.isValid
             ? CustomAssetImage.image(image: iconName)
-            : Text(title, style: TextStyle(color: Colors.white, fontSize: 13.dp),),
-        onPressed: onPress,
+            : Text(title, style: TextStyle(color: Colors.white, fontSize: 13.dpFontSize),),
+        onPressed: (){
+          print("object");
+          onPress();
+        },
       ),
     );
     this.rightItems.add(item);
@@ -119,8 +123,6 @@ class NavigationBarState extends State<NavigationBar> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 40.dp,
-                height: 26.dp,
                 margin: EdgeInsets.only(left: 12.dp),
                 child: ImageName.cjm_navigationBar_logo.assetImage,
               ),

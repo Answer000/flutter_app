@@ -6,7 +6,7 @@ extension String_extension on String {
 }
 
 extension ResourceExtension on ImageName {
-  String get imagePath => 'resource/${this.toString().split('.').last}@3x.png';
+  String get imagePath => 'resource/${this.toString().split('.').last}.png';
   Image get assetImage => this.imagePath.localImage;
 }
 
@@ -66,5 +66,7 @@ enum ImageName {
   cjm_publish_display_image,
   cjm_publish_display_topic,
   cjm_publish_display_video,
+
+  cjm_empty_follow,
 
 }

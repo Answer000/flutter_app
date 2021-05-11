@@ -44,7 +44,7 @@ class ASTabBarState extends State<ASTabBar> {
   @override
   Widget build(BuildContext context) {
     //设置字体大小根据系统的“字体大小”辅助选项来进行缩放,默认为false
-    ScreenUtil.init(context, designSize: Size(750, 1334), allowFontScaling: true);
+    ScreenUtil.init(context, designSize: Screen.designSize, allowFontScaling: true);
 
     LoginUserInfoManager.appContext = context;
     SystemChrome.setEnabledSystemUIOverlays([]);
