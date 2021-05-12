@@ -4,6 +4,7 @@ import 'package:flutter_app/class/fashion/fashion_base_page_view.dart';
 import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/class/fashion/video/fashion_video_viewModel.dart';
 import 'package:flutter_app/class/fashion/waterfall_flow_view.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class FashionVideoPageView extends FashionBasePageView{
 
@@ -22,33 +23,44 @@ class FashionVideoPageViewState extends FashionBasePageViewState<FashionVideoPag
   @override
   void initState() {
     super.initState();
-    loadDatas(true);
+    loadDatas(isDown: true);
   }
 
   @override
   Widget setContentView(BuildContext context) {
     return Container(
-      color: Colors.cyan,
       child: WaterfallFlowView(
         dataSource: this._postEntitys,
         crossAxisCount: this.widget._viewModel.crossAxisCount,
         crossAxisSpacing: this.widget._viewModel.crossAxisSpacing,
         mainAxisSpacing: this.widget._viewModel.mainAxisSpacing,
-        onLoading: (loading){
-          loadDatas(false);
+        padding: this.widget._viewModel.itemPadding,
+        onLoading: (refresh){
+          loadDatas(isDown: false,
+            callback: (hasMore){
+              refresh.setLoadStatus(hasMore ? LoadStatus.idle : LoadStatus.noMore);
+            }
+          );
         },
-        onRefresh: (refreshing){
-          loadDatas(true);
+        onRefresh: (refresh){
+          loadDatas(isDown: true,
+              callback: (hasMore){
+                refresh.setRefreshCompleted();
+              }
+          );
         },
       ),
     );
   }
 
-  loadDatas(bool isDown) {
+  loadDatas({bool isDown, Function(bool) callback}) {
     this.widget._viewModel.loadDatas(isDown, (entitys, hasMore) => {
       this.setState(() {
         this._postEntitys = isDown ? entitys : (this._postEntitys + entitys);
-      })
+      }),
+      if (callback != null) {
+        callback(hasMore)
+      }
     });
   }
 }

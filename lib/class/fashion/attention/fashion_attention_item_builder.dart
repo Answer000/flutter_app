@@ -144,11 +144,9 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
                           : ImageName.cjm_post_list_unlike.imagePath
                     ),
                     onPressed: (){
-                      this.widget.postEntity.praisePost((isSucc, postEntity) => this.setState(() {
-                        if(isSucc) {
-                          this.widget.postEntity.isPraise = !postEntity.isPraise;
-                        }
-                      }));
+                      this.widget.postEntity.praisePost(callback: (isSucc, postEntity){
+                        setState(() {});
+                      });
                     },
                   ),
                 ),

@@ -1,3 +1,5 @@
+
+import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/class/fashion/post_model_entity.dart';
 import 'package:flutter_app/common/extension/extension.dart';
@@ -121,9 +123,9 @@ class PostEntity {
   }
 
   bool _isPraisePost = false;
-  praisePost(Function(bool isSucc, PostEntity postEntity) callback) async{
+  praisePost({Function(bool isSucc, PostEntity postEntity) callback}) async{
     if(_isPraisePost) {
-      callback(false, this);
+      if (callback != null) { callback(false, this); }
       return;
     }
     _isPraisePost = true;
@@ -132,22 +134,25 @@ class PostEntity {
       apiPath: APIPath.post_praisePost,
       params: {'postId' : this.postId, 'operationType' : this.isPraise ? '2' : '1'},
       onSuccess: (response) {
-        if(response['resultCode'] == '0000') {
+        bool isSucc = response['resultCode'] == '0000';
+        if(isSucc) {
           if(this.isPraise) {
+            isPraise = false;
             CustomToast.show('已取消点赞');
           }else{
+            isPraise = true;
             CustomToast.show('点赞成功');
           }
         }else{
           CustomToast.show('${response['msg'].toString()}');
         }
-        callback(true, this);
         _isPraisePost = false;
         CustomLoading.hideLoading();
+        if (callback != null) { callback(isSucc, this); }
       }, onFailure: (error) {
-        callback(false, this);
         _isPraisePost = false;
         CustomLoading.hideLoading();
+        if (callback != null) { callback(false, this); }
       }
     );
   }

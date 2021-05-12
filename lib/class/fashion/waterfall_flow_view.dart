@@ -17,6 +17,8 @@ class WaterfallFlowView extends StatefulWidget {
   final Function(CustomRefresher) onLoading;
   final Function(CustomRefresher) onRefresh;
 
+  CustomRefresher refresher;
+
   WaterfallFlowView({
     Key key,
     @required this.dataSource,
@@ -38,7 +40,7 @@ class WaterfallFlowViewState extends State<WaterfallFlowView> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomRefresher(
+    this.widget.refresher = CustomRefresher(
       onLoading: this.widget.onLoading,
       onRefresh: this.widget.onRefresh,
       child: this.widget.dataSource.isNotValid
@@ -53,13 +55,15 @@ class WaterfallFlowViewState extends State<WaterfallFlowView> {
             lastChildLayoutTypeBuilder: (index) => LastChildLayoutType.none
         ),
         itemBuilder: (BuildContext context, int index) {
-          return _getItemBuilder(this.widget.dataSource[index]);
+          return _getItemBuilder(this.widget.dataSource[index], index);
         },
       ),
     );
+
+    return this.widget.refresher;
   }
 
-  Widget _getItemBuilder(PostEntity post) {
+  Widget _getItemBuilder(PostEntity post, int index) {
     double itemWidth = (Screen.width - this.widget.padding.left - this.widget.padding.right - this.widget.crossAxisSpacing) / this.widget.crossAxisCount.toDouble();
     Size itemSize = post.getImageSizeWith(width: itemWidth);
     return Container(
@@ -138,17 +142,23 @@ class WaterfallFlowViewState extends State<WaterfallFlowView> {
                       ),
                     ),
 
-                    Container(
-                      margin: EdgeInsets.only(left: 6.dp),
-                      child: Text(
-                        '${post.post.nick}',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10.dp,
-                            fontWeight: FontWeight.normal
+                    LimitedBox(
+                      maxWidth: itemWidth * 0.5,
+                      child: Container(
+                        height: 15.dp,
+                        margin: EdgeInsets.only(left: 6.dp),
+                        child: Text(
+                          '${post.post.nick}',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10.dpFontSize,
+                              fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
 
@@ -162,7 +172,12 @@ class WaterfallFlowViewState extends State<WaterfallFlowView> {
                           padding: EdgeInsets.all(0),
                           child: CustomAssetImage.image(
                             image: post.isPraise ? ImageName.cjm_waterfall_like.imagePath : ImageName.cjm_waterfall_unlike.imagePath,
-                          )
+                          ),
+                          onPressed: (){
+                            post.praisePost(callback: (isSucc, postEntity){
+                              setState(() {});
+                            });
+                          },
                       ),
                     ),
 
