@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/class/fashion/attention/fashion_attention_page_view.dart';
+import 'package:flutter_app/class/fashion/personal/fashion_personal_page_view.dart';
 import 'package:flutter_app/class/fashion/recommend/fashion_recommend_page_view.dart';
 import 'package:flutter_app/class/fashion/fashion_segment_view.dart';
 import 'package:flutter_app/class/fashion/video/fashion_video_page_view.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/base/base_navigation_bar.dart';
 import 'package:flutter_app/common/base/empty_view.dart';
 import 'package:flutter_app/common/base/event_manager.dart';
+import 'package:flutter_app/common/tools/ASSegmentView.dart';
 import 'package:flutter_app/resource.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 
@@ -36,6 +38,10 @@ class FashionState extends BaseContainerState<Fashion> {
 
   bool isLogin = false;
 
+  Function(bool isLogin) loginStatusDidChanged;
+
+  FashionPersonalPageView _personalPageView;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -59,6 +65,9 @@ class FashionState extends BaseContainerState<Fashion> {
       setState(() {
         this.isLogin = isLogin;
       });
+      if(this.loginStatusDidChanged != null) {
+        this.loginStatusDidChanged(isLogin);
+      }
     });
   }
 
@@ -70,6 +79,11 @@ class FashionState extends BaseContainerState<Fashion> {
 
   @override
   Widget setContentView(BuildContext context) {
+    _personalPageView = FashionPersonalPageView(
+      isLogin: this.isLogin,
+    );
+    this.loginStatusDidChanged = _personalPageView.loginStatusDidChanged;
+
     return Container(
       child: Stack(
         children: [
@@ -78,15 +92,22 @@ class FashionState extends BaseContainerState<Fashion> {
             right: 0,
             top: 0,
             height: _segmentViewHeight,
-            child: FashionSegmentView(
+            child: ASSegmentView(
               currentIndex: this._currentIndex,
+              titles: ["精选","关注","视频","主页"],
+              normalFontSize: 14.dpFontSize,
+              selectFontSize: 17.dpFontSize,
+              scrollLineColor: CustomColor.mainRedColor,
+              scrollLineWidth: 18.dp,
+              backgroundColor: Colors.transparent,
               indexDidChanged: (index){
                 this._pageController.animateToPage(
                     index,
                     duration: Duration(milliseconds: 300),
                     curve: Curves.decelerate
                 );
-              }),
+              },
+            ),
           ),
           Positioned(
             top: _segmentViewHeight,
@@ -97,21 +118,9 @@ class FashionState extends BaseContainerState<Fashion> {
               controller: this._pageController,
               children: [
                 FashionRecommendPageView(),
-                // ignore: unrelated_type_equality_checks
-                (this.isLogin == true
-                    ? FashionAttentionPageView()
-                    : EmptyView(
-                        iconPath: ImageName.cjm_empty_follow,
-                        itemTitle: "去登录",
-                        message: "您还没有登录",
-                        actionCallback: (){
-                          CustomNavigator.isNeedsToLogin(context: context);
-                        })
-                ),
+                FashionAttentionPageView(isLogin: this.isLogin),
                 FashionVideoPageView(),
-                Container(
-                  color: Colors.cyan,
-                )
+                _personalPageView,
               ],
               onPageChanged: (index){
                 setState(() {

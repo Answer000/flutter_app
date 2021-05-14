@@ -134,7 +134,7 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
                 child: ClipOval(
                   child: this._viewModel.info != null
                       ? CustomImage.memoryNetwork(image: '${this._viewModel.info.user.userAvatar}')
-                      : CustomAssetImage.image(image: ImageName.placeholder.imagePath),
+                      : CustomAssetImage.image(image: ImageName.cjm_profile_userIcon.imagePath),
                 )
             ),
 

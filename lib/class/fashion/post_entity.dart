@@ -84,7 +84,7 @@ class PostEntity {
   String get topicName => this._post.postTopics.isValid ? this._post.postTopics.first.topicName : null;
 
   // 正文
-  String get content => this._post.content;
+  String get content => postType == PostType.image ? this._post.content : this._post.title;
 
   // 是否点赞
   bool get isPraise => this._post.praisePost == '2' ? false : true;

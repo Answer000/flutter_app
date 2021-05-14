@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,6 +83,13 @@ extension CustomColor on Color {
   static Color get blackGroundColor => Color(0xff1d1d1d);
   // 主题红色
   static Color get mainRedColor => Color(0xffDA3F47);
+  // 随机颜色
+  static Color get randomColor => Color.fromRGBO(
+      Random().nextInt(256),
+      Random().nextInt(256),
+      Random().nextInt(256),
+      1
+  );
 }
 
 extension CustomAssetImage on Image {
@@ -117,7 +126,7 @@ extension CustomImage on FadeInImage {
     }
   }
 
-  static FadeInImage assetNetwork({
+  static Widget assetNetwork({
     String image,
     BoxFit fit = BoxFit.cover,
     Size size = Size.zero}) {

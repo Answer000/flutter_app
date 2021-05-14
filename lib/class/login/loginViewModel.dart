@@ -13,7 +13,7 @@ class LoginViewModel {
 
   String phoneString = '17665367175';
 
-  String codeString = '223344';
+  String codeString = '678910';
 
   getCode(BuildContext context) {
     if (this.phoneString.isNotValid) {

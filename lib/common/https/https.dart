@@ -36,6 +36,8 @@ enum APIPath {
 
   /// 个人中心
   user_getUserDetail,         // 获取用户资料
+  user_ohtersUserInfo,        // 获取他人用户资料
+  post_othersPublishPost,     // 用户发帖列表
 }
 
 
@@ -158,7 +160,7 @@ class Https {
       );
 
       if (response.statusCode == HttpStatus.ok) {
-        print('$url  =========> \n$response');
+        print('\nurl：$url  =========>\nparams：$params \ndatas：$response');
         Map data = json.decode(response.toString());
         if(data["resultCode"] == "0000") {
           onSuccess(data);

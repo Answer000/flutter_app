@@ -13,6 +13,8 @@ class HomePageView extends StatefulWidget {
 
   final HomePageViewType type;
 
+  Function refreshDataSource;
+
   HomePageView({
     Key key,
     this.type
@@ -32,6 +34,10 @@ class HomePageViewState extends State<HomePageView>  with AutomaticKeepAliveClie
   void initState() {
     super.initState();
     _loadPageSources();
+
+    this.widget.refreshDataSource = (){
+      _loadPageSources();
+    };
   }
 
   @protected

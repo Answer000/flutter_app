@@ -5,6 +5,7 @@ import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/class/fashion/video/fashion_video_viewModel.dart';
 import 'package:flutter_app/class/fashion/waterfall_flow_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter_app/common/extension/extension.dart';
 
 class FashionVideoPageView extends FashionBasePageView{
 
@@ -29,6 +30,7 @@ class FashionVideoPageViewState extends FashionBasePageViewState<FashionVideoPag
   @override
   Widget setContentView(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 30.dp),
       child: WaterfallFlowView(
         dataSource: this._postEntitys,
         crossAxisCount: this.widget._viewModel.crossAxisCount,

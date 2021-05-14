@@ -18,6 +18,7 @@ class CustomRefresher extends StatefulWidget {
   }) : super(key: key);
 
   RefreshController _controller = RefreshController(initialRefresh: false);
+
   RefreshController get controller => _controller;
 
   @override
@@ -50,15 +51,11 @@ class CustomRefresherState extends State<CustomRefresher> {
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
-      enablePullDown: true,
-      enablePullUp: true,
+      enablePullDown: this.widget.onRefresh != null ? true : false,
+      enablePullUp: this.widget.onLoading != null ? true : false,
       controller: this.widget._controller,
-      onRefresh: (){
-        this.widget.onRefresh(this.widget);
-      },
-      onLoading: (){
-        this.widget.onLoading(this.widget);
-      },
+      onRefresh: (){ this.widget.onRefresh(this.widget); },
+      onLoading: (){ this.widget.onLoading(this.widget); },
       header: WaterDropHeader(
         completeDuration: Duration(milliseconds: 300),
         waterDropColor: Colors.red,

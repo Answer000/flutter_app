@@ -122,13 +122,13 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
             margin: EdgeInsets.only(top: 8.dp),
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.dp),
+              borderRadius: BorderRadius.circular(this.widget.postEntity.postType == PostType.image ? 5.dp : 0),
             ),
             child: _getImageContainer()
           ),
 
           Container(
-            height: 50.dp,
+            margin: EdgeInsets.only(top: 15.dp),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -185,6 +185,12 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
                 ),
               ],
             ),
+          ),
+
+          Container(
+            color: Color(0xfffefefe).withOpacity(0.1),
+            margin: EdgeInsets.only(top: 20.dp, left: 25.dp, right: 25.dp),
+            height: 0.5,
           )
         ],
       ),
@@ -206,7 +212,7 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
           height: containerSize.height,
           child: CustomImage.memoryNetwork(
             image: this.widget.postEntity.picUrl,
-          ),
+          )
         ) :
         Container(
           width: containerSize.width,
@@ -240,9 +246,27 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
           width: imgSize.width,
           height: imgSize.height,
           color: Color(0xff424242),
-          child: CustomImage.memoryNetwork(
-            image: this.widget.postEntity.picUrl,
-          ),
+          child: Stack(
+            children: [
+              Positioned(
+                width: imgSize.width,
+                height: imgSize.height,
+                child: CustomImage.memoryNetwork(
+                  image: this.widget.postEntity.picUrl,
+                ),
+              ),
+
+              Positioned(
+                child: Center(
+                  child: FlatButton(
+                    child: CustomAssetImage.image(
+                        image: ImageName.cjm_post_play.imagePath
+                    ),
+                  ),
+                ),
+              )
+            ],
+          )
         );
       default: return Container();
     }

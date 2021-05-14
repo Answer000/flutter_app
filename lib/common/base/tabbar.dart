@@ -11,6 +11,14 @@ import 'package:flutter_app/class/publish/publish.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+enum ASTabBarItemType {
+  home,
+  fashion,
+  center,
+  mall,
+  personal,
+}
+
 class ASTabBar extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -49,82 +57,111 @@ class ASTabBarState extends State<ASTabBar> {
     LoginUserInfoManager.appContext = context;
     SystemChrome.setEnabledSystemUIOverlays([]);
 
+    /// 中间按钮的size
+    Size centerItemSize = Size(50.dp, 50.dp);
+
+    /// 中间按钮突出距离
+    double centerItemDistance = -20.dp;
+
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
+      body: Stack(
         children: [
-          Expanded(
-            child: Container(
-              child: PageView(
-                scrollDirection: Axis.horizontal,
-                controller: _pageController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  Home(),
-                  Fashion(),
-                  Publish(),
-                  Game(),
-                  Profile(),
-                ],
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: Container(
+                  child: PageView(
+                    scrollDirection: Axis.horizontal,
+                    controller: _pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      Home(),
+                      Fashion(),
+                      Publish(),
+                      Game(),
+                      Profile(),
+                    ],
+                  ),
+                ),
               ),
-            ),
+
+              Container(
+                color: Color(0xff232323),
+                height: Screen.tabBarHeight + Screen.bottomBarHeight,
+                padding: EdgeInsets.only(left: 24.dp, right: 24.dp),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: _createItems(centerItemSize, centerItemDistance),
+                ),
+              ),
+            ],
           ),
 
-          Container(
-            color: Color(0xff232323),
-            height: Screen.tabBarHeight + Screen.bottomBarHeight,
-            padding: EdgeInsets.only(left: 24.dp, right: 24.dp),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: _createItems(),
+          Positioned(
+            bottom: Screen.tabBarHeight + Screen.bottomBarHeight - centerItemSize.height - centerItemDistance,
+            left: (Screen.width - centerItemSize.width) * 0.5,
+            child: Container(
+              width: centerItemSize.width,
+              height: centerItemSize.height,
+              child: FlatButton(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                onPressed: (){
+                  CustomNavigator.push(context: context, page: Publish());
+                },
+              ),
             ),
-          ),
+          )
         ],
-      ),
+      )
     );
   }
 
-  List<Widget> _createItems() {
+  List<Widget> _createItems(Size centerItemSize, double centerItemDistance) {
     List<Widget> items = List();
-    List<Map<String,String>> infos = [
+    List<Map<String,dynamic>> infos = [
       {'title' : '首页',
+        'type' : ASTabBarItemType.home,
         'normalIcon': ImageName.cjm_tabbarIcon_homeNormal.imagePath,
         'selectIcon': ImageName.cjm_tabbarIcon_homeSelected.imagePath
       },{'title' : '潮IN',
+        'type' : ASTabBarItemType.fashion,
         'normalIcon': ImageName.cjm_tabbarIcon_fashionNormal.imagePath,
         'selectIcon': ImageName.cjm_tabbarIcon_fashionSelected.imagePath
       },{'title' : '发布',
+        'type' : ASTabBarItemType.center,
         'normalIcon': ImageName.cjm_tabbarIcon_publish.imagePath,
         'selectIcon': ImageName.cjm_tabbarIcon_publish.imagePath
-      },{'title' : '男神',
+      },{'title' : '逛逛',
+        'type' : ASTabBarItemType.mall,
         'normalIcon': ImageName.cjm_tabbarIcon_nearbyNormal.imagePath,
         'selectIcon': ImageName.cjm_tabbarIcon_nearbySelected.imagePath
       },{'title' : '我的',
+        'type' : ASTabBarItemType.personal,
         'normalIcon': ImageName.cjm_tabbarIcon_profileNormal.imagePath,
         'selectIcon': ImageName.cjm_tabbarIcon_profileSelected.imagePath
       },
     ];
     for(var i=0; i<infos.length; i++) {
-      Map<String,String> info = infos[i];
-      bool isPublish = i==2;
+      Map<String,dynamic> info = infos[i];
+      bool isCenter = infos[i]['type'] == ASTabBarItemType.center;
       items.add(
         Column(
           children: [
             Container(
-              width: isPublish ? 50.dp : 35.dp,
-              height: isPublish ? 50.dp : 35.dp,
-              transform: Matrix4.translationValues(0, isPublish ? -15.dp : 0, 0),
+              width: isCenter ? centerItemSize.width : 35.dp,
+              height: isCenter ? centerItemSize.height : 35.dp,
+              transform: Matrix4.translationValues(0, isCenter ? centerItemDistance : 0, 0),
               child: FlatButton(
-                padding: EdgeInsets.all(isPublish ? 0 : 8.dp),
+                padding: EdgeInsets.all(isCenter ? 0 : 8.dp),
                 child: CustomAssetImage.image(
                   image: this.selectIndex == i ? info['selectIcon'] : info['normalIcon'],
                 ),
                 onPressed: (){
-                  if(i==2){
-                    CustomNavigator.push(context: context, page: Publish());
-                  }else{
+                  if(!isCenter){
                     this.selectIndex = i;
                   }
                 },
@@ -133,7 +170,7 @@ class ASTabBarState extends State<ASTabBar> {
 
             Container(
               child: Text(
-                isPublish ? '' : '${info['title']}',
+                isCenter ? '' : '${info['title']}',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 10.dp,

@@ -5,6 +5,7 @@ import 'package:flutter_app/class/fashion/attention/fashion_attention_user_view.
 import 'package:flutter_app/class/fashion/attention/fashion_attention_viewModel.dart';
 import 'package:flutter_app/class/fashion/fashion_base_page_view.dart';
 import 'package:flutter_app/class/fashion/post_entity.dart';
+import 'package:flutter_app/common/base/empty_view.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/common/tools/custom_loading.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
@@ -12,6 +13,10 @@ import 'package:flutter_app/resource.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class FashionAttentionPageView extends FashionBasePageView {
+
+  bool isLogin;
+
+  FashionAttentionPageView({@required this.isLogin});
 
   @override
   FashionBasePageViewState<FashionBasePageView> getState() {
@@ -35,9 +40,9 @@ class FashionAttentionPageViewState extends FashionBasePageViewState<FashionAtte
         this.setState(() { this._userAttentionList = list; })
     );
 
-//    CustomLoading.showLoading();
+
     _getPosts(isLoadMore: false, callback: (hasMore) {
-//      CustomLoading.hideLoading();
+
     });
   }
 
@@ -62,32 +67,40 @@ class FashionAttentionPageViewState extends FashionBasePageViewState<FashionAtte
 
   @override
   Widget setContentView(BuildContext context) {
-    return Container(
-      child: CustomRefresher(
-        onRefresh: (refresh) {
-          _getPosts(
-              isLoadMore: false,
-              callback: (hasMore) => refresh.setRefreshCompleted()
-          );
-        },
-        onLoading: (refresh) {
-          _getPosts(
-              isLoadMore: true,
-              callback: (hasMore) => refresh.setLoadStatus(LoadStatus.idle)
-          );
-        },
-        child: ListView.separated(
-            padding: EdgeInsets.all(0),
-            itemBuilder: (BuildContext context, int index){
-              return _getItemBuilder(context, index);
-            },
-            separatorBuilder: (BuildContext context, int index){
-              return Container();
-            },
-            itemCount: _getItemCount()
-        ),
-      )
-    );
+    return this.widget.isLogin
+        ? Container(
+        child: CustomRefresher(
+          onRefresh: (refresh) {
+            _getPosts(
+                isLoadMore: false,
+                callback: (hasMore) => refresh.setRefreshCompleted()
+            );
+          },
+          onLoading: (refresh) {
+            _getPosts(
+                isLoadMore: true,
+                callback: (hasMore) => refresh.setLoadStatus(LoadStatus.idle)
+            );
+          },
+          child: ListView.separated(
+              padding: EdgeInsets.all(0),
+              itemBuilder: (BuildContext context, int index){
+                return _getItemBuilder(context, index);
+              },
+              separatorBuilder: (BuildContext context, int index){
+                return Container();
+              },
+              itemCount: _getItemCount()
+          ),
+        )
+    ) :
+    EmptyView(
+        iconPath: ImageName.cjm_empty_follow,
+        itemTitle: "去登录",
+        message: "您还没有登录",
+        actionCallback: (){
+          CustomNavigator.isNeedsToLogin(context: context);
+        });
   }
 
   int _getItemCount() {

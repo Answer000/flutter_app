@@ -50,6 +50,7 @@ enum ImageName {
   cjm_post_list_like,
   cjm_post_list_unlike,
   cjm_post_list_comment,
+  cjm_post_play,
 
   cjm_profile_setting,
   cjm_profile_more,
@@ -61,12 +62,19 @@ enum ImageName {
   cjm_profile_order,
   cjm_profile_post,
   cjm_profile_sign,
+  cjm_gender_female,
+  cjm_gender_male,
+  cjm_profile_userIcon,
 
   cjm_publish_display_close,
   cjm_publish_display_image,
   cjm_publish_display_topic,
   cjm_publish_display_video,
 
+  cjm_empty_no_network,
   cjm_empty_follow,
+  cjm_empty_publish,
+  cjm_empty_collect,
+  cjm_empty_fans,
 
 }

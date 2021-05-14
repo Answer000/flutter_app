@@ -62,10 +62,10 @@ class LoginUserInfoManager {
   Future<bool> saveUserInfo(LoginEntity entity, {BuildContext context}) async {
     await saveToken(entity);
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setInt(kUserId, entity.data.userId);
-    // 发送登录成功的通知
-    eventManager.emit(EventName.login, true);
-
+    preferences.setInt(kUserId, entity.data.userId).then((value) => {
+      // 发送登录成功的通知
+      eventManager.emit(EventName.login, true)
+    });
     return true;
   }
 

@@ -21,14 +21,11 @@ class FashionSegmentView extends StatefulWidget {
 }
 
 class FashionSegmentViewState extends State<FashionSegmentView> {
-  
-//  int currentIndex = 0;
-
-  double _itemSpace = Screen.width / 8.0;
-  double _lineWidth = 30.dp;
 
   @override
   Widget build(BuildContext context) {
+    double _itemWidth = Screen.width / 4.0;
+    double _lineWidth = 18.dp;
     return Container(
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -38,12 +35,9 @@ class FashionSegmentViewState extends State<FashionSegmentView> {
             left: 0,
             right: 0,
             bottom: 4.dp,
-            child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: _getSegmentItems(this.widget.currentIndex),
-              ),
+            child: Flex(
+              direction: Axis.horizontal,
+              children: _getSegmentItems(this.widget.currentIndex),
             ),
           ),
 
@@ -51,7 +45,7 @@ class FashionSegmentViewState extends State<FashionSegmentView> {
             bottom: 0,
             height: 4.dp,
             width: _lineWidth,
-            left: _itemSpace * (this.widget.currentIndex * 2 + 1) - (_itemSpace - _lineWidth * 0.5) * 0.5,
+            left: _itemWidth * (this.widget.currentIndex) + (_itemWidth - _lineWidth) * 0.5,
             child: Container(
               decoration: BoxDecoration(
                 color: CustomColor.mainRedColor,
@@ -66,30 +60,32 @@ class FashionSegmentViewState extends State<FashionSegmentView> {
 
   List<Widget> _getSegmentItems(int currentIndex) {
     List<Widget> items = [];
-    List<String> titles = ['推荐', '关注', '视频', '主页'];
+    List<String> titles = ['精选', '关注', '视频', '主页'];
     for(var i=0; i<titles.length; i++) {
       items.add(
-        Container(
-          child: FlatButton(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            padding: EdgeInsets.all(0),
-            child: Text(
-              '${titles[i]}',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: i==currentIndex ? 17.dpFontSize : 14.dpFontSize,
-                fontWeight: i==currentIndex ? FontWeight.bold : FontWeight.normal,
+        Expanded(
+          flex: 1,
+          child: Container(
+            child: FlatButton(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              padding: EdgeInsets.all(0),
+              child: Text(
+                '${titles[i]}',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: i==currentIndex ? 17.dpFontSize : 14.dpFontSize,
+                  fontWeight: i==currentIndex ? FontWeight.bold : FontWeight.normal,
+                ),
               ),
+              onPressed: (){
+                this.widget.indexDidChanged(i);
+              },
             ),
-            onPressed: (){
-              this.widget.indexDidChanged(i);
-            },
           ),
         )
       );
     }
     return items;
   }
-
 }

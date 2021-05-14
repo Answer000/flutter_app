@@ -78,17 +78,31 @@ class WaterfallFlowViewState extends State<WaterfallFlowView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: itemSize.width,
-            height: itemSize.height,
-            child: CustomImage.memoryNetwork(
-              image: post.picUrl,
-              size: itemSize,
-            ),
+              width: itemSize.width,
+              height: itemSize.height,
+              child: Stack(
+                children: [
+                  CustomImage.memoryNetwork(
+                    image: post.picUrl,
+                    size: itemSize,
+                  ),
+                  Center(
+                    child: Container(
+                        child: Offstage(
+                          offstage: post.postType != PostType.video,
+                          child: CustomAssetImage.image(
+                              image: ImageName.cjm_post_play.imagePath
+                          ),
+                        )
+                    ),
+                  )
+                ],
+              )
           ),
 
           post.topicName.isValid
               ? Container(
-            margin: EdgeInsets.only(left: 10.dp, top: 15.dp, right: 10.dp),
+            margin: EdgeInsets.only(left: 10.dp, top: 10.dp, right: 10.dp),
             height: 15.dp,
             child: Text(
               '#${post.topicName}',
@@ -104,9 +118,9 @@ class WaterfallFlowViewState extends State<WaterfallFlowView> {
 
           post.content.isValid
               ? Container(
-            margin: EdgeInsets.only(left: 10.dp, top: 13.dp, right: 10.dp),
+            margin: EdgeInsets.only(left: 10.dp, top: 8.dp, right: 10.dp),
             child: Text(
-              '#${post.content}',
+              '${post.content}',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -119,7 +133,7 @@ class WaterfallFlowViewState extends State<WaterfallFlowView> {
               : Container(),
 
           Container(
-            margin: EdgeInsets.only(left: 10.dp, top: 5.dp, right: 10.dp),
+            margin: EdgeInsets.only(left: 10.dp, top: 10.dp, right: 10.dp),
             height: 20.dp,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
