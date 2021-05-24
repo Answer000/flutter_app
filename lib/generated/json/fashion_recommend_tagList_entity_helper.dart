@@ -2,13 +2,13 @@ import 'package:flutter_app/class/fashion/recommend/fashion_recommend_tagList_en
 
 fashionRecommendTagListEntityFromJson(FashionRecommendTagListEntity data, Map<String, dynamic> json) {
 	if (json['resultCode'] != null) {
-		data.resultCode = json['resultCode']?.toString();
+		data.resultCode = json['resultCode'].toString();
 	}
 	if (json['msg'] != null) {
-		data.msg = json['msg']?.toString();
+		data.msg = json['msg'].toString();
 	}
 	if (json['data'] != null) {
-		data.data = new FashionRecommendTagListData().fromJson(json['data']);
+		data.data = FashionRecommendTagListData().fromJson(json['data']);
 	}
 	return data;
 }
@@ -17,45 +17,46 @@ Map<String, dynamic> fashionRecommendTagListEntityToJson(FashionRecommendTagList
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['resultCode'] = entity.resultCode;
 	data['msg'] = entity.msg;
-	if (entity.data != null) {
-		data['data'] = entity.data.toJson();
-	}
+	data['data'] = entity.data?.toJson();
 	return data;
 }
 
 fashionRecommendTagListDataFromJson(FashionRecommendTagListData data, Map<String, dynamic> json) {
 	if (json['postTags'] != null) {
-		data.postTags = new FashionRecommendTagListDataPostTags().fromJson(json['postTags']);
+		data.postTags = FashionRecommendTagListDataPostTags().fromJson(json['postTags']);
 	}
 	return data;
 }
 
 Map<String, dynamic> fashionRecommendTagListDataToJson(FashionRecommendTagListData entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
-	if (entity.postTags != null) {
-		data['postTags'] = entity.postTags.toJson();
-	}
+	data['postTags'] = entity.postTags?.toJson();
 	return data;
 }
 
 fashionRecommendTagListDataPostTagsFromJson(FashionRecommendTagListDataPostTags data, Map<String, dynamic> json) {
 	if (json['pageNum'] != null) {
-		data.pageNum = json['pageNum']?.toInt();
+		data.pageNum = json['pageNum'] is String
+				? int.tryParse(json['pageNum'])
+				: json['pageNum'].toInt();
 	}
 	if (json['pageSize'] != null) {
-		data.pageSize = json['pageSize']?.toInt();
+		data.pageSize = json['pageSize'] is String
+				? int.tryParse(json['pageSize'])
+				: json['pageSize'].toInt();
 	}
 	if (json['total'] != null) {
-		data.total = json['total']?.toInt();
+		data.total = json['total'] is String
+				? int.tryParse(json['total'])
+				: json['total'].toInt();
 	}
 	if (json['pages'] != null) {
-		data.pages = json['pages']?.toInt();
+		data.pages = json['pages'] is String
+				? int.tryParse(json['pages'])
+				: json['pages'].toInt();
 	}
 	if (json['lists'] != null) {
-		data.lists = new List<FashionRecommendTagListDataPostTagsLists>();
-		(json['lists'] as List).forEach((v) {
-			data.lists.add(new FashionRecommendTagListDataPostTagsLists().fromJson(v));
-		});
+		data.lists = (json['lists'] as List).map((v) => FashionRecommendTagListDataPostTagsLists().fromJson(v)).toList();
 	}
 	if (json['isFirstPage'] != null) {
 		data.isFirstPage = json['isFirstPage'];
@@ -72,9 +73,7 @@ Map<String, dynamic> fashionRecommendTagListDataPostTagsToJson(FashionRecommendT
 	data['pageSize'] = entity.pageSize;
 	data['total'] = entity.total;
 	data['pages'] = entity.pages;
-	if (entity.lists != null) {
-		data['lists'] =  entity.lists.map((v) => v.toJson()).toList();
-	}
+	data['lists'] =  entity.lists?.map((v) => v.toJson())?.toList();
 	data['isFirstPage'] = entity.isFirstPage;
 	data['isLastPage'] = entity.isLastPage;
 	return data;
@@ -82,13 +81,17 @@ Map<String, dynamic> fashionRecommendTagListDataPostTagsToJson(FashionRecommendT
 
 fashionRecommendTagListDataPostTagsListsFromJson(FashionRecommendTagListDataPostTagsLists data, Map<String, dynamic> json) {
 	if (json['postTagId'] != null) {
-		data.postTagId = json['postTagId']?.toInt();
+		data.postTagId = json['postTagId'] is String
+				? int.tryParse(json['postTagId'])
+				: json['postTagId'].toInt();
 	}
 	if (json['postTagName'] != null) {
-		data.postTagName = json['postTagName']?.toString();
+		data.postTagName = json['postTagName'].toString();
 	}
 	if (json['tagIndex'] != null) {
-		data.tagIndex = json['tagIndex']?.toInt();
+		data.tagIndex = json['tagIndex'] is String
+				? int.tryParse(json['tagIndex'])
+				: json['tagIndex'].toInt();
 	}
 	return data;
 }

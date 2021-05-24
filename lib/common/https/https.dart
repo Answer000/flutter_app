@@ -29,7 +29,6 @@ enum APIPath {
   /// 潮区
   postTag_list,               // 推荐标签
   post_newList,               // 推荐列表
-  user_attentionList,         // 关注用户列表
   post_attentionList,         // 关注用户的post列表
   post_praisePost,            // post 点赞、取消点赞
   post_videoPost,             // 潮区视频列表
@@ -38,6 +37,10 @@ enum APIPath {
   user_getUserDetail,         // 获取用户资料
   user_ohtersUserInfo,        // 获取他人用户资料
   post_othersPublishPost,     // 用户发帖列表
+  user_fansStatisticsList,    // 粉丝列表
+  post_praiseStatisticsList,  // 获赞列表
+  user_attentionList,         // 关注用户列表
+  user_attentionUser,         // 关注/取消关注 用户
 }
 
 
@@ -47,7 +50,7 @@ typedef OnFailure = void Function(Object obj);
 class Https {
 
   Map<String,dynamic> _headers = {
-//    'clientVersion' : '2.0.0',
+
   };
 
   // 单列

@@ -24,6 +24,9 @@ enum ImageName {
   cjm_tabbarIcon_nearbySelected,
   cjm_tabbarIcon_profileNormal,
   cjm_tabbarIcon_profileSelected,
+  cjm_tabbarIcon_mallNormal,
+  cjm_tabbarIcon_mallSelected,
+  cjm_tabbarIcon_selected,
   cjm_tabbarIcon_publish,
 
   cjm_login_background,
@@ -65,6 +68,12 @@ enum ImageName {
   cjm_gender_female,
   cjm_gender_male,
   cjm_profile_userIcon,
+
+  cjm_profile_fans_up,
+  cjm_profile_fans_down,
+
+  cjm_profile_follow_normal,
+  cjm_profile_follow_selected,
 
   cjm_publish_display_close,
   cjm_publish_display_image,

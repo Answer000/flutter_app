@@ -18,7 +18,12 @@ class EmptyView extends StatefulWidget {
     return EmptyViewState();
   }
 
-  EmptyView({this.iconPath, this.message, this.itemTitle, this.actionCallback});
+  EmptyView({
+    this.iconPath = ImageName.cjm_empty_no_network,
+    this.message = '网络错误',
+    this.itemTitle,
+    this.actionCallback
+  });
 }
 
 class EmptyViewState extends State<EmptyView> {
@@ -26,8 +31,10 @@ class EmptyViewState extends State<EmptyView> {
   @override
   Widget build(BuildContext context) {
     return Container(
+        width: Screen.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
@@ -41,26 +48,43 @@ class EmptyViewState extends State<EmptyView> {
                     margin: EdgeInsets.only(top: 4.dp),
                     child: Text(
                               '${this.widget.message}',
-                              style: TextStyle(color: Colors.white, fontSize: 15.dpFontSize),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.dpFontSize,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none
+                              ),
                             ),
                   )
                 : Container(),
 
-            Container(
-              margin: EdgeInsets.only(top: 16.dp),
-              width: 90.dp,
-              height: 24.dp,
-              decoration: BoxDecoration(
-                color: CustomColor.mainRedColor,
-                borderRadius: BorderRadius.circular(12.dp),
-              ),
-              child: FlatButton(
-                child: Text("${this.widget.itemTitle}", style: TextStyle(color: Colors.white, fontSize: 12.dpFontSize),),
-                onPressed: (){
-                  this.widget.actionCallback();
-                },
-              ),
-            )
+            this.widget.itemTitle.isValid
+                ? Container(
+                    margin: EdgeInsets.only(top: 16.dp),
+                    width: 90.dp,
+                    height: 24.dp,
+                    decoration: BoxDecoration(
+                      color: CustomColor.mainRedColor,
+                      borderRadius: BorderRadius.circular(12.dp),
+                    ),
+                    child: FlatButton(
+                      padding: EdgeInsets.all(0),
+                      child: Text(
+                        "${this.widget.itemTitle}",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.dpFontSize,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none
+                        )
+                      ),
+                      onPressed: (){
+                        this.widget.actionCallback();
+                      },
+                    ),
+                  )
+                : Container()
+
           ],
         )
     );

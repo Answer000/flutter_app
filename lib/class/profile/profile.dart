@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/class/login/loginUserInfoManager.dart';
+import 'package:flutter_app/class/profile/fans/fans.dart';
+import 'package:flutter_app/class/profile/follows/follows.dart';
+import 'package:flutter_app/class/profile/likes/likes.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/base/base_navigation_bar.dart';
 import 'package:flutter_app/common/extension/extension.dart';
@@ -180,40 +183,46 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
         items.add(Container(color: Colors.white, width: 1, height: 24.dp,));
       }
       items.add(
-        GestureDetector(
-          onTap: (){
-            switch (i) {
-              case 0: print('======粉丝');  break;
-              case 1: print('======关注');  break;
-              case 2: print('======获赞');  break;
-              default: break;
-            }
-          },
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Text(
-                  '${source[i]['count'].toString()}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15.dpFontSize,
-                    fontWeight: FontWeight.bold,
+        Expanded(
+          flex: 1,
+          child: FlatButton(
+            padding: EdgeInsets.all(0),
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    '${source[i]['count'].toString()}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15.dpFontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Padding(padding: EdgeInsets.only(top: 4.dp),),
-                Text(
-                  '${source[i]['name'].toString()}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10.dpFontSize,
-                    fontWeight: FontWeight.normal,
+                  Padding(padding: EdgeInsets.only(top: 4.dp),),
+                  Text(
+                    '${source[i]['name'].toString()}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10.dpFontSize,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            onPressed: (){
+              switch (i) {
+                case 0: CustomNavigator.push(context: context, page: Fans());  break;
+                case 1: CustomNavigator.push(context: context, page: Follows());  break;
+                case 2: CustomNavigator.push(context: context, page: Likes());  break;
+                default: break;
+              }
+            },
           ),
         )
       );
@@ -222,10 +231,8 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
     return Container(
       margin: EdgeInsets.only(left: 12.dp, right: 12.dp),
       height: 82.dp,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
+      child: Flex(
+        direction: Axis.horizontal,
         children: items,
       ),
     );
@@ -379,5 +386,19 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
         ),
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
+    print("==============");
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    eventManager.remove(EventName.login);
   }
 }

@@ -59,7 +59,16 @@ class CustomRefresherState extends State<CustomRefresher> {
       header: WaterDropHeader(
         completeDuration: Duration(milliseconds: 300),
         waterDropColor: Colors.red,
-        complete: Center(child: Text('加载完成', style: TextStyle(color: Colors.white),),),
+        complete: Center(
+            child: Text(
+                '加载完成',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    decoration: TextDecoration.none
+                )
+            )
+        ),
       ),
       footer: CustomFooter(
         builder: (BuildContext context, LoadStatus status){
@@ -76,7 +85,15 @@ class CustomRefresherState extends State<CustomRefresher> {
           }else{
             text = "到底了";
           }
-          body = Text(text, style: TextStyle(color: Colors.white));
+          body = Text(
+              text,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal,
+                  decoration: TextDecoration.none
+              )
+          );
           return Container(
             height: 55.0,
             child: Center(child: body,),

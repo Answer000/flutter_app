@@ -69,18 +69,23 @@ class FashionPersonalPageViewState extends FashionBasePageViewState<FashionPerso
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      FashionPersonalHeaderView(
+                      this._viewModel.userData == null
+                          ? Container()
+                          : FashionPersonalHeaderView(
                         isLogin: this.widget.isLogin,
-                        userAvatar: this._viewModel.userAvatar,
-                        nickName: this._viewModel.nickName,
-                        userNo: this._viewModel.userNo,
-                        sex: this._viewModel.sex,
+                        userAvatar: this._viewModel.userData.userAvatar,
+                        nickName: this._viewModel.userData.nick,
+                        userNo: this._viewModel.userData.userNo,
+                        sex: this._viewModel.userData.sex,
                       ),
-                      FashionPersonalMenuView(
+
+                      this._viewModel.userData == null
+                          ? Container()
+                          : FashionPersonalMenuView(
                         isLogin: this.widget.isLogin,
-                        fansCount: this._viewModel.fansNum,
-                        followsCount: this._viewModel.attentionNum,
-                        likesCount: this._viewModel.praiseNums,
+                        fansCount: this._viewModel.userData.fansNum,
+                        followsCount: this._viewModel.userData.attentionNum,
+                        likesCount: this._viewModel.userData.praiseNums,
                       ),
                     ],
                   ),

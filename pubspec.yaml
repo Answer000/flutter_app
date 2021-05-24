@@ -71,6 +71,8 @@ flutter:
     - resource/cjm_tabbarIcon_nearbySelected.png
     - resource/cjm_tabbarIcon_profileNormal.png
     - resource/cjm_tabbarIcon_profileSelected.png
+    - resource/cjm_tabbarIcon_mallNormal.png
+    - resource/cjm_tabbarIcon_mallSelected.png
     - resource/cjm_tabbarIcon_publish.png
 
     - resource/placeholder.png
@@ -126,6 +128,10 @@ flutter:
     - resource/cjm_gender_female.png
     - resource/cjm_gender_male.png
     - resource/cjm_profile_userIcon.png
+    - resource/cjm_profile_fans_up.png
+    - resource/cjm_profile_fans_down.png
+    - resource/cjm_profile_follow_normal.png
+    - resource/cjm_profile_follow_selected.png
 
     ### 发布
     - resource/cjm_publish_display_close.png

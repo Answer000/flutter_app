@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/class/fashion/attention/fashion_attention_item_builder.dart';
 import 'package:flutter_app/class/fashion/fashion_base_page_view.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_app/common/base/empty_view.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
 import 'package:flutter_app/resource.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 // ignore: must_be_immutable
 class FashionPersonalImagePostPageView extends FashionBasePageView {
@@ -32,7 +32,19 @@ class FashionPersonalImagePostPageViewState extends FashionBasePageViewState<Fas
     // TODO: implement initState
     super.initState();
 
-    this._viewModel.loadDatas(isDown: true, callback: () => this.setState(() {}) );
+    _loadData(isDown: true);
+  }
+
+  _loadData({bool isDown, Function(bool isDown) callback}) {
+    this._viewModel.loadDatas(
+        isDown: isDown,
+        callback: (){
+          this.setState(() {});
+          if(callback != null) {
+            callback(isDown);
+          }
+        }
+    );
   }
 
   @override
@@ -53,7 +65,7 @@ class FashionPersonalImagePostPageViewState extends FashionBasePageViewState<Fas
         iconPath: isEmpty ? ImageName.cjm_empty_publish : ImageName.cjm_empty_no_network,
         message: isEmpty ? '您还没有发布帖子' : '网络错误',
         itemTitle: isEmpty ? '去发帖' : "刷新",
-        actionCallback: () => {},
+        actionCallback: () => this._loadData(isDown: true),
       );
     }
 
@@ -61,15 +73,15 @@ class FashionPersonalImagePostPageViewState extends FashionBasePageViewState<Fas
       margin: EdgeInsets.only(top: 30.dp),
       child: CustomRefresher(
         onRefresh: (refresh) {
-          this._viewModel.loadDatas(
+          this._loadData(
               isDown: true,
-              callback: () => refresh.setRefreshCompleted()
+              callback: (_) => refresh.setRefreshCompleted(),
           );
         },
         onLoading: (refresh) {
-          this._viewModel.loadDatas(
-              isDown: false,
-              callback: () => refresh.setLoadStatus(this._viewModel.loadStatus)
+          this._loadData(
+            isDown: false,
+            callback: (_) => refresh.setLoadStatus(this._viewModel.loadStatus)
           );
         },
         child: ListView.separated(

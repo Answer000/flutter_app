@@ -123,6 +123,10 @@ class PostEntity {
   }
 
   bool _isPraisePost = false;
+}
+
+/// 点赞
+extension PostEntityPraise on PostEntity {
   praisePost({Function(bool isSucc, PostEntity postEntity) callback}) async{
     if(_isPraisePost) {
       if (callback != null) { callback(false, this); }
@@ -131,28 +135,47 @@ class PostEntity {
     _isPraisePost = true;
     CustomLoading.showLoading();
     await Https().post(
-      apiPath: APIPath.post_praisePost,
-      params: {'postId' : this.postId, 'operationType' : this.isPraise ? '2' : '1'},
-      onSuccess: (response) {
-        bool isSucc = response['resultCode'] == '0000';
-        if(isSucc) {
-          if(this.isPraise) {
-            isPraise = false;
-            CustomToast.show('已取消点赞');
+        apiPath: APIPath.post_praisePost,
+        params: {'postId' : this.postId, 'operationType' : this.isPraise ? '2' : '1'},
+        onSuccess: (response) {
+          bool isSucc = response['resultCode'] == '0000';
+          if(isSucc) {
+            if(this.isPraise) {
+              isPraise = false;
+              CustomToast.show('已取消点赞');
+            }else{
+              isPraise = true;
+              CustomToast.show('点赞成功');
+            }
           }else{
-            isPraise = true;
-            CustomToast.show('点赞成功');
+            CustomToast.show('${response['msg'].toString()}');
           }
-        }else{
-          CustomToast.show('${response['msg'].toString()}');
+          _isPraisePost = false;
+          CustomLoading.hideLoading();
+          if (callback != null) { callback(isSucc, this); }
+        },
+        onFailure: (error) {
+          _isPraisePost = false;
+          CustomLoading.hideLoading();
+          if (callback != null) { callback(false, this); }
         }
-        _isPraisePost = false;
-        CustomLoading.hideLoading();
-        if (callback != null) { callback(isSucc, this); }
-      }, onFailure: (error) {
-        _isPraisePost = false;
-        CustomLoading.hideLoading();
-        if (callback != null) { callback(false, this); }
+    );
+  }
+}
+
+/// 关注
+extension FollowHelper on int {
+  /// operationType => 1:关注，2:取消关注
+  isFollow(bool isFollow, Function callback) async {
+    await Https().post(
+      apiPath: APIPath.user_attentionUser,
+      params: {"userId" : this, "operationType" : (isFollow ? 1 : 2)},
+      onSuccess: (response){
+        CustomToast.show(isFollow ? "关注成功" : "取消关注成功");
+        callback();
+      },
+      onFailure: (error){
+        CustomToast.show(isFollow ? "关注失败" : "取消关注失败");
       }
     );
   }

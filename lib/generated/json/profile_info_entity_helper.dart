@@ -2,13 +2,13 @@ import 'package:flutter_app/class/profile/profile_info_entity.dart';
 
 profileInfoEntityFromJson(ProfileInfoEntity data, Map<String, dynamic> json) {
 	if (json['resultCode'] != null) {
-		data.resultCode = json['resultCode']?.toString();
+		data.resultCode = json['resultCode'].toString();
 	}
 	if (json['msg'] != null) {
-		data.msg = json['msg']?.toString();
+		data.msg = json['msg'].toString();
 	}
 	if (json['data'] != null) {
-		data.data = new ProfileInfoData().fromJson(json['data']);
+		data.data = ProfileInfoData().fromJson(json['data']);
 	}
 	return data;
 }
@@ -17,18 +17,18 @@ Map<String, dynamic> profileInfoEntityToJson(ProfileInfoEntity entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['resultCode'] = entity.resultCode;
 	data['msg'] = entity.msg;
-	if (entity.data != null) {
-		data['data'] = entity.data.toJson();
-	}
+	data['data'] = entity.data?.toJson();
 	return data;
 }
 
 profileInfoDataFromJson(ProfileInfoData data, Map<String, dynamic> json) {
 	if (json['userAddresses'] != null) {
-		data.userAddresses = json['userAddresses']?.toInt();
+		data.userAddresses = json['userAddresses'] is String
+				? int.tryParse(json['userAddresses'])
+				: json['userAddresses'].toInt();
 	}
 	if (json['user'] != null) {
-		data.user = new ProfileInfoDataUser().fromJson(json['user']);
+		data.user = ProfileInfoDataUser().fromJson(json['user']);
 	}
 	return data;
 }
@@ -36,15 +36,15 @@ profileInfoDataFromJson(ProfileInfoData data, Map<String, dynamic> json) {
 Map<String, dynamic> profileInfoDataToJson(ProfileInfoData entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['userAddresses'] = entity.userAddresses;
-	if (entity.user != null) {
-		data['user'] = entity.user.toJson();
-	}
+	data['user'] = entity.user?.toJson();
 	return data;
 }
 
 profileInfoDataUserFromJson(ProfileInfoDataUser data, Map<String, dynamic> json) {
 	if (json['gameStatus'] != null) {
-		data.gameStatus = json['gameStatus']?.toInt();
+		data.gameStatus = json['gameStatus'] is String
+				? int.tryParse(json['gameStatus'])
+				: json['gameStatus'].toInt();
 	}
 	if (json['consumeAmt'] != null) {
 		data.consumeAmt = json['consumeAmt'];
@@ -56,16 +56,22 @@ profileInfoDataUserFromJson(ProfileInfoDataUser data, Map<String, dynamic> json)
 		data.skincardAmt = json['skincardAmt'];
 	}
 	if (json['time'] != null) {
-		data.time = json['time']?.toInt();
+		data.time = json['time'] is String
+				? int.tryParse(json['time'])
+				: json['time'].toInt();
 	}
 	if (json['collectionNum'] != null) {
-		data.collectionNum = json['collectionNum']?.toInt();
+		data.collectionNum = json['collectionNum'] is String
+				? int.tryParse(json['collectionNum'])
+				: json['collectionNum'].toInt();
 	}
 	if (json['birthdayString'] != null) {
 		data.birthdayString = json['birthdayString'];
 	}
 	if (json['id'] != null) {
-		data.id = json['id']?.toInt();
+		data.id = json['id'] is String
+				? int.tryParse(json['id'])
+				: json['id'].toInt();
 	}
 	if (json['name'] != null) {
 		data.name = json['name'];
@@ -74,31 +80,37 @@ profileInfoDataUserFromJson(ProfileInfoDataUser data, Map<String, dynamic> json)
 		data.idNo = json['idNo'];
 	}
 	if (json['birthday'] != null) {
-		data.birthday = json['birthday']?.toString();
+		data.birthday = json['birthday'].toString();
 	}
 	if (json['sex'] != null) {
-		data.sex = json['sex']?.toInt();
+		data.sex = json['sex'] is String
+				? int.tryParse(json['sex'])
+				: json['sex'].toInt();
 	}
 	if (json['mobile'] != null) {
-		data.mobile = json['mobile']?.toString();
+		data.mobile = json['mobile'].toString();
 	}
 	if (json['userAvatar'] != null) {
-		data.userAvatar = json['userAvatar']?.toString();
+		data.userAvatar = json['userAvatar'].toString();
 	}
 	if (json['nick'] != null) {
-		data.nick = json['nick']?.toString();
+		data.nick = json['nick'].toString();
 	}
 	if (json['createTime'] != null) {
-		data.createTime = json['createTime']?.toString();
+		data.createTime = json['createTime'].toString();
 	}
 	if (json['updateTime'] != null) {
-		data.updateTime = json['updateTime']?.toString();
+		data.updateTime = json['updateTime'].toString();
 	}
 	if (json['status'] != null) {
-		data.status = json['status']?.toInt();
+		data.status = json['status'] is String
+				? int.tryParse(json['status'])
+				: json['status'].toInt();
 	}
 	if (json['integral'] != null) {
-		data.integral = json['integral']?.toInt();
+		data.integral = json['integral'] is String
+				? int.tryParse(json['integral'])
+				: json['integral'].toInt();
 	}
 	if (json['openId'] != null) {
 		data.openId = json['openId'];
@@ -107,25 +119,33 @@ profileInfoDataUserFromJson(ProfileInfoDataUser data, Map<String, dynamic> json)
 		data.unionId = json['unionId'];
 	}
 	if (json['source'] != null) {
-		data.source = json['source']?.toString();
+		data.source = json['source'].toString();
 	}
 	if (json['userNo'] != null) {
-		data.userNo = json['userNo']?.toString();
+		data.userNo = json['userNo'].toString();
 	}
 	if (json['attentionNum'] != null) {
-		data.attentionNum = json['attentionNum']?.toInt();
+		data.attentionNum = json['attentionNum'] is String
+				? int.tryParse(json['attentionNum'])
+				: json['attentionNum'].toInt();
 	}
 	if (json['fansNum'] != null) {
-		data.fansNum = json['fansNum']?.toInt();
+		data.fansNum = json['fansNum'] is String
+				? int.tryParse(json['fansNum'])
+				: json['fansNum'].toInt();
 	}
 	if (json['postNum'] != null) {
-		data.postNum = json['postNum']?.toInt();
+		data.postNum = json['postNum'] is String
+				? int.tryParse(json['postNum'])
+				: json['postNum'].toInt();
 	}
 	if (json['sessionKey'] != null) {
 		data.sessionKey = json['sessionKey'];
 	}
 	if (json['isVirtual'] != null) {
-		data.isVirtual = json['isVirtual']?.toInt();
+		data.isVirtual = json['isVirtual'] is String
+				? int.tryParse(json['isVirtual'])
+				: json['isVirtual'].toInt();
 	}
 	if (json['virtualUserPwd'] != null) {
 		data.virtualUserPwd = json['virtualUserPwd'];
@@ -146,16 +166,22 @@ profileInfoDataUserFromJson(ProfileInfoDataUser data, Map<String, dynamic> json)
 		data.userSkinId = json['userSkinId'];
 	}
 	if (json['praiseNums'] != null) {
-		data.praiseNums = json['praiseNums']?.toInt();
+		data.praiseNums = json['praiseNums'] is String
+				? int.tryParse(json['praiseNums'])
+				: json['praiseNums'].toInt();
 	}
 	if (json['isFirstLogin'] != null) {
-		data.isFirstLogin = json['isFirstLogin']?.toString();
+		data.isFirstLogin = json['isFirstLogin'].toString();
 	}
 	if (json['isStaff'] != null) {
-		data.isStaff = json['isStaff']?.toInt();
+		data.isStaff = json['isStaff'] is String
+				? int.tryParse(json['isStaff'])
+				: json['isStaff'].toInt();
 	}
 	if (json['updateCount'] != null) {
-		data.updateCount = json['updateCount']?.toInt();
+		data.updateCount = json['updateCount'] is String
+				? int.tryParse(json['updateCount'])
+				: json['updateCount'].toInt();
 	}
 	return data;
 }

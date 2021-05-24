@@ -98,7 +98,6 @@ class NavigationBarState extends State<NavigationBar> {
             ? CustomAssetImage.image(image: iconName)
             : Text(title, style: TextStyle(color: Colors.white, fontSize: 13.dpFontSize),),
         onPressed: (){
-          print("object");
           onPress();
         },
       ),
@@ -223,11 +222,10 @@ class NavigationBarState extends State<NavigationBar> {
         ),
 
         Positioned(
-            left: 28.dp,
+            left: 15.dp,
             child: Container(
-              width: 16.dp,
-              height: 29.dp,
-              padding: EdgeInsets.only(top: 5.dp, bottom: 5.dp, right: 5.dp),
+              width: 30.dp,
+              height: 30.dp,
               child: RawMaterialButton(
                 // 点击事件
                 onPressed: (){
@@ -236,6 +234,8 @@ class NavigationBarState extends State<NavigationBar> {
                 // 必须的参数 一般是 Icon 或者是 ImageIcono
                 child: ImageName.cjm_navigationBar_backIcon_white.assetImage,
                 constraints: BoxConstraints(),
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
               ),
             )
         ),

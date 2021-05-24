@@ -1,40 +1,19 @@
-import 'package:flutter_app/class/fashion/attention/fashion_attention_user_entity.dart';
+import 'package:flutter_app/class/profile/follows/follows_data_entity.dart';
 
-fashionAttentionUserEntityFromJson(FashionAttentionUserEntity data, Map<String, dynamic> json) {
-	if (json['resultCode'] != null) {
-		data.resultCode = json['resultCode'].toString();
-	}
-	if (json['msg'] != null) {
-		data.msg = json['msg'].toString();
-	}
-	if (json['data'] != null) {
-		data.data = FashionAttentionUserData().fromJson(json['data']);
-	}
-	return data;
-}
-
-Map<String, dynamic> fashionAttentionUserEntityToJson(FashionAttentionUserEntity entity) {
-	final Map<String, dynamic> data = new Map<String, dynamic>();
-	data['resultCode'] = entity.resultCode;
-	data['msg'] = entity.msg;
-	data['data'] = entity.data?.toJson();
-	return data;
-}
-
-fashionAttentionUserDataFromJson(FashionAttentionUserData data, Map<String, dynamic> json) {
+followsDataEntityFromJson(FollowsDataEntity data, Map<String, dynamic> json) {
 	if (json['postList'] != null) {
-		data.postList = FashionAttentionUserDataPostList().fromJson(json['postList']);
+		data.postList = FollowsDataPostList().fromJson(json['postList']);
 	}
 	return data;
 }
 
-Map<String, dynamic> fashionAttentionUserDataToJson(FashionAttentionUserData entity) {
+Map<String, dynamic> followsDataEntityToJson(FollowsDataEntity entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['postList'] = entity.postList?.toJson();
 	return data;
 }
 
-fashionAttentionUserDataPostListFromJson(FashionAttentionUserDataPostList data, Map<String, dynamic> json) {
+followsDataPostListFromJson(FollowsDataPostList data, Map<String, dynamic> json) {
 	if (json['pageNum'] != null) {
 		data.pageNum = json['pageNum'] is String
 				? int.tryParse(json['pageNum'])
@@ -56,7 +35,7 @@ fashionAttentionUserDataPostListFromJson(FashionAttentionUserDataPostList data, 
 				: json['pages'].toInt();
 	}
 	if (json['lists'] != null) {
-		data.lists = (json['lists'] as List).map((v) => FashionAttentionUserDataPostListList().fromJson(v)).toList();
+		data.lists = (json['lists'] as List).map((v) => FollowsDataPostListLists().fromJson(v)).toList();
 	}
 	if (json['isFirstPage'] != null) {
 		data.isFirstPage = json['isFirstPage'];
@@ -67,7 +46,7 @@ fashionAttentionUserDataPostListFromJson(FashionAttentionUserDataPostList data, 
 	return data;
 }
 
-Map<String, dynamic> fashionAttentionUserDataPostListToJson(FashionAttentionUserDataPostList entity) {
+Map<String, dynamic> followsDataPostListToJson(FollowsDataPostList entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['pageNum'] = entity.pageNum;
 	data['pageSize'] = entity.pageSize;
@@ -79,7 +58,7 @@ Map<String, dynamic> fashionAttentionUserDataPostListToJson(FashionAttentionUser
 	return data;
 }
 
-fashionAttentionUserDataPostListListFromJson(FashionAttentionUserDataPostListList data, Map<String, dynamic> json) {
+followsDataPostListListsFromJson(FollowsDataPostListLists data, Map<String, dynamic> json) {
 	if (json['id'] != null) {
 		data.id = json['id'] is String
 				? int.tryParse(json['id'])
@@ -94,14 +73,22 @@ fashionAttentionUserDataPostListListFromJson(FashionAttentionUserDataPostListLis
 	if (json['attentionUser'] != null) {
 		data.attentionUser = json['attentionUser'].toString();
 	}
+	if (json['verifyType'] != null) {
+		data.verifyType = json['verifyType'];
+	}
+	if (json['verifyTypeIcon'] != null) {
+		data.verifyTypeIcon = json['verifyTypeIcon'];
+	}
 	return data;
 }
 
-Map<String, dynamic> fashionAttentionUserDataPostListListToJson(FashionAttentionUserDataPostListList entity) {
+Map<String, dynamic> followsDataPostListListsToJson(FollowsDataPostListLists entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['id'] = entity.id;
 	data['userAvatar'] = entity.userAvatar;
 	data['nick'] = entity.nick;
 	data['attentionUser'] = entity.attentionUser;
+	data['verifyType'] = entity.verifyType;
+	data['verifyTypeIcon'] = entity.verifyTypeIcon;
 	return data;
 }

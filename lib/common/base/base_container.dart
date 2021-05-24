@@ -32,7 +32,7 @@ abstract class BaseContainer extends StatefulWidget {
   bool get isWantKeepAlive => true;
 
   /// 是否点击空白区域时推出导航
-  bool get isEnablePopWhenClickEmpty => true;
+  bool get isEnablePopWhenClickEmpty => false;
 }
 
 abstract class BaseContainerState<T extends BaseContainer> extends State<T> with AutomaticKeepAliveClientMixin {
