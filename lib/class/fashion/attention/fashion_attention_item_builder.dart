@@ -67,7 +67,8 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 17.dpFontSize,
-                              fontWeight: FontWeight.normal
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none
                           ),
                         ),
                         Text(
@@ -75,7 +76,8 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
                           style: TextStyle(
                               color: Color(0xffb4b4b4),
                               fontSize: 10.dpFontSize,
-                              fontWeight: FontWeight.normal
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none
                           ),
                         ),
                       ],
@@ -113,7 +115,8 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
               style: TextStyle(
                   color: Color(0xffffffff),
                   fontSize: 12.dpFontSize,
-                  fontWeight: FontWeight.normal
+                  fontWeight: FontWeight.normal,
+                  decoration: TextDecoration.none
               ),
             ),
           ),
@@ -156,9 +159,10 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
                   child: Text(
                     '${this.widget.postEntity.post.praiseNum ?? 0}',
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.dp,
-                      fontWeight: FontWeight.normal
+                        color: Colors.white,
+                        fontSize: 14.dp,
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.none
                     ),
                   ),
                 ),
@@ -179,7 +183,8 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 14.dp,
-                        fontWeight: FontWeight.normal
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.none
                     ),
                   ),
                 ),

@@ -1,7 +1,7 @@
 import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_app/common/base/base_webView.dart';
 import 'package:flutter_app/common/base/constant.dart';
-import 'package:flutter_app/common/extension/extension.dart';
+import 'package:flutter_app/common/tools/CustomNavigator.dart';
 import 'package:flutter_app/common/tools/custom_loading.dart';
 import 'package:package_info/package_info.dart';
 import 'package:path_provider/path_provider.dart';

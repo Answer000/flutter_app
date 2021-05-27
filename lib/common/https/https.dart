@@ -41,6 +41,12 @@ enum APIPath {
   post_praiseStatisticsList,  // 获赞列表
   user_attentionList,         // 关注用户列表
   user_attentionUser,         // 关注/取消关注 用户
+  signin_cycleTimes,          // 查看签到次数
+  signin_checkSignin,         // 查看是否签到
+  signin_doSign,              // 签到
+  integral_missionStatus,     // 获取积分任务列表
+  integral_integralList,      // 积分明细列表
+
 }
 
 

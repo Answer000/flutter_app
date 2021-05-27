@@ -1,15 +1,10 @@
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_app/common/tools/custom_route.dart';
-import 'package:flutter_app/common/base/base_container.dart';
 import '../../resource.dart';
-import 'package:flutter_app/class/login/login.dart';
-import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 
 extension Screen on ScreenUtil {
   /// 屏幕适配的size
@@ -80,6 +75,16 @@ extension String_extension on String {
             style: normalStyle,
           ),
         ]
+      ),
+    );
+  }
+
+  RichText setRich(TextStyle style, {List<TextSpan> textSpans}) {
+    return RichText(
+      text: TextSpan(
+          text: this,
+          style: style,
+          children: textSpans,
       ),
     );
   }
@@ -211,42 +216,6 @@ extension CustomToast on Fluttertoast {
       textColor: Colors.white,
       fontSize: 15,
     );
-  }
-}
-
-/// 导航
-extension CustomNavigator on Navigator {
-  static pop({context}) {
-    context ??= LoginUserInfoManager.appContext;
-    if(Navigator.canPop(context )) {
-      Navigator.pop(context);
-    }
-  }
-
-  static push({context, @required BaseContainer page}) async {
-    context ??= LoginUserInfoManager.appContext;
-    bool isLogin;
-    await LoginUserInfoManager()
-        .isLogin
-        .then((value) => isLogin = value);
-    if(page.isNeedLogin && !isLogin) {
-      Navigator.push(context, new CustomRoute(page: Login(), modalType: CustomRouteModalType.bottomTop),);
-      return;
-    }
-    Navigator.push(context, new CustomRoute(page: page, modalType: page.modalType));
-  }
-
-  static Future<bool> isNeedsToLogin({context}) async {
-    context ??= LoginUserInfoManager.appContext;
-    bool isLogin;
-    await LoginUserInfoManager()
-        .isLogin
-        .then((value) => isLogin = value);
-    if(!isLogin) {
-      Navigator.push(context, new CustomRoute(page: Login(), modalType: CustomRouteModalType.bottomTop),);
-      return true;
-    }
-    return false;
   }
 }
 

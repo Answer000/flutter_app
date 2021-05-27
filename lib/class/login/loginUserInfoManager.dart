@@ -34,6 +34,7 @@ class LoginUserInfoManager {
   static const kRefreshToken = "kRefreshToken";
   static const kTokenExpiryDate = "kTokenExpiryDate";
   static const kTimeDifference = "kTimeDifference";
+  static const kIntegral = "kIntegral";
 
   /// 用户是否登录状态
   Future<bool> get isLogin async {
@@ -57,6 +58,15 @@ class LoginUserInfoManager {
 
   /// access_token 是否有效
   Future<bool> get isValidOfAccessToken => _isValidOfAccessToken();
+
+  set integral(int value) {
+    this.saveValue(value, kIntegral);
+  }
+  int get integral {
+    int value;
+    _getIntValue(kIntegral).then((v) => value = v);
+    return value ?? 0;
+  }
 
   /// 持久化用户信息
   Future<bool> saveUserInfo(LoginEntity entity, {BuildContext context}) async {
@@ -92,9 +102,25 @@ class LoginUserInfoManager {
     preferences.remove(kTokenExpiryDate);
     preferences.remove(kTimeDifference);
     preferences.remove(kUserId);
+    preferences.remove(kIntegral);
 
     // 发送退出登录的通知
     eventManager.emit(EventName.login, false);
+  }
+
+  Future<bool> saveValue(dynamic value, String key) async {
+    bool result = false;
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if(value is int) {
+      await preferences.setInt(key, value).then((value) => result = value);
+    }else if(value is String) {
+      await preferences.setString(key, value).then((value) => result = value);
+    }else if(value is double) {
+      await preferences.setDouble(key, value).then((value) => result = value);
+    }else if(value is bool) {
+      await preferences.setBool(key, value).then((value) => result = value);
+    }
+    return result;
   }
 
   /// 获取持久化用户信息

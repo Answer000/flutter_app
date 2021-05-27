@@ -14,6 +14,10 @@ class Fans extends BaseContainer {
   bool get isNeedLogin => true;
 
   @override
+  // TODO: implement isShowBackground
+  bool get isShowBackground => false;
+
+  @override
   BaseContainerState<BaseContainer> getState() {
     // TODO: implement getState
     return FansState();

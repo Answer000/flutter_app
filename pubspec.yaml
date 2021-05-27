@@ -132,6 +132,25 @@ flutter:
     - resource/cjm_profile_fans_down.png
     - resource/cjm_profile_follow_normal.png
     - resource/cjm_profile_follow_selected.png
+    - resource/cjm_profile_sign_background.png
+    - resource/cjm_profile_sign_close.png
+    - resource/cjm_profile_sign_finished_1.png
+    - resource/cjm_profile_sign_finished_2.png
+    - resource/cjm_profile_sign_finished_3.png
+    - resource/cjm_profile_sign_finished_4.png
+    - resource/cjm_profile_sign_finished_5.png
+    - resource/cjm_profile_sign_finished_6.png
+    - resource/cjm_profile_sign_finished_7.png
+    - resource/cjm_profile_sign_unFinished_1.png
+    - resource/cjm_profile_sign_unFinished_2.png
+    - resource/cjm_profile_sign_unFinished_3.png
+    - resource/cjm_profile_sign_unFinished_4.png
+    - resource/cjm_profile_sign_unFinished_5.png
+    - resource/cjm_profile_sign_unFinished_6.png
+    - resource/cjm_profile_sign_unFinished_7.png
+    - resource/cjm_profile_integral_mall.png
+    - resource/cjm_profile_integral_rule.png
+    - resource/cjm_profile_integral_detail.png
 
     ### 发布
     - resource/cjm_publish_display_close.png

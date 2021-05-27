@@ -10,6 +10,7 @@ import 'package:flutter_app/class/profile/profile.dart';
 import 'package:flutter_app/class/publish/publish.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_app/common/tools/CustomNavigator.dart';
 
 enum ASTabBarItemType {
   home,
@@ -41,15 +42,20 @@ class ASTabBar extends StatefulWidget {
     return _state;
   }
 
-  selectItem(ASTabBarItemType itemType) {
+  selectItem(ASTabBarItemType itemType, {int index}) {
     CustomNavigator.pop();
     _state.selectIndex = itemType.index;
+    if(index != null) {
+
+    }
   }
 }
 
 class ASTabBarState extends State<ASTabBar> {
 
   PageController _pageController;
+
+  Fashion _fashion;
 
   int _selectIndex = 0;
   int get selectIndex => _selectIndex;
@@ -74,6 +80,8 @@ class ASTabBarState extends State<ASTabBar> {
   Widget build(BuildContext context) {
     //设置字体大小根据系统的“字体大小”辅助选项来进行缩放,默认为false
     ScreenUtil.init(context, designSize: Screen.designSize, allowFontScaling: true);
+
+    _fashion = Fashion();
 
     LoginUserInfoManager.appContext = context;
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -102,7 +110,7 @@ class ASTabBarState extends State<ASTabBar> {
                       Home(),
                       Mall(),
                       Publish(),
-                      Fashion(),
+                      _fashion,
                       Profile(),
                     ],
                   ),

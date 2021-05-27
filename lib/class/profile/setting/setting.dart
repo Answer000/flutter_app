@@ -6,6 +6,7 @@ import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/resource.dart';
 import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_app/class/profile/setting/settingViewModel.dart';
+import 'package:flutter_app/common/tools/CustomNavigator.dart';
 
 class Setting extends BaseContainer {
 
@@ -17,6 +18,10 @@ class Setting extends BaseContainer {
   @override
   // TODO: implement isNeedLogin
   bool get isNeedLogin => true;
+
+  @override
+  // TODO: implement isShowBackground
+  bool get isShowBackground => false;
 }
 
 class SettingState extends BaseContainerState<Setting> {

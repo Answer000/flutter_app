@@ -16,6 +16,7 @@ class ASSegmentView extends StatefulWidget {
   Color scrollLineColor;   /// 滑块颜色
   double scrollLineWidth;       /// 滑块尺寸
   Color backgroundColor;  /// 背景颜色
+  double height;
   Function(int) indexDidChanged;
 
   ASSegmentView({
@@ -30,6 +31,7 @@ class ASSegmentView extends StatefulWidget {
     this.scrollLineColor = Colors.white,
     this.scrollLineWidth = 18,
     this.backgroundColor = Colors.black,
+    this.height = 44,
     this.indexDidChanged
   });
 
@@ -56,7 +58,7 @@ class ASSegmentViewState extends State<ASSegmentView> {
             top: 0,
             left: 0,
             right: 0,
-            bottom: 4.dp,
+            bottom: 0,
             child: Flex(
               direction: Axis.horizontal,
               children: _getSegmentItems(this.widget.currentIndex),
@@ -91,13 +93,18 @@ class ASSegmentViewState extends State<ASSegmentView> {
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 padding: EdgeInsets.all(0),
-                child: Text(
-                  '${this.widget.titles[i]}',
-                  style: TextStyle(
-                    color: i==currentIndex ? this.widget.selectTextColor : this.widget.normalTextColor,
-                    fontSize: i==currentIndex ? this.widget.selectFontSize : this.widget.normalFontSize,
-                    fontWeight: i==currentIndex ? this.widget.selectFontWeight : this.widget.normalFontWeight,
-                  ),
+                child: Container(
+                  height: this.widget.height,
+                  child: Center(
+                    child: Text(
+                      '${this.widget.titles[i]}',
+                      style: TextStyle(
+                        color: i==currentIndex ? this.widget.selectTextColor : this.widget.normalTextColor,
+                        fontSize: i==currentIndex ? this.widget.selectFontSize : this.widget.normalFontSize,
+                        fontWeight: i==currentIndex ? this.widget.selectFontWeight : this.widget.normalFontWeight,
+                      ),
+                    ),
+                  )
                 ),
                 onPressed: (){
                   setState(() {

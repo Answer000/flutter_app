@@ -56,6 +56,7 @@ class FashionPersonalPageViewState extends FashionBasePageViewState<FashionPerso
 
   @override
   Widget setContentView(BuildContext context) {
+    bool hasData = this._viewModel.userData != null;
     return Container(
       child: NestedScrollView(
         scrollDirection: Axis.vertical,
@@ -69,23 +70,19 @@ class FashionPersonalPageViewState extends FashionBasePageViewState<FashionPerso
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      this._viewModel.userData == null
-                          ? Container()
-                          : FashionPersonalHeaderView(
+                      FashionPersonalHeaderView(
                         isLogin: this.widget.isLogin,
-                        userAvatar: this._viewModel.userData.userAvatar,
-                        nickName: this._viewModel.userData.nick,
-                        userNo: this._viewModel.userData.userNo,
-                        sex: this._viewModel.userData.sex,
+                        userAvatar: hasData ? this._viewModel.userData.userAvatar : "",
+                        nickName: hasData ? this._viewModel.userData.nick : "",
+                        userNo: hasData ? this._viewModel.userData.userNo : "",
+                        sex: hasData ? this._viewModel.userData.sex : 0,
                       ),
 
-                      this._viewModel.userData == null
-                          ? Container()
-                          : FashionPersonalMenuView(
+                      FashionPersonalMenuView(
                         isLogin: this.widget.isLogin,
-                        fansCount: this._viewModel.userData.fansNum,
-                        followsCount: this._viewModel.userData.attentionNum,
-                        likesCount: this._viewModel.userData.praiseNums,
+                        fansCount: hasData ? this._viewModel.userData.fansNum : 0,
+                        followsCount: hasData ? this._viewModel.userData.attentionNum : 0,
+                        likesCount: hasData ? this._viewModel.userData.praiseNums : 0,
                       ),
                     ],
                   ),
@@ -94,6 +91,7 @@ class FashionPersonalPageViewState extends FashionBasePageViewState<FashionPerso
             ),
             SliverPersistentHeader(
               pinned: true,
+              floating: true,
               delegate: ASSliverPersistentHeaderViewDelegate(
                 maxExtentValue: 44.dp,
                 minExtentValue: 44.dp,
@@ -106,9 +104,9 @@ class FashionPersonalPageViewState extends FashionBasePageViewState<FashionPerso
                     selectFontWeight: FontWeight.w500,
                     scrollLineColor: Colors.white,
                     scrollLineWidth: 18.dp,
-                    backgroundColor: CustomColor.blackGroundColor,
+                    backgroundColor: Colors.transparent,
+                    height: 44.dp,
                     indexDidChanged: (index){
-                      print(index);
                       this._pageController.animateToPage(
                           index,
                           duration: Duration(milliseconds: 300),

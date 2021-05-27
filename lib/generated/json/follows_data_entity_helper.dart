@@ -74,10 +74,10 @@ followsDataPostListListsFromJson(FollowsDataPostListLists data, Map<String, dyna
 		data.attentionUser = json['attentionUser'].toString();
 	}
 	if (json['verifyType'] != null) {
-		data.verifyType = json['verifyType'];
+		data.verifyType = json['verifyType'].toString();
 	}
 	if (json['verifyTypeIcon'] != null) {
-		data.verifyTypeIcon = json['verifyTypeIcon'];
+		data.verifyTypeIcon = json['verifyTypeIcon'].toString();
 	}
 	return data;
 }

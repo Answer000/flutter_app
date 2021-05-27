@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/common/base/base_container.dart';
 
 enum CustomRouteModalType {
   rightLeft,    /// 从右至左推出

@@ -19,7 +19,7 @@ class FashionPersonalPageViewModel extends ASBaseViewModel {
   FashionPersonalPageViewModel(this.type);
 
   loadDatas({@required bool isDown, Function callback}) async{
-    if (isDown) { _pageNo = 1; }
+    _pageNo = isDown ? 1 : (_pageNo + 1);
     int userId = 0;
     await LoginUserInfoManager().userId.then((value) => userId = value);
     await Https().post(

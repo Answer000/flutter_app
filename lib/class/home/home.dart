@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/class/home/home_page_view.dart';
 import 'package:flutter_app/class/home/home_section_header_view.dart';
+import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/base/base_navigation_bar.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/common/tools/ASSliverPersistentHeaderViewDelegate.dart';
 import 'package:flutter_app/common/tools/custom_loading.dart';
 import 'package:flutter_app/resource.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'homeViewModel.dart';
 import 'home_banner_entity.dart';
 import 'home_banner_view.dart';
 import 'home_menu_view.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 // ignore: must_be_immutable
@@ -73,7 +72,7 @@ class HomeState extends BaseContainerState<Home> {
         size: Size(20.dp,30.dp),
         margin: EdgeInsets.only(right: 12.dp),
         onPress: (){
-
+          Navigator.pushNamed(LoginUserInfoManager.appContext, "signin");
         }
     ).addRightItem(
         iconName: ImageName.cjm_home_message.imagePath,

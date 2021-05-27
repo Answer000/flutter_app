@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/class/login/loginUserInfoManager.dart';
-import 'package:flutter_app/class/profile/fans/fans.dart';
-import 'package:flutter_app/class/profile/follows/follows.dart';
-import 'package:flutter_app/class/profile/likes/likes.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/base/base_navigation_bar.dart';
 import 'package:flutter_app/common/extension/extension.dart';
@@ -11,6 +7,7 @@ import 'package:flutter_app/class/profile/setting/setting.dart';
 import 'package:flutter_app/class/profile/profileViewModel.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/common/base/event_manager.dart';
+import 'package:flutter_app/common/tools/CustomNavigator.dart';
 
 // ignore: must_be_immutable
 class Profile extends BaseContainer {
@@ -92,9 +89,7 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
       case 0:   return _getInfoContentView(context,index);
       case 1:   return _getNumberContentView(context,index);
       case 2:   return _getItemsContentView(context,index);
-      default:  return _getCellContentView(context, index-3, (){
-        print('${this._viewModel.getCellContentViewSource()[index-3].titleZH}');
-      });
+      default:  return _getCellContentView(context, index-3);
     }
   }
 
@@ -215,14 +210,7 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
             ),
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
-            onPressed: (){
-              switch (i) {
-                case 0: CustomNavigator.push(context: context, page: Fans());  break;
-                case 1: CustomNavigator.push(context: context, page: Follows());  break;
-                case 2: CustomNavigator.push(context: context, page: Likes());  break;
-                default: break;
-              }
-            },
+            onPressed: () => CustomNavigator.push(context: context, page: source[i]['page'])
           ),
         )
       );
@@ -245,15 +233,7 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
       Size iconSize = source[i]['iconSize'];
       items.add(
           GestureDetector(
-            onTap: (){
-              switch (i) {
-                case 0: print('======订单');  break;
-                case 1: print('======优惠券');  break;
-                case 2: print('======意见反馈');  break;
-                case 3: print('======获赞');  break;
-                default: break;
-              }
-            },
+            onTap: () => CustomNavigator.push(context: context, page: source[i]["page"]),
             child: Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -295,10 +275,10 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
     );
   }
 
-  Widget _getCellContentView(BuildContext context, int index, Function() onPress) {
+  Widget _getCellContentView(BuildContext context, int index) {
     ProfileCellEntity entity = this._viewModel.getCellContentViewSource()[index];
     return GestureDetector(
-      onTap: onPress,
+      onTap: () => CustomNavigator.push(context: context, page: entity.page),
       child: Container(
         height: 60.dp,
         margin: EdgeInsets.only(left: 36.dp, right: 36.dp),
@@ -350,11 +330,11 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
                       ),
 
                       Container(
-                        margin: EdgeInsets.only(top: 3.dp),
-                        height: 3.dp,
+                        margin: EdgeInsets.only(top: 4.dp, bottom: 4.dp),
+                        height: 4.dp,
                         width: entity.lineWidth.dp,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(1.5.dp),
+                          borderRadius: BorderRadius.circular(2.dp),
                           color: entity.lineColor,
                         ),
                       ),

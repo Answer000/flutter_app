@@ -8,6 +8,7 @@ import 'package:flutter_app/common/base/empty_view.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
 import 'package:flutter_app/resource.dart';
+import 'package:flutter_app/common/tools/CustomNavigator.dart';
 
 // ignore: must_be_immutable
 class FashionPersonalImagePostPageView extends FashionBasePageView {

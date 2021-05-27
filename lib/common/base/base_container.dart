@@ -4,6 +4,7 @@ import 'package:flutter_app/common/tools/custom_route.dart';
 import '../../resource.dart';
 import '../extension/extension.dart';
 import 'base_navigation_bar.dart';
+import 'package:flutter_app/common/tools/CustomNavigator.dart';
 
 // ignore: must_be_immutable
 abstract class BaseContainer extends StatefulWidget {
@@ -27,6 +28,9 @@ abstract class BaseContainer extends StatefulWidget {
 
   /// 导航条样式
   NavigationBarType get navigationBarType => NavigationBarType.child;
+
+  /// 是否显示导航条
+  bool get isShowBackground => true;
 
   /// 是否允许重复刷新
   bool get isWantKeepAlive => true;
@@ -80,16 +84,49 @@ abstract class BaseContainerState<T extends BaseContainer> extends State<T> with
       color: this.widget.modalType == CustomRouteModalType.transparent ? Colors.transparent : CustomColor.blackGroundColor,
       child: Stack(
         children: [
-          this.widget.navigationBarType == NavigationBarType.root
-              ? Container(
-                    width: 127.dp,
-                    height: 200.dp,
-                    child: Image(
-                    image: AssetImage(ImageName.cjm_navigationBar_left_background.imagePath),
-                      fit: BoxFit.cover,
-                    ),
-                  )
-              : Container(),
+          Positioned(
+            top: 0,
+            width: 627.dp,
+            height: 627.dp,
+            right: Screen.width - 125.dp,
+            child: Offstage(
+              offstage: !this.widget.isShowBackground,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Color(0xff282727),
+                    borderRadius: BorderRadius.circular(627.dp * 0.5)
+                ),
+              ),
+            )
+          ),
+
+          Positioned(
+            top: 0,
+            width: 394.dp,
+            height: 394.dp,
+            left: Screen.width - 145.dp,
+            child: Offstage(
+              offstage: !this.widget.isShowBackground,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Color(0xff282727),
+                    borderRadius: BorderRadius.circular(394.dp * 0.5)
+                ),
+              ),
+            )
+          ),
+
+          Offstage(
+            offstage: this.widget.navigationBarType != NavigationBarType.root,
+            child: Container(
+              width: 127.dp,
+              height: 200.dp,
+              child: Image(
+                image: AssetImage(ImageName.cjm_navigationBar_left_background.imagePath),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
 
           Container(
             child: Column(
@@ -97,9 +134,10 @@ abstract class BaseContainerState<T extends BaseContainer> extends State<T> with
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                this.widget.isShowNavigationBar
-                    ? this.navigationBar
-                    : Container(),
+                Offstage(
+                  offstage: !this.widget.isShowNavigationBar,
+                  child: this.navigationBar,
+                ),
                 Expanded(
                   child: GestureDetector(
                     child: setContentView(context),

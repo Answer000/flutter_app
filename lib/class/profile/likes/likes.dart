@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/class/profile/likes/likesViewModel.dart';
+import 'package:flutter_app/class/profile/likes/likes_data_entity.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/base/base_viewModel.dart';
 import 'package:flutter_app/common/base/empty_view.dart';
@@ -12,6 +13,10 @@ class Likes extends BaseContainer {
   @override
   // TODO: implement isNeedLogin
   bool get isNeedLogin => true;
+
+  @override
+  // TODO: implement isShowBackground
+  bool get isShowBackground => false;
 
   @override
   BaseContainerState<BaseContainer> getState() {
@@ -95,6 +100,7 @@ class LikesState extends BaseContainerState<Likes> {
       return Container();
     }
     bool isEmptyNum = (this._viewModel.dataEntity.num ?? 0) == 0;
+    LikesDataPastContentLists entity = this._viewModel.lists[index];
     return Container(
       margin: EdgeInsets.only(left: 12.dp, right: 12.dp),
       height: 65.dp,
@@ -109,7 +115,7 @@ class LikesState extends BaseContainerState<Likes> {
           Container(
             margin: EdgeInsets.only(left: 20.dp),
             child: Text(
-              '${this._viewModel.lists[index].createTime ?? ""}',
+              '${entity.createTime ?? ""}',
               style: TextStyle(
                   color: CustomColor.hexColor("0x999999"),
                   fontSize: 12.dpFontSize,
@@ -121,7 +127,7 @@ class LikesState extends BaseContainerState<Likes> {
 
           Container(
               margin: EdgeInsets.only(left: 42.dp),
-              child: this._viewModel.lists[index].pastContent.setRichText(
+              child: entity.pastContent.setRichText(
                   '{{num}}',
                   TextStyle(
                     color: Colors.white,
@@ -129,7 +135,7 @@ class LikesState extends BaseContainerState<Likes> {
                     fontWeight: FontWeight.normal,
                     decoration: TextDecoration.none,
                   ),
-                  "  ${this._viewModel.dataEntity.total ?? 0}  ",
+                  "  ${entity.num ?? 0}  ",
                   TextStyle(
                     color: CustomColor.hexColor(isEmptyNum ? "0xda3f47" : "0xAAcccb"),
                     fontSize: 12.dpFontSize,

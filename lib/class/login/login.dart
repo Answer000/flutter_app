@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/class/login/loginViewModel.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/resource.dart';
+import 'package:flutter_app/common/tools/CustomNavigator.dart';
 
 class Login extends StatefulWidget {
   @override

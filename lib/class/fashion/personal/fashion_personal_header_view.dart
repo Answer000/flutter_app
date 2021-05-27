@@ -57,7 +57,9 @@ class FashionPersonalHeaderViewState extends State<FashionPersonalHeaderView> {
                     ),
                     child: ClipOval(
                       child: this.widget.isLogin
-                          ? CustomImage.assetNetwork(image: '${this.widget.userAvatar}')
+                          ? (this.widget.userAvatar.isValid
+                              ? CustomImage.assetNetwork(image: '${this.widget.userAvatar}')
+                              : CustomAssetImage.image(image: ImageName.placeholder.imagePath))
                           : CustomAssetImage.image(image: ImageName.placeholder.imagePath)
                     )
                   )
@@ -79,9 +81,13 @@ class FashionPersonalHeaderViewState extends State<FashionPersonalHeaderView> {
                             child: Container(
                               width: 10.dp,
                               height: 13.dp,
-                              child: CustomAssetImage.image(
-                                image: this.widget.sex == 0 ? ImageName.cjm_gender_female.imagePath : ImageName.cjm_gender_male.imagePath,
-                              ),
+                              child: this.widget.sex.isValid
+                                  ? CustomAssetImage.image(
+                                      image: this.widget.sex == 0
+                                              ? ImageName.cjm_gender_female.imagePath
+                                              : ImageName.cjm_gender_male.imagePath,
+                                    )
+                                  : Container(),
                             ),
                           )
                         ],
@@ -93,19 +99,21 @@ class FashionPersonalHeaderViewState extends State<FashionPersonalHeaderView> {
           ),
 
           Container(
+            margin: EdgeInsets.only(top: 7.dp),
             child: Text(
-              this.widget.isLogin ? '${this.widget.nickName}' : '请点击头像进行登录',
+              this.widget.isLogin ? '${this.widget.nickName ?? ""}' : '请点击头像进行登录',
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 18.dpFontSize,
-                  fontWeight: FontWeight.bold
+                  fontWeight: FontWeight.w500
               ),
             ),
           ),
 
           Container(
+            margin: EdgeInsets.only(top: 10.dp),
             child: Text(
-              this.widget.isLogin ? 'ID编号：${this.widget.userNo}' : '用户未登录',
+              this.widget.isLogin ? 'ID编号：${this.widget.userNo ?? ""}' : '用户未登录',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 11.dpFontSize,

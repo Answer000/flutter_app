@@ -17,6 +17,10 @@ import 'package:flutter_app/class/profile/profile_info_entity.dart';
 import 'package:flutter_app/generated/json/profile_info_entity_helper.dart';
 import 'package:flutter_app/class/profile/likes/likes_data_entity.dart';
 import 'package:flutter_app/generated/json/likes_data_entity_helper.dart';
+import 'package:flutter_app/class/profile/integral/detail/myIntegral_detail_data_entity.dart';
+import 'package:flutter_app/generated/json/myIntegral_detail_data_entity_helper.dart';
+import 'package:flutter_app/class/profile/integral/myIntegral_data_entity.dart';
+import 'package:flutter_app/generated/json/myIntegral_data_entity_helper.dart';
 import 'package:flutter_app/class/home/home_page_entity.dart';
 import 'package:flutter_app/generated/json/home_page_entity_helper.dart';
 import 'package:flutter_app/class/profile/fans/fans_data_entity.dart';
@@ -81,6 +85,20 @@ class JsonConvert<T> {
 				return likesDataPastContentFromJson(data as LikesDataPastContent, json) as T;
 			case LikesDataPastContentLists:
 				return likesDataPastContentListsFromJson(data as LikesDataPastContentLists, json) as T;
+			case MyIntegralDetailDataEntity:
+				return myIntegralDetailDataEntityFromJson(data as MyIntegralDetailDataEntity, json) as T;
+			case MyIntegralDetailDataData:
+				return myIntegralDetailDataDataFromJson(data as MyIntegralDetailDataData, json) as T;
+			case MyIntegralDetailDataDataIntegralList:
+				return myIntegralDetailDataDataIntegralListFromJson(data as MyIntegralDetailDataDataIntegralList, json) as T;
+			case MyIntegralDetailDataDataIntegralListLists:
+				return myIntegralDetailDataDataIntegralListListsFromJson(data as MyIntegralDetailDataDataIntegralListLists, json) as T;
+			case MyIntegralDataEntity:
+				return myIntegralDataEntityFromJson(data as MyIntegralDataEntity, json) as T;
+			case MyIntegralDataData:
+				return myIntegralDataDataFromJson(data as MyIntegralDataData, json) as T;
+			case MyIntegralDataDataMissionList:
+				return myIntegralDataDataMissionListFromJson(data as MyIntegralDataDataMissionList, json) as T;
 			case HomePageEntity:
 				return homePageEntityFromJson(data as HomePageEntity, json) as T;
 			case HomePageData:
@@ -152,6 +170,20 @@ class JsonConvert<T> {
 				return likesDataPastContentToJson(data as LikesDataPastContent);
 			case LikesDataPastContentLists:
 				return likesDataPastContentListsToJson(data as LikesDataPastContentLists);
+			case MyIntegralDetailDataEntity:
+				return myIntegralDetailDataEntityToJson(data as MyIntegralDetailDataEntity);
+			case MyIntegralDetailDataData:
+				return myIntegralDetailDataDataToJson(data as MyIntegralDetailDataData);
+			case MyIntegralDetailDataDataIntegralList:
+				return myIntegralDetailDataDataIntegralListToJson(data as MyIntegralDetailDataDataIntegralList);
+			case MyIntegralDetailDataDataIntegralListLists:
+				return myIntegralDetailDataDataIntegralListListsToJson(data as MyIntegralDetailDataDataIntegralListLists);
+			case MyIntegralDataEntity:
+				return myIntegralDataEntityToJson(data as MyIntegralDataEntity);
+			case MyIntegralDataData:
+				return myIntegralDataDataToJson(data as MyIntegralDataData);
+			case MyIntegralDataDataMissionList:
+				return myIntegralDataDataMissionListToJson(data as MyIntegralDataDataMissionList);
 			case HomePageEntity:
 				return homePageEntityToJson(data as HomePageEntity);
 			case HomePageData:
@@ -224,6 +256,20 @@ class JsonConvert<T> {
 			return LikesDataPastContent().fromJson(json);
 		}	else if(type == (LikesDataPastContentLists).toString()){
 			return LikesDataPastContentLists().fromJson(json);
+		}	else if(type == (MyIntegralDetailDataEntity).toString()){
+			return MyIntegralDetailDataEntity().fromJson(json);
+		}	else if(type == (MyIntegralDetailDataData).toString()){
+			return MyIntegralDetailDataData().fromJson(json);
+		}	else if(type == (MyIntegralDetailDataDataIntegralList).toString()){
+			return MyIntegralDetailDataDataIntegralList().fromJson(json);
+		}	else if(type == (MyIntegralDetailDataDataIntegralListLists).toString()){
+			return MyIntegralDetailDataDataIntegralListLists().fromJson(json);
+		}	else if(type == (MyIntegralDataEntity).toString()){
+			return MyIntegralDataEntity().fromJson(json);
+		}	else if(type == (MyIntegralDataData).toString()){
+			return MyIntegralDataData().fromJson(json);
+		}	else if(type == (MyIntegralDataDataMissionList).toString()){
+			return MyIntegralDataDataMissionList().fromJson(json);
 		}	else if(type == (HomePageEntity).toString()){
 			return HomePageEntity().fromJson(json);
 		}	else if(type == (HomePageData).toString()){
@@ -296,6 +342,20 @@ class JsonConvert<T> {
 			return data.map<LikesDataPastContent>((e) => LikesDataPastContent().fromJson(e)).toList() as M;
 		}	else if(<LikesDataPastContentLists>[] is M){
 			return data.map<LikesDataPastContentLists>((e) => LikesDataPastContentLists().fromJson(e)).toList() as M;
+		}	else if(<MyIntegralDetailDataEntity>[] is M){
+			return data.map<MyIntegralDetailDataEntity>((e) => MyIntegralDetailDataEntity().fromJson(e)).toList() as M;
+		}	else if(<MyIntegralDetailDataData>[] is M){
+			return data.map<MyIntegralDetailDataData>((e) => MyIntegralDetailDataData().fromJson(e)).toList() as M;
+		}	else if(<MyIntegralDetailDataDataIntegralList>[] is M){
+			return data.map<MyIntegralDetailDataDataIntegralList>((e) => MyIntegralDetailDataDataIntegralList().fromJson(e)).toList() as M;
+		}	else if(<MyIntegralDetailDataDataIntegralListLists>[] is M){
+			return data.map<MyIntegralDetailDataDataIntegralListLists>((e) => MyIntegralDetailDataDataIntegralListLists().fromJson(e)).toList() as M;
+		}	else if(<MyIntegralDataEntity>[] is M){
+			return data.map<MyIntegralDataEntity>((e) => MyIntegralDataEntity().fromJson(e)).toList() as M;
+		}	else if(<MyIntegralDataData>[] is M){
+			return data.map<MyIntegralDataData>((e) => MyIntegralDataData().fromJson(e)).toList() as M;
+		}	else if(<MyIntegralDataDataMissionList>[] is M){
+			return data.map<MyIntegralDataDataMissionList>((e) => MyIntegralDataDataMissionList().fromJson(e)).toList() as M;
 		}	else if(<HomePageEntity>[] is M){
 			return data.map<HomePageEntity>((e) => HomePageEntity().fromJson(e)).toList() as M;
 		}	else if(<HomePageData>[] is M){

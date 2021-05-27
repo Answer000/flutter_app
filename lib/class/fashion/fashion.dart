@@ -16,6 +16,7 @@ import 'package:flutter_app/common/extension/extension.dart';
 
 // ignore: must_be_immutable
 class Fashion extends BaseContainer {
+
   @override
   BaseContainerState<BaseContainer> getState() {
     return FashionState();
@@ -100,6 +101,7 @@ class FashionState extends BaseContainerState<Fashion> {
               scrollLineColor: CustomColor.mainRedColor,
               scrollLineWidth: 18.dp,
               backgroundColor: Colors.transparent,
+              height: 44.dp,
               indexDidChanged: (index){
                 this._pageController.animateToPage(
                     index,
