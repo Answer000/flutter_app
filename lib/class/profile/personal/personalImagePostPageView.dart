@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/class/fashion/attention/fashion_attention_item_builder.dart';
-import 'package:flutter_app/class/fashion/fashion_base_page_view.dart';
-import 'package:flutter_app/class/fashion/personal/fashion_personal_page_viewModel.dart';
+import 'package:flutter_app/common/tools/base_page_view.dart';
+import 'package:flutter_app/class/profile/personal/personalPageViewModel.dart';
 import 'package:flutter_app/common/base/base_viewModel.dart';
 import 'package:flutter_app/common/base/empty_view.dart';
 import 'package:flutter_app/common/extension/extension.dart';
@@ -11,28 +11,32 @@ import 'package:flutter_app/resource.dart';
 import 'package:flutter_app/common/tools/CustomNavigator.dart';
 
 // ignore: must_be_immutable
-class FashionPersonalImagePostPageView extends FashionBasePageView {
+class PersonalImagePostPageView extends BasePageView {
 
   bool isLogin;
-
-  FashionPersonalImagePostPageView({@required this.isLogin});
+  int userId;
+  PersonalImagePostPageView({
+    @required this.isLogin,
+    @required this.userId
+  });
 
   @override
-  FashionBasePageViewState<FashionBasePageView> getState() {
+  BasePageViewState<BasePageView> getState() {
     // TODO: implement getState
-    return FashionPersonalImagePostPageViewState();
+    return PersonalImagePostPageViewState();
   }
 }
 
-class FashionPersonalImagePostPageViewState extends FashionBasePageViewState<FashionPersonalImagePostPageView> {
+class PersonalImagePostPageViewState extends BasePageViewState<PersonalImagePostPageView> {
 
-  FashionPersonalPageViewModel _viewModel = FashionPersonalPageViewModel(1);
+  PersonalPageViewModel _viewModel;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
+    _viewModel = PersonalPageViewModel(type: 1, userId: this.widget.userId);
     _loadData(isDown: true);
   }
 
@@ -75,14 +79,14 @@ class FashionPersonalImagePostPageViewState extends FashionBasePageViewState<Fas
       child: CustomRefresher(
         onRefresh: (refresh) {
           this._loadData(
-              isDown: true,
-              callback: (_) => refresh.setRefreshCompleted(),
+            isDown: true,
+            callback: (_) => refresh.setRefreshCompleted(),
           );
         },
         onLoading: (refresh) {
           this._loadData(
-            isDown: false,
-            callback: (_) => refresh.setLoadStatus(this._viewModel.loadStatus)
+              isDown: false,
+              callback: (_) => refresh.setLoadStatus(this._viewModel.loadStatus)
           );
         },
         child: ListView.separated(

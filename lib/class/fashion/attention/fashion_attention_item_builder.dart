@@ -3,7 +3,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/class/fashion/post_entity.dart';
+import 'package:flutter_app/class/profile/personal/otherPersonal/otherPersonal.dart';
 import 'package:flutter_app/common/extension/extension.dart';
+import 'package:flutter_app/common/tools/CustomNavigator.dart';
 import 'package:flutter_app/resource.dart';
 
 class FashionAttentionItemBuilder extends StatefulWidget {
@@ -51,8 +53,18 @@ class FashionAttentionItemBuilderState extends State<FashionAttentionItemBuilder
                       color: Color(0xff5f5f5f),
                       borderRadius: BorderRadius.circular(30.dp),
                     ),
-                    child: CustomImage.memoryNetwork(
-                        image: this.widget.postEntity.post.userAvatar
+                    child: FlatButton(
+                      padding: EdgeInsets.all(0),
+                      child: CustomImage.memoryNetwork(
+                        image: this.widget.postEntity.post.userAvatar,
+                        size: Size(60.dp, 60.dp),
+                      ),
+                      onPressed: (){
+                        CustomNavigator.push(
+                            context: context,
+                            page: OtherPersonal(this.widget.postEntity.post.userId)
+                        );
+                      },
                     ),
                   ),
 

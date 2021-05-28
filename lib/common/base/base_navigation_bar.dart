@@ -22,10 +22,17 @@ class NavigationBar extends StatefulWidget {
   String descriptionText;
   /// 导航条返回按钮事件回调
   VoidCallback backCallback;
+  /// 是否显示logo
+  bool _isShowLogo = true;
+  set isShowLogo(bool value) {
+    this._isShowLogo = value;
+  }
 
   /// 初始方法
   NavigationBar({
-    @required this.barType, this.backCallback});
+    @required this.barType,
+    this.backCallback
+  });
 
   NavigationBarState _navigationBarState = NavigationBarState();
 
@@ -198,10 +205,13 @@ class NavigationBarState extends State<NavigationBar> {
               child: Container(
                 child: Row(
                   children: <Widget>[
-                    Container(
-                      height: 16.dp,
-                      width: 24.dp,
-                      child: ImageName.cjm_navigationBar_logo.assetImage,
+                    Offstage(
+                      offstage: !this.widget._isShowLogo,
+                      child: Container(
+                        height: 16.dp,
+                        width: 24.dp,
+                        child: ImageName.cjm_navigationBar_logo.assetImage,
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.all(3.dp),

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/class/fashion/attention/fashion_attention_item_builder.dart';
-import 'package:flutter_app/class/fashion/attention/fashion_attention_user_entity.dart';
 import 'package:flutter_app/class/fashion/attention/fashion_attention_user_view.dart';
 import 'package:flutter_app/class/fashion/attention/fashion_attention_viewModel.dart';
-import 'package:flutter_app/class/fashion/fashion_base_page_view.dart';
+import 'package:flutter_app/common/tools/base_page_view.dart';
 import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/common/base/base_viewModel.dart';
 import 'package:flutter_app/common/base/empty_view.dart';
-import 'package:flutter_app/common/base/tabbar.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/common/tools/CustomNavigator.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
@@ -15,19 +13,19 @@ import 'package:flutter_app/resource.dart';
 
 
 // ignore: must_be_immutable
-class FashionAttentionPageView extends FashionBasePageView {
+class FashionAttentionPageView extends BasePageView {
 
   bool isLogin;
 
   FashionAttentionPageView({@required this.isLogin});
 
   @override
-  FashionBasePageViewState<FashionBasePageView> getState() {
+  BasePageViewState<BasePageView> getState() {
     return FashionAttentionPageViewState();
   }
 }
 
-class FashionAttentionPageViewState extends FashionBasePageViewState<FashionAttentionPageView> {
+class FashionAttentionPageViewState extends BasePageViewState<FashionAttentionPageView> {
 
   FashionAttentionViewModel _viewModel = FashionAttentionViewModel();
 

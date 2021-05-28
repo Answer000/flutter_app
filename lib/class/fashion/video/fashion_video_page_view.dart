@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app/class/fashion/fashion_base_page_view.dart';
+import 'package:flutter_app/common/tools/base_page_view.dart';
 import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/class/fashion/video/fashion_video_viewModel.dart';
 import 'package:flutter_app/class/fashion/waterfall_flow_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 
-class FashionVideoPageView extends FashionBasePageView{
+class FashionVideoPageView extends BasePageView{
 
   FashionVideoViewModel _viewModel = FashionVideoViewModel();
 
   @override
-  FashionBasePageViewState<FashionBasePageView> getState() {
+  BasePageViewState<BasePageView> getState() {
     return FashionVideoPageViewState();
   }
 }
 
-class FashionVideoPageViewState extends FashionBasePageViewState<FashionVideoPageView> {
+class FashionVideoPageViewState extends BasePageViewState<FashionVideoPageView> {
 
   List<PostEntity> _postEntitys = [];
 

@@ -6,22 +6,20 @@ import 'package:flutter_app/common/base/base_viewModel.dart';
 import 'package:flutter_app/common/https/https.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class FashionPersonalPageViewModel extends ASBaseViewModel {
-
-  int _pageSize = 10;
-
-  int _pageNo = 1;
-
-  List<PostEntity> items = [];
+class PersonalPageViewModel extends ASBaseViewModel {
 
   int type;
+  int userId;
+  PersonalPageViewModel({this.type, this.userId});
 
-  FashionPersonalPageViewModel(this.type);
+  int _pageSize = 10;
+  int _pageNo = 1;
+  List<PostEntity> items = [];
 
   loadDatas({@required bool isDown, Function callback}) async{
     _pageNo = isDown ? 1 : (_pageNo + 1);
-    int userId = 0;
-    await LoginUserInfoManager().userId.then((value) => userId = value);
+    // int userId = 0;
+    // await LoginUserInfoManager().userId.then((value) => userId = value);
     await Https().post(
         apiPath: APIPath.post_othersPublishPost,
         params: {

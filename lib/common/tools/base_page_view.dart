@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-abstract class FashionBasePageView extends StatefulWidget {
+abstract class BasePageView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
@@ -9,10 +9,10 @@ abstract class FashionBasePageView extends StatefulWidget {
   }
 
   // 子类实现
-  FashionBasePageViewState getState();
+  BasePageViewState getState();
 }
 
-abstract class FashionBasePageViewState<T extends FashionBasePageView> extends State<T> with AutomaticKeepAliveClientMixin {
+abstract class BasePageViewState<T extends BasePageView> extends State<T> with AutomaticKeepAliveClientMixin {
 
   @override
   bool get wantKeepAlive => true;

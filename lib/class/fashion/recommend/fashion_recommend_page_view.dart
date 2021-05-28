@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/class/fashion/fashion_base_page_view.dart';
+import 'package:flutter_app/common/tools/base_page_view.dart';
 import 'package:flutter_app/class/fashion/recommend/fashion_recommend_tagList_entity.dart';
 import 'package:flutter_app/class/fashion/recommend/fashion_recommend_tag_view.dart';
 import 'package:flutter_app/class/fashion/recommend/fashion_recommend_viewModel.dart';
@@ -8,20 +7,17 @@ import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/class/fashion/waterfall_flow_view.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/common/tools/custom_loading.dart';
-import 'package:flutter_app/common/tools/custom_refresher.dart';
-import 'package:flutter_app/resource.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:waterfall_flow/waterfall_flow.dart';
 
-class FashionRecommendPageView extends FashionBasePageView {
+class FashionRecommendPageView extends BasePageView {
 
   @override
-  FashionBasePageViewState<FashionBasePageView> getState() {
+  BasePageViewState<BasePageView> getState() {
     return FashionRecommendPageViewState();
   }
 }
 
-class FashionRecommendPageViewState extends FashionBasePageViewState<FashionRecommendPageView> {
+class FashionRecommendPageViewState extends BasePageViewState<FashionRecommendPageView> {
 
   FashionRecommendViewModel _viewModel = FashionRecommendViewModel();
 

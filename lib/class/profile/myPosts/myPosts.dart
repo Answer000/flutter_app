@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/class/fashion/personal/fashion_personal_image_post_page_view.dart';
-import 'package:flutter_app/class/fashion/personal/fashion_personal_video_post_page_view.dart';
+import 'package:flutter_app/class/login/loginUserInfoManager.dart';
+import 'package:flutter_app/class/profile/personal/personalImagePostPageView.dart';
+import 'package:flutter_app/class/profile/personal/personalVideoPostPageView.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/tools/ASSegmentView.dart';
 import 'package:flutter_app/common/extension/extension.dart';
@@ -26,6 +27,7 @@ class MyPostsState extends BaseContainerState<MyPosts> {
 
   PageController _pageController = PageController(initialPage: 0);
 
+  int userId;
   int _currentIndex = 0;
 
   double _segmentViewHeight = 44.dp;
@@ -35,6 +37,11 @@ class MyPostsState extends BaseContainerState<MyPosts> {
     // TODO: implement initState
     super.initState();
     this.navigationBar.title = "帖子";
+    LoginUserInfoManager().userId.then((value){
+      this.setState(() {
+        this.userId = value;
+      });
+    });
   }
 
   @override
@@ -68,9 +75,18 @@ class MyPostsState extends BaseContainerState<MyPosts> {
             controller: this._pageController,
             scrollDirection: Axis.horizontal,
             children: [
-              FashionPersonalImagePostPageView(isLogin: true),
-              FashionPersonalVideoPostPageView(isLogin: true),
+              this.userId.isNotValid
+                  ? Container()
+                  : PersonalImagePostPageView(isLogin: true, userId: this.userId),
+              this.userId.isNotValid
+                  ? Container()
+                  : PersonalVideoPostPageView(isLogin: true, userId: this.userId)
             ],
+            onPageChanged: (index){
+              this.setState(() {
+                this._currentIndex = index;
+              });
+            },
           ),
         )
       ],

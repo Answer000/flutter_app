@@ -27,6 +27,8 @@ import 'package:flutter_app/class/profile/fans/fans_data_entity.dart';
 import 'package:flutter_app/generated/json/fans_data_entity_helper.dart';
 import 'package:flutter_app/class/home/home_banner_entity.dart';
 import 'package:flutter_app/generated/json/home_banner_entity_helper.dart';
+import 'package:flutter_app/class/profile/personal/otherPersonal/otherPersonal_info_entity.dart';
+import 'package:flutter_app/generated/json/otherPersonal_info_entity_helper.dart';
 
 class JsonConvert<T> {
 	T fromJson(Map<String, dynamic> json) {
@@ -118,7 +120,13 @@ class JsonConvert<T> {
 			case HomeBannerData:
 				return homeBannerDataFromJson(data as HomeBannerData, json) as T;
 			case HomeBannerDataBannerList:
-				return homeBannerDataBannerListFromJson(data as HomeBannerDataBannerList, json) as T;    }
+				return homeBannerDataBannerListFromJson(data as HomeBannerDataBannerList, json) as T;
+			case OtherPersonalInfoEntity:
+				return otherPersonalInfoEntityFromJson(data as OtherPersonalInfoEntity, json) as T;
+			case OtherPersonalInfoData:
+				return otherPersonalInfoDataFromJson(data as OtherPersonalInfoData, json) as T;
+			case OtherPersonalInfoDataUser:
+				return otherPersonalInfoDataUserFromJson(data as OtherPersonalInfoDataUser, json) as T;    }
     return data as T;
   }
 
@@ -204,6 +212,12 @@ class JsonConvert<T> {
 				return homeBannerDataToJson(data as HomeBannerData);
 			case HomeBannerDataBannerList:
 				return homeBannerDataBannerListToJson(data as HomeBannerDataBannerList);
+			case OtherPersonalInfoEntity:
+				return otherPersonalInfoEntityToJson(data as OtherPersonalInfoEntity);
+			case OtherPersonalInfoData:
+				return otherPersonalInfoDataToJson(data as OtherPersonalInfoData);
+			case OtherPersonalInfoDataUser:
+				return otherPersonalInfoDataUserToJson(data as OtherPersonalInfoDataUser);
 			}
 			return data as T;
 		}
@@ -290,6 +304,12 @@ class JsonConvert<T> {
 			return HomeBannerData().fromJson(json);
 		}	else if(type == (HomeBannerDataBannerList).toString()){
 			return HomeBannerDataBannerList().fromJson(json);
+		}	else if(type == (OtherPersonalInfoEntity).toString()){
+			return OtherPersonalInfoEntity().fromJson(json);
+		}	else if(type == (OtherPersonalInfoData).toString()){
+			return OtherPersonalInfoData().fromJson(json);
+		}	else if(type == (OtherPersonalInfoDataUser).toString()){
+			return OtherPersonalInfoDataUser().fromJson(json);
 		}	
 		return null;
 	}
@@ -376,6 +396,12 @@ class JsonConvert<T> {
 			return data.map<HomeBannerData>((e) => HomeBannerData().fromJson(e)).toList() as M;
 		}	else if(<HomeBannerDataBannerList>[] is M){
 			return data.map<HomeBannerDataBannerList>((e) => HomeBannerDataBannerList().fromJson(e)).toList() as M;
+		}	else if(<OtherPersonalInfoEntity>[] is M){
+			return data.map<OtherPersonalInfoEntity>((e) => OtherPersonalInfoEntity().fromJson(e)).toList() as M;
+		}	else if(<OtherPersonalInfoData>[] is M){
+			return data.map<OtherPersonalInfoData>((e) => OtherPersonalInfoData().fromJson(e)).toList() as M;
+		}	else if(<OtherPersonalInfoDataUser>[] is M){
+			return data.map<OtherPersonalInfoDataUser>((e) => OtherPersonalInfoDataUser().fromJson(e)).toList() as M;
 		}
 		throw Exception("not fond");
 	}

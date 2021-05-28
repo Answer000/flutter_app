@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_app/class/login/login_entity.dart';
+import 'package:flutter_app/common/tools/custom_loading.dart';
 import 'package:package_info/package_info.dart';
 
 
@@ -154,6 +155,7 @@ class Https {
     OnFailure onFailure}) async {
     String url = '$baseURL/${apiPath.toString().split('.').last.replaceAll('_', '/')}';
     try {
+      // CustomLoading.showLoading();
       Response response = await new Dio().post(
         url,
         data: contentType == ContentType.urlEncoded ? FormData.fromMap(params) : params,
@@ -169,6 +171,7 @@ class Https {
       );
 
       if (response.statusCode == HttpStatus.ok) {
+        // CustomLoading.hideLoading();
         print('\nurl：$url  =========>\nparams：$params \ndatas：$response');
         Map data = json.decode(response.toString());
         if(data["resultCode"] == "0000") {
@@ -180,9 +183,11 @@ class Https {
           onFailure(response);
         }
       }else{
+        // CustomLoading.hideLoading();
         onFailure(response);
       }
     } catch (exception) {
+      // CustomLoading.hideLoading();
       print('$url  =========> \n$exception.toString()');
       onFailure(exception);
     }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 
-class CustomLoading {
+class  CustomLoading {
   static bool _isShow = false;
 
   static showLoading({BuildContext context}) {

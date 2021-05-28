@@ -1,36 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/class/fashion/attention/fashion_attention_item_builder.dart';
-import 'package:flutter_app/class/fashion/fashion_base_page_view.dart';
-import 'package:flutter_app/class/fashion/personal/fashion_personal_page_viewModel.dart';
+import 'package:flutter_app/class/profile/personal/personalPageViewModel.dart';
 import 'package:flutter_app/common/base/base_viewModel.dart';
 import 'package:flutter_app/common/base/empty_view.dart';
 import 'package:flutter_app/common/extension/extension.dart';
+import 'package:flutter_app/common/tools/base_page_view.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
 import 'package:flutter_app/resource.dart';
 import 'package:flutter_app/common/tools/CustomNavigator.dart';
 
 // ignore: must_be_immutable
-class FashionPersonalVideoPostPageView extends FashionBasePageView {
+class PersonalVideoPostPageView extends BasePageView {
   bool isLogin;
-
-  FashionPersonalVideoPostPageView({@required this.isLogin});
+  int userId;
+  PersonalVideoPostPageView({
+    @required this.isLogin,
+    @required this.userId
+  });
 
   @override
-  FashionBasePageViewState<FashionBasePageView> getState() {
+  BasePageViewState<BasePageView> getState() {
     // TODO: implement getState
-    return FashionPersonalVideoPostPageViewState();
+    return PersonalVideoPostPageViewState();
   }
 }
 
-class FashionPersonalVideoPostPageViewState extends FashionBasePageViewState<FashionPersonalVideoPostPageView> {
+class PersonalVideoPostPageViewState extends BasePageViewState<PersonalVideoPostPageView> {
 
-  FashionPersonalPageViewModel _viewModel = FashionPersonalPageViewModel(2);
+  PersonalPageViewModel _viewModel;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
+    _viewModel = PersonalPageViewModel(type: 2, userId: this.widget.userId);
     _loadData(isDown: true);
   }
 

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 
-class FashionPersonalMenuView extends StatefulWidget {
+// ignore: must_be_immutable
+class PersonalMenuView extends StatefulWidget {
 
   bool isLogin;
 
@@ -9,7 +10,7 @@ class FashionPersonalMenuView extends StatefulWidget {
   int followsCount;
   int likesCount;
 
-  FashionPersonalMenuView({
+  PersonalMenuView({
     @required this.isLogin,
     this.fansCount = 0,
     this.followsCount = 0,
@@ -19,11 +20,11 @@ class FashionPersonalMenuView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return FashionPersonalMenuViewState();
+    return PersonalMenuViewState();
   }
 }
 
-class FashionPersonalMenuViewState extends State<FashionPersonalMenuView> {
+class PersonalMenuViewState extends State<PersonalMenuView> {
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,8 @@ class FashionPersonalMenuViewState extends State<FashionPersonalMenuView> {
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 15.dpFontSize,
-                      fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.none
                   ),
                 ),
 
@@ -55,6 +57,8 @@ class FashionPersonalMenuViewState extends State<FashionPersonalMenuView> {
                   style: TextStyle(
                       color: Color(0xffeeeeee),
                       fontSize: 10.dpFontSize,
+                      fontWeight: FontWeight.normal,
+                      decoration: TextDecoration.none
                   ),
                 ),
               ],
@@ -78,7 +82,8 @@ class FashionPersonalMenuViewState extends State<FashionPersonalMenuView> {
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 15.dpFontSize,
-                      fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.none
                   ),
                 ),
 
@@ -89,6 +94,8 @@ class FashionPersonalMenuViewState extends State<FashionPersonalMenuView> {
                   style: TextStyle(
                       color: Color(0xffeeeeee),
                       fontSize: 10.dpFontSize,
+                      fontWeight: FontWeight.normal,
+                      decoration: TextDecoration.none
                   ),
                 ),
               ],
@@ -112,7 +119,8 @@ class FashionPersonalMenuViewState extends State<FashionPersonalMenuView> {
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 15.dpFontSize,
-                      fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.none
                   ),
                 ),
 
@@ -123,6 +131,8 @@ class FashionPersonalMenuViewState extends State<FashionPersonalMenuView> {
                   style: TextStyle(
                       color: Color(0xffeeeeee),
                       fontSize: 10.dpFontSize,
+                      fontWeight: FontWeight.normal,
+                      decoration: TextDecoration.none
                   ),
                 ),
               ],

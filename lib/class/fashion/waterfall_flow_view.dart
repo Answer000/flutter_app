@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/class/fashion/post_entity.dart';
+import 'package:flutter_app/class/profile/personal/otherPersonal/otherPersonal.dart';
+import 'package:flutter_app/common/tools/CustomNavigator.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
@@ -145,7 +147,7 @@ class WaterfallFlowViewState extends State<WaterfallFlowView> {
                       width: 20.dp,
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.dp),
                       ),
                       child: FlatButton(
                         padding: EdgeInsets.all(0),
@@ -153,6 +155,9 @@ class WaterfallFlowViewState extends State<WaterfallFlowView> {
                           image: post.post.userAvatar,
                           size: Size(20.dp, 20.dp),
                         ),
+                        onPressed: (){
+                          CustomNavigator.push(context: context, page: OtherPersonal(post.post.userId));
+                        },
                       ),
                     ),
 

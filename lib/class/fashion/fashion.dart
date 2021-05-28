@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/class/fashion/attention/fashion_attention_page_view.dart';
 import 'package:flutter_app/class/fashion/personal/fashion_personal_page_view.dart';
 import 'package:flutter_app/class/fashion/recommend/fashion_recommend_page_view.dart';
-import 'package:flutter_app/class/fashion/fashion_segment_view.dart';
 import 'package:flutter_app/class/fashion/video/fashion_video_page_view.dart';
 import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/base/base_navigation_bar.dart';
-import 'package:flutter_app/common/base/empty_view.dart';
 import 'package:flutter_app/common/base/event_manager.dart';
 import 'package:flutter_app/common/tools/ASSegmentView.dart';
 import 'package:flutter_app/resource.dart';
@@ -80,10 +78,8 @@ class FashionState extends BaseContainerState<Fashion> {
 
   @override
   Widget setContentView(BuildContext context) {
-    _personalPageView = FashionPersonalPageView(
-      isLogin: this.isLogin,
-    );
-    this.loginStatusDidChanged = _personalPageView.loginStatusDidChanged;
+    _personalPageView = FashionPersonalPageView();
+    // this.loginStatusDidChanged = _personalPageView.loginStatusDidChanged;
 
     return Container(
       child: Stack(
@@ -122,7 +118,7 @@ class FashionState extends BaseContainerState<Fashion> {
                 FashionRecommendPageView(),
                 FashionAttentionPageView(isLogin: this.isLogin),
                 FashionVideoPageView(),
-                _personalPageView,
+                FashionPersonalPageView(),
               ],
               onPageChanged: (index){
                 setState(() {
