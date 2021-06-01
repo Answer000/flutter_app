@@ -23,14 +23,23 @@ class NavigationBar extends StatefulWidget {
   /// 导航条返回按钮事件回调
   VoidCallback backCallback;
   /// 是否显示logo
-  bool _isShowLogo = true;
-  set isShowLogo(bool value) {
-    this._isShowLogo = value;
+  bool isShowLogo;
+  set _isShowLogo(bool value) {
+    this.isShowLogo = value;
+  }
+
+  /// 是否显示logo
+  Color navigationBarColor = Colors.transparent;
+  set _navigationBarColor(Color color) {
+    this.navigationBarColor = color;
   }
 
   /// 初始方法
   NavigationBar({
     @required this.barType,
+    this.title,
+    this.isShowLogo = true,
+    this.navigationBarColor = Colors.transparent,
     this.backCallback
   });
 
@@ -69,7 +78,7 @@ class NavigationBarState extends State<NavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.transparent,
+        color: this.widget.navigationBarColor,
         height: Screen.topBarHeight,
         padding: EdgeInsets.only(top: Screen.statusBarHeight),
         child: _createWidget(),
@@ -206,7 +215,7 @@ class NavigationBarState extends State<NavigationBar> {
                 child: Row(
                   children: <Widget>[
                     Offstage(
-                      offstage: !this.widget._isShowLogo,
+                      offstage: !this.widget.isShowLogo,
                       child: Container(
                         height: 16.dp,
                         width: 24.dp,

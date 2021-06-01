@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_app/class/fashion/postDetail/imagePostDetail/imagePostDetail.dart';
+import 'package:flutter_app/class/fashion/postDetail/videoPostDetail/videoPostDetail.dart';
 import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/class/profile/personal/otherPersonal/otherPersonal.dart';
 import 'package:flutter_app/common/tools/CustomNavigator.dart';
@@ -57,7 +59,20 @@ class WaterfallFlowViewState extends State<WaterfallFlowView> {
             lastChildLayoutTypeBuilder: (index) => LastChildLayoutType.none
         ),
         itemBuilder: (BuildContext context, int index) {
-          return _getItemBuilder(this.widget.dataSource[index], index);
+          PostEntity postEntity = this.widget.dataSource[index];
+          return GestureDetector(
+            child: _getItemBuilder(postEntity, index),
+            onTap: (){
+              switch(postEntity.postType) {
+                case PostType.image:
+                  CustomNavigator.push(context: context, page: ImagePostDetail(post: postEntity.post));
+                  break;
+                case PostType.video:
+                  CustomNavigator.push(context: context, page: VideoPostDetail());
+                  break;
+              }
+            },
+          );
         },
       ),
     );

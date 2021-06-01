@@ -4,14 +4,14 @@ class PostModelEntity with JsonConvert<PostModelEntity> {
 	int id;
 	int userId;
 	int type;
-	String picUrl;
-	String picUrlProportion;
-	String videoUrl;
+	dynamic picUrl;
+	dynamic picUrlProportion;
+	dynamic videoUrl;
 	String createTime;
-	String updateTime;
+	dynamic updateTime;
 	int status;
-	String title;
-	String subTitle;
+	dynamic title;
+	dynamic subTitle;
 	dynamic postBussType;
 	dynamic orderStatus;
 	dynamic createUser;
@@ -24,8 +24,10 @@ class PostModelEntity with JsonConvert<PostModelEntity> {
 	String content;
 	String userAvatar;
 	String nick;
+	String verifyType;
+	String verifyTypeIcon;
 	String linkUrl;
-	String htmlDetail;
+	dynamic htmlDetail;
 	dynamic authorId;
 	dynamic userNo;
 	String attentionUser;
@@ -36,9 +38,11 @@ class PostModelEntity with JsonConvert<PostModelEntity> {
 	String stickTime;
 	int postTagId;
 	String postTagName;
+	dynamic topicName;
 	int level;
-	List<PostModelPostTag> postTags;
-	List<PostModelPostTopic> postTopics;
+	List<PostModelPostTags> postTags;
+	List<PostModelPostTopics> postTopics;
+	List<PostModelPostGoods> postGoods;
 	String route;
 	String strStatus;
 }
@@ -51,14 +55,75 @@ class PostModelPostImgList with JsonConvert<PostModelPostImgList> {
 	int postId;
 }
 
-class PostModelPostTag with JsonConvert<PostModelPostTag> {
+class PostModelPostTags with JsonConvert<PostModelPostTags> {
 	int postTagId;
 	String postTagName;
 	int tagIndex;
+	dynamic pages;
 }
 
-class PostModelPostTopic with JsonConvert<PostModelPostTopic> {
+class PostModelPostTopics with JsonConvert<PostModelPostTopics> {
 	int topicId;
 	String topicName;
 	int topicIndex;
+}
+
+class PostModelPostGoods with JsonConvert<PostModelPostGoods> {
+	int id;
+	int isSell;
+	dynamic floor;
+	dynamic aFew;
+	dynamic bigSort;
+	dynamic smallSort;
+	int isDelete;
+	dynamic goodsBannerImgs;
+	dynamic goodsDetailImg;
+	String picUrl;
+	String picUrlProportion;
+	String title;
+	int species;
+	double price;
+	String goodsNo;
+	String detail;
+	dynamic videoUrl;
+	String createTime;
+	String updateTime;
+	int createUser;
+	int status;
+	dynamic remarks;
+	dynamic collenction;
+	dynamic vectis;
+	String videoName;
+	dynamic goodsNum;
+	dynamic type;
+	dynamic createUserName;
+	dynamic classifyName;
+	dynamic brand;
+	int goodType;
+	String appItemId;
+	String goodUrl;
+	dynamic numType;
+	String shareUrl;
+	String route;
+	String batch;
+	String batchDesc;
+	dynamic pwd;
+	dynamic videoThumbnailUrl;
+	dynamic goodsDeatil;
+	dynamic tagName;
+	dynamic tagIds;
+	List<PostModelPostGoodsTagList> tagList;
+	int avaliableStockNum;
+	dynamic bannerImgsList;
+	double originalPrice;
+	double marketPrice;
+	int classifyId;
+	String viedoName;
+}
+
+class PostModelPostGoodsTagList with JsonConvert<PostModelPostGoodsTagList> {
+	int postTagId;
+	String postTagName;
+	int tagIndex;
+	dynamic pages;
 }

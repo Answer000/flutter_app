@@ -71,10 +71,14 @@ class JsonConvert<T> {
 				return postModelEntityFromJson(data as PostModelEntity, json) as T;
 			case PostModelPostImgList:
 				return postModelPostImgListFromJson(data as PostModelPostImgList, json) as T;
-			case PostModelPostTag:
-				return postModelPostTagFromJson(data as PostModelPostTag, json) as T;
-			case PostModelPostTopic:
-				return postModelPostTopicFromJson(data as PostModelPostTopic, json) as T;
+			case PostModelPostTags:
+				return postModelPostTagsFromJson(data as PostModelPostTags, json) as T;
+			case PostModelPostTopics:
+				return postModelPostTopicsFromJson(data as PostModelPostTopics, json) as T;
+			case PostModelPostGoods:
+				return postModelPostGoodsFromJson(data as PostModelPostGoods, json) as T;
+			case PostModelPostGoodsTagList:
+				return postModelPostGoodsTagListFromJson(data as PostModelPostGoodsTagList, json) as T;
 			case ProfileInfoEntity:
 				return profileInfoEntityFromJson(data as ProfileInfoEntity, json) as T;
 			case ProfileInfoData:
@@ -162,10 +166,14 @@ class JsonConvert<T> {
 				return postModelEntityToJson(data as PostModelEntity);
 			case PostModelPostImgList:
 				return postModelPostImgListToJson(data as PostModelPostImgList);
-			case PostModelPostTag:
-				return postModelPostTagToJson(data as PostModelPostTag);
-			case PostModelPostTopic:
-				return postModelPostTopicToJson(data as PostModelPostTopic);
+			case PostModelPostTags:
+				return postModelPostTagsToJson(data as PostModelPostTags);
+			case PostModelPostTopics:
+				return postModelPostTopicsToJson(data as PostModelPostTopics);
+			case PostModelPostGoods:
+				return postModelPostGoodsToJson(data as PostModelPostGoods);
+			case PostModelPostGoodsTagList:
+				return postModelPostGoodsTagListToJson(data as PostModelPostGoodsTagList);
 			case ProfileInfoEntity:
 				return profileInfoEntityToJson(data as ProfileInfoEntity);
 			case ProfileInfoData:
@@ -254,10 +262,14 @@ class JsonConvert<T> {
 			return PostModelEntity().fromJson(json);
 		}	else if(type == (PostModelPostImgList).toString()){
 			return PostModelPostImgList().fromJson(json);
-		}	else if(type == (PostModelPostTag).toString()){
-			return PostModelPostTag().fromJson(json);
-		}	else if(type == (PostModelPostTopic).toString()){
-			return PostModelPostTopic().fromJson(json);
+		}	else if(type == (PostModelPostTags).toString()){
+			return PostModelPostTags().fromJson(json);
+		}	else if(type == (PostModelPostTopics).toString()){
+			return PostModelPostTopics().fromJson(json);
+		}	else if(type == (PostModelPostGoods).toString()){
+			return PostModelPostGoods().fromJson(json);
+		}	else if(type == (PostModelPostGoodsTagList).toString()){
+			return PostModelPostGoodsTagList().fromJson(json);
 		}	else if(type == (ProfileInfoEntity).toString()){
 			return ProfileInfoEntity().fromJson(json);
 		}	else if(type == (ProfileInfoData).toString()){
@@ -346,10 +358,14 @@ class JsonConvert<T> {
 			return data.map<PostModelEntity>((e) => PostModelEntity().fromJson(e)).toList() as M;
 		}	else if(<PostModelPostImgList>[] is M){
 			return data.map<PostModelPostImgList>((e) => PostModelPostImgList().fromJson(e)).toList() as M;
-		}	else if(<PostModelPostTag>[] is M){
-			return data.map<PostModelPostTag>((e) => PostModelPostTag().fromJson(e)).toList() as M;
-		}	else if(<PostModelPostTopic>[] is M){
-			return data.map<PostModelPostTopic>((e) => PostModelPostTopic().fromJson(e)).toList() as M;
+		}	else if(<PostModelPostTags>[] is M){
+			return data.map<PostModelPostTags>((e) => PostModelPostTags().fromJson(e)).toList() as M;
+		}	else if(<PostModelPostTopics>[] is M){
+			return data.map<PostModelPostTopics>((e) => PostModelPostTopics().fromJson(e)).toList() as M;
+		}	else if(<PostModelPostGoods>[] is M){
+			return data.map<PostModelPostGoods>((e) => PostModelPostGoods().fromJson(e)).toList() as M;
+		}	else if(<PostModelPostGoodsTagList>[] is M){
+			return data.map<PostModelPostGoodsTagList>((e) => PostModelPostGoodsTagList().fromJson(e)).toList() as M;
 		}	else if(<ProfileInfoEntity>[] is M){
 			return data.map<ProfileInfoEntity>((e) => ProfileInfoEntity().fromJson(e)).toList() as M;
 		}	else if(<ProfileInfoData>[] is M){
