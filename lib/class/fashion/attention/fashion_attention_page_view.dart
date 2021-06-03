@@ -29,23 +29,16 @@ class FashionAttentionPageViewState extends BasePageViewState<FashionAttentionPa
 
   FashionAttentionViewModel _viewModel = FashionAttentionViewModel();
 
-
-
-  List<PostEntity> _postList = [];
-
   @override
   void initState() {
     super.initState();
-
-
-
     _loadData();
   }
 
-  _loadData({bool isDown = true, Function callback}) {
-    _viewModel.loadUserAttentionList(() => this.setState(() {}) );
+  _loadData({bool isDown = true, Function callback}) async {
+    await _viewModel.loadUserAttentionList(() => this.setState(() {}) );
 
-    _viewModel.loadPosts(isDown, (){
+    await _viewModel.loadPosts(isDown, (){
       this.setState(() {});
       if(callback != null) { callback(); }
     });
@@ -78,7 +71,9 @@ class FashionAttentionPageViewState extends BasePageViewState<FashionAttentionPa
           onRefresh: (refresh) {
             this._loadData(
                 isDown: true,
-                callback: () => refresh.setRefreshCompleted()
+                callback: (){
+                  refresh.setRefreshCompleted();
+                }
             );
           },
           onLoading: (refresh) {
@@ -102,7 +97,7 @@ class FashionAttentionPageViewState extends BasePageViewState<FashionAttentionPa
   }
 
   int _getItemCount() {
-    int count = this._postList.length ?? 0;
+    int count = this._viewModel.entityList.length ?? 0;
     return count + 1;
   }
 
@@ -116,7 +111,7 @@ class FashionAttentionPageViewState extends BasePageViewState<FashionAttentionPa
 
           });
     }else{
-      return FashionAttentionItemBuilder(postEntity: this._postList[index - 1]);
+      return FashionAttentionItemBuilder(postEntity: this._viewModel.entityList[index - 1]);
     }
   }
 }

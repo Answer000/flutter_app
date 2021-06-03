@@ -29,13 +29,15 @@ class NavigationBar extends StatefulWidget {
   }
 
   /// 是否显示logo
-  Color navigationBarColor = Colors.transparent;
-  set _navigationBarColor(Color color) {
-    this.navigationBarColor = color;
-  }
+  Color navigationBarColor;
+  // Color get navigationBarColor => _navigationBarColor;
+  // set navigationBarColor(Color color) {
+  //   _navigationBarColor = color;
+  // }
 
   /// 初始方法
   NavigationBar({
+    Key key,
     @required this.barType,
     this.title,
     this.isShowLogo = true,

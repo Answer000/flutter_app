@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/class/fashion/post_model_entity.dart';
+import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/common/https/https.dart';
+import 'package:flutter_app/common/tools/CustomNavigator.dart';
 import 'package:flutter_app/common/tools/custom_loading.dart';
 
 enum PostType {
@@ -100,6 +102,25 @@ class PostEntity {
 
   // 是否收藏
   bool get isCollect => this._post.collectionPost == '2' ? false : true;
+  set isCollect(bool value) {
+    if(value) {
+      this._post.collectionPost = '1';
+      this._post.collectionNum += 1;
+    }else{
+      this._post.collectionPost = '2';
+      this._post.collectionNum -= 1;
+    }
+  }
+
+  // 是否关注
+  bool get isFollow => this._post.attentionUser == '2' ? false : true;
+  set isFollow(bool value) {
+    if(value) {
+      this._post.attentionUser = '1';
+    }else{
+      this._post.attentionUser = '2';
+    }
+  }
 
   // 帖子ID
   int get postId => this._post.id;
@@ -122,14 +143,25 @@ class PostEntity {
     this.postType = post.type == 1 ? PostType.image : PostType.video;
   }
 
+  /// 是否正在执行点赞请求
   bool _isPraisePost = false;
+  /// 是否正在执行收藏请求
+  bool _isCollectPost = false;
+  /// 是否正在执行关注请求
+  bool _isFollowPost = false;
 }
 
 /// 点赞
 extension PostEntityPraise on PostEntity {
-  praisePost({Function(bool isSucc, PostEntity postEntity) callback}) async{
+  praisePost({Function callback}) async{
+    bool isNeedsLogin = false;
+    await CustomNavigator.isNeedsToLogin(
+        context: LoginUserInfoManager.appContext).then((value) => isNeedsLogin = value
+    );
+    if(isNeedsLogin) { return; }
+
     if(_isPraisePost) {
-      if (callback != null) { callback(false, this); }
+      if (callback != null) { callback(); }
       return;
     }
     _isPraisePost = true;
@@ -152,13 +184,77 @@ extension PostEntityPraise on PostEntity {
           }
           _isPraisePost = false;
           CustomLoading.hideLoading();
-          if (callback != null) { callback(isSucc, this); }
+          if (callback != null) { callback(); }
         },
         onFailure: (error) {
           _isPraisePost = false;
           CustomLoading.hideLoading();
-          if (callback != null) { callback(false, this); }
+          if (callback != null) { callback(); }
         }
+    );
+  }
+}
+
+/// 收藏
+extension PostEntityCollect on PostEntity {
+  collectPost({Function callback}) async{
+    bool isNeedsLogin = false;
+    await CustomNavigator.isNeedsToLogin(
+        context: LoginUserInfoManager.appContext).then((value) => isNeedsLogin = value
+    );
+    if(isNeedsLogin) { return; }
+
+    if(_isCollectPost) {
+      if (callback != null) { callback(); }
+      return;
+    }
+    _isCollectPost = true;
+    CustomLoading.showLoading();
+    await Https().post(
+        apiPath: APIPath.post_collectionPost,
+        params: {'postId' : this.postId, 'operationType' : this.isCollect ? '2' : '1'},
+        onSuccess: (response) {
+          bool isSucc = response['resultCode'] == '0000';
+          if(isSucc) {
+            if(this.isCollect) {
+              isCollect = false;
+              CustomToast.show('已取消收藏');
+            }else{
+              isCollect = true;
+              CustomToast.show('收藏成功');
+            }
+          }else{
+            CustomToast.show('${response['msg'].toString()}');
+          }
+          _isCollectPost = false;
+          CustomLoading.hideLoading();
+          if (callback != null) { callback(); }
+        },
+        onFailure: (error) {
+          _isCollectPost = false;
+          CustomLoading.hideLoading();
+          if (callback != null) { callback(); }
+        }
+    );
+  }
+}
+
+/// 关注
+extension PostEntityFollow on PostEntity {
+  followPost({Function callback}) {
+    if(_isFollowPost) {
+      if (callback != null) { callback(); }
+      return;
+    }
+    _isFollowPost = true;
+    this.post.userId.isFollow(
+        !this.isFollow,
+        onSuccess: (response){
+          isFollow = !this.isFollow;
+          _isFollowPost = false;
+          if(callback != null){ callback(); }
+        },
+        onFailure: () => _isFollowPost = false
     );
   }
 }
@@ -166,16 +262,32 @@ extension PostEntityPraise on PostEntity {
 /// 关注
 extension FollowHelper on int {
   /// operationType => 1:关注，2:取消关注
-  isFollow(bool isFollow, Function callback) async {
+  isFollow(bool isFollow, {Function(Map<dynamic,dynamic>) onSuccess, Function onFailure}) async {
+    bool isNeedsLogin = false;
+    await CustomNavigator.isNeedsToLogin(
+        context: LoginUserInfoManager.appContext).then((value) => isNeedsLogin = value
+    );
+    if(isNeedsLogin) { return; }
+
+    CustomLoading.showLoading();
     await Https().post(
       apiPath: APIPath.user_attentionUser,
       params: {"userId" : this, "operationType" : (isFollow ? 1 : 2)},
       onSuccess: (response){
-        CustomToast.show(isFollow ? "关注成功" : "取消关注成功");
-        callback();
+        CustomLoading.hideLoading();
+        bool isSucc = response['resultCode'] == '0000';
+        if(isSucc) {
+          CustomToast.show(isFollow ? "关注成功" : "取消关注成功");
+          onSuccess(response);
+        }else{
+          CustomToast.show('${response['msg'].toString()}');
+          onFailure();
+        }
       },
       onFailure: (error){
+        CustomLoading.hideLoading();
         CustomToast.show(isFollow ? "关注失败" : "取消关注失败");
+        onFailure();
       }
     );
   }

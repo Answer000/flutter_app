@@ -8,12 +8,14 @@ class CustomRefresher extends StatefulWidget {
 
   Function(CustomRefresher) onRefresh;
   Function(CustomRefresher) onLoading;
+  Color loadTextColor;
   Widget child;
 
   CustomRefresher({
     Key key,
     this.onRefresh,
     this.onLoading,
+    this.loadTextColor = Colors.white,
     @required this.child
   }) : super(key: key);
 
@@ -88,7 +90,7 @@ class CustomRefresherState extends State<CustomRefresher> {
           body = Text(
               text,
               style: TextStyle(
-                  color: Colors.white,
+                  color: this.widget.loadTextColor,
                   fontSize: 12,
                   fontWeight: FontWeight.normal,
                   decoration: TextDecoration.none

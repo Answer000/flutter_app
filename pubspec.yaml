@@ -112,6 +112,16 @@ flutter:
     - resource/cjm_post_list_unlike.png
     - resource/cjm_post_list_comment.png
     - resource/cjm_post_play.png
+    - resource/cjm_post_detail_collect_normal.png
+    - resource/cjm_post_detail_collect_select.png
+    - resource/cjm_post_detail_comment.png
+    - resource/cjm_post_detail_fullScreen.png
+    - resource/cjm_post_detail_praise_normal.png
+    - resource/cjm_post_detail_praise_select.png
+    - resource/cjm_post_detail_report.png
+    - resource/cjm_post_detail_send.png
+    - resource/cjm_post_detail_share.png
+    - resource/cjm_post_menu_horizontal.png
 
 
     ### 我的

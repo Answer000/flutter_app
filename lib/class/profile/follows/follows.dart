@@ -36,11 +36,11 @@ class FollowsState extends BaseContainerState<Follows> {
     _loadData(isDown: true);
   }
 
-  _loadData({bool isDown = true, Function(bool isDown) callback}) {
+  _loadData({bool isDown = true, Function() callback}) {
     this._viewModel.getDatas(isDown, (_) => {
       this.setState(() { }),
       if(callback != null) {
-        callback(isDown),
+        callback(),
       }
     });
   }
@@ -67,12 +67,12 @@ class FollowsState extends BaseContainerState<Follows> {
     return Container(
         child: CustomRefresher(
           onRefresh: (refresh){
-            _loadData(callback: (_) => refresh.setRefreshCompleted());
+            _loadData(callback: () => refresh.setRefreshCompleted());
           },
           onLoading: (refresh){
             _loadData(
               isDown: false,
-              callback: (isDown) => refresh.setLoadStatus(this._viewModel.loadStatus),
+              callback: () => refresh.setLoadStatus(this._viewModel.loadStatus),
             );
           },
           child: ListView.separated(
@@ -98,7 +98,6 @@ class FollowsState extends BaseContainerState<Follows> {
       return Container();
     }
     bool isAttention = this._viewModel.lists[index].attentionUser == "1";
-    print(this._viewModel.lists[index].attentionUser);
     return Container(
       height: 60.dp,
       margin: EdgeInsets.only(left: 35.dp),

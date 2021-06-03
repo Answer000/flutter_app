@@ -32,7 +32,15 @@ enum APIPath {
   post_newList,               // 推荐列表
   post_attentionList,         // 关注用户的post列表
   post_praisePost,            // post 点赞、取消点赞
+  post_collectionPost,        // post 收藏、取消收藏
   post_videoPost,             // 潮区视频列表
+  comment_commentList,        // 获取帖子对应的评论列表
+  comment_view_more_comment_list, // 查看二级评论列表
+  comment_addPostComment,     // 新增帖子评论
+  comment_deletePostComment,  // 删除帖子的一级评论
+  comment_deletePostComment2, // 删除帖子的二级评论
+  commentPraise_isUserraise,  // 评论点赞、取消点赞
+  post_delete,                // 删除帖子
 
   /// 个人中心
   user_getUserDetail,         // 获取用户资料

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -55,6 +56,25 @@ extension double_extension on double {
 extension String_extension on String {
   bool get isValid => (this != null && ((this.length ?? 0) > 0));
   bool get isNotValid => !isValid;
+
+  /// 计算文本高度
+  double calculateTextHeight(double fontSize, FontWeight fontWeight, double maxWidth, int maxLines) {
+    TextPainter painter = TextPainter(
+      ///AUTO：华为手机如果不指定locale的时候，该方法算出来的文字高度是比系统计算偏小的。
+      locale: Localizations.localeOf(LoginUserInfoManager.appContext, nullOk: true),
+      maxLines: maxLines,
+      textDirection: TextDirection.ltr,
+      text: TextSpan(
+        text: this,
+        style: TextStyle(
+          fontWeight: fontWeight,
+          fontSize: fontSize,
+        )
+      )
+    );
+    painter.layout(maxWidth: maxWidth);
+    return painter.height;
+  }
 
   Widget setRichText(String targetText, TextStyle normalStyle, String replaceText, TextStyle replaceTextStyle) {
     if(this.isNotValid || targetText.isNotValid) { return Container(); }
@@ -157,11 +177,12 @@ extension CustomColor on Color {
 }
 
 extension CustomAssetImage on Image {
-   static Image image({String image, BoxFit fit = BoxFit.cover}) {
+   static Image image({String image, BoxFit fit = BoxFit.cover, Color color}) {
     return Image(
       image: AssetImage(image),
       fit: fit,
       filterQuality: FilterQuality.high,
+      color: color,
     );
   }
 }
@@ -179,6 +200,12 @@ extension CustomImage on FadeInImage {
         fit: fit,
         width: size.width,
         height: size.height,
+        imageErrorBuilder: (context, object, stackTrace) {
+          return CustomAssetImage.image(
+            image: ImageName.placeholder.imagePath,
+            fit: fit,
+          );
+        },
       );
     }else{
       return FadeInImage.assetNetwork(
@@ -186,6 +213,12 @@ extension CustomImage on FadeInImage {
         fit: fit,
         width: size.width,
         height: size.height,
+        imageErrorBuilder: (context, object, stackTrace) {
+          return CustomAssetImage.image(
+            image: ImageName.placeholder.imagePath,
+            fit: fit,
+          );
+        },
       );
     }
   }

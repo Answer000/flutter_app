@@ -163,11 +163,14 @@ class PersonalHeaderViewState extends State<PersonalHeaderView> {
                 ),
                 onPressed: (){
                   bool isFollow = this.widget.infoData.attention != "1";
-                  this.widget.infoData.user.id.isFollow(isFollow, (){
-                    this.setState(() {
-                      this.widget.infoData.attention = isFollow ? "1" : "2";
-                    });
-                  });
+                  this.widget.infoData.user.id.isFollow(
+                      isFollow,
+                      onSuccess: (response){
+                        this.setState(() {
+                          this.widget.infoData.attention = isFollow ? "1" : "2";
+                        });
+                      }
+                  );
                 },
               )
           )

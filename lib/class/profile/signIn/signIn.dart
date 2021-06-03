@@ -58,7 +58,7 @@ class SignInState extends BaseContainerState<SignIn> {
             right: 24.dp,
             height: 38.dp,
             width: 38.dp,
-            top: (Screen.height - bgHeight) * 0.5 - 30,
+            top: (Screen.height - bgHeight) * 0.5 - 80,
             child: FlatButton(
               padding: EdgeInsets.all(0),
               child: CustomAssetImage.image(

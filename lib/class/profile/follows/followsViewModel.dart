@@ -15,11 +15,11 @@ class FollowsViewModel extends ASBaseViewModel {
 
   getDatas(bool isDown, Function(bool isSucc) callback) async {
     if(isDown) { _pageNo = 1; }
+    else { _pageNo += 1; }
     await Https().post(
         apiPath: APIPath.user_attentionList,
         params: {"pageSize" : _pageSize, "pageNo" : _pageNo},
         onSuccess: (response) {
-          this._pageNo += 1;
           FollowsDataEntity entity = FollowsDataEntity().fromJson(response["data"]);
           if(isDown) {
             this.lists = entity.postList.lists;
@@ -39,9 +39,12 @@ class FollowsViewModel extends ASBaseViewModel {
 
   isFollow(FollowsDataPostListLists entity, Function callback) async {
     bool isFollow = (entity.attentionUser == "1" ? false : true);
-    await entity.id.isFollow(isFollow, (){
-      entity.attentionUser = isFollow ? "1" : "2";
-      callback();
-    });
+    await entity.id.isFollow(
+        isFollow,
+        onSuccess: (response){
+          entity.attentionUser = isFollow ? "1" : "2";
+          callback();
+        }
+    );
   }
 }
