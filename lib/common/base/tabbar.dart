@@ -93,6 +93,8 @@ class ASTabBarState extends State<ASTabBar> {
     double centerItemDistance = -20.dp;
 
     return Scaffold(
+      /*可以通过设置 这个属性 防止键盘 覆盖内容 或者 键盘 撑起内容*/
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Column(

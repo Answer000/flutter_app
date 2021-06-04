@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/class/fashion/post_model_entity.dart';
+import 'package:flutter_app/class/profile/personal/otherPersonal/otherPersonal.dart';
 import 'package:flutter_app/common/extension/extension.dart';
+import 'package:flutter_app/common/tools/CustomNavigator.dart';
 import 'package:flutter_app/resource.dart';
 
 class PostDetailToolBar extends StatefulWidget {
@@ -56,6 +58,10 @@ class PostDetailToolBarState extends State<PostDetailToolBar> {
                                   image: this.widget.post.userAvatar,
                                   size: Size(36.dp, 36.dp)
                               ),
+                              onPressed: ()=> CustomNavigator.push(
+                                  context: context,
+                                  page: OtherPersonal(this.widget.post.userId)
+                              ),
                             ),
                           ),
 
@@ -98,17 +104,15 @@ class PostDetailToolBarState extends State<PostDetailToolBar> {
                               this.widget._postEntity.isPraise
                                   ? ImageName.cjm_post_detail_praise_select
                                   : ImageName.cjm_post_detail_praise_normal,
-                              "${this.widget._postEntity.post.praiseNum}",
-                              ()=> this.widget._postEntity.praisePost(
-                                  callback: (isSucc, postEntity) => this.setState(() {})
-                              )
+                              "${this.widget._postEntity.post.praiseNum ?? 0}",
+                              ()=> this.widget._postEntity.praisePost(callback: ()=> this.setState(() {}))
                           ),
 
                           Padding(padding: EdgeInsets.only(left: 20.dp)),
 
                           _createItem(
                               ImageName.cjm_post_detail_comment,
-                              "${this.widget.post.commentNum}",
+                              "${this.widget.post.commentNum ?? 0}",
                               ()=> {},
                           ),
 
@@ -118,7 +122,7 @@ class PostDetailToolBarState extends State<PostDetailToolBar> {
                               this.widget._postEntity.isCollect
                                   ? ImageName.cjm_post_detail_collect_select
                                   : ImageName.cjm_post_detail_collect_normal,
-                              "${this.widget.post.collectionNum}",
+                              "${this.widget.post.collectionNum ?? 0}",
                               ()=> this.widget._postEntity.collectPost(callback: ()=> this.setState(() {}))
                           )
                         ],

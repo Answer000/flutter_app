@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_app/class/fashion/postWaterfallFlowItemBuilder.dart';
 import 'package:flutter_app/common/tools/base_page_view.dart';
 import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/class/fashion/video/fashion_video_viewModel.dart';
-import 'package:flutter_app/class/fashion/waterfall_flow_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 
@@ -31,7 +31,7 @@ class FashionVideoPageViewState extends BasePageViewState<FashionVideoPageView> 
   Widget setContentView(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 30.dp),
-      child: WaterfallFlowView(
+      child: PostWaterfallFlowItemBuilder(
         dataSource: this._postEntitys,
         crossAxisCount: this.widget._viewModel.crossAxisCount,
         crossAxisSpacing: this.widget._viewModel.crossAxisSpacing,

@@ -1,7 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/class/fashion/postDetail/comment_model_entity.dart';
+import 'package:flutter_app/common/https/https.dart';
+import 'package:flutter_app/common/tools/CustomNavigator.dart';
+import 'package:flutter_app/common/tools/custom_loading.dart';
 
 class CommentEntity {
 
@@ -32,8 +36,16 @@ class CommentEntity {
   /// 一级评论ID
   int get commentId => this.comment.id;
 
-  bool _isPraise = false;
-  bool get isPraise => _isPraise;
+  bool get isPraise => this._comment.isPraise == 1 ? true : false;
+  set isPraise(bool value) {
+    if(value) {
+      this._comment.isPraise = 1;
+      this._comment.praiseNum += 1;
+    }else{
+      this._comment.isPraise = 2;
+      this._comment.praiseNum -= 1;
+    }
+  }
 
   /// 二级评论高度数组
   List<double> _subCommentHeightList = [];
@@ -57,4 +69,51 @@ class CommentEntity {
 
   /// 二级评论容器组件外边距
   EdgeInsets get margin => EdgeInsets.only(top: 11.dp, left: 35.dp, right: 35.dp, bottom: 8.dp);
+
+  /// 是否正在执行点赞请求
+  bool _isPraisePost = false;
+}
+
+/// 点赞
+extension CommentEntityPraise on CommentEntity {
+  praisePost({Function callback}) async{
+    bool isNeedsLogin = false;
+    await CustomNavigator.isNeedsToLogin(
+        context: LoginUserInfoManager.appContext).then((value) => isNeedsLogin = value
+    );
+    if(isNeedsLogin) { return; }
+
+    if(_isPraisePost) {
+      if (callback != null) { callback(); }
+      return;
+    }
+    _isPraisePost = true;
+    CustomLoading.showLoading();
+    await Https().post(
+        apiPath: APIPath.commentPraise_isUserraise,
+        params: {'commentId' : this.comment.id, 'type' : this.isPraise ? '1' : '0'},
+        onSuccess: (response) {
+          bool isSucc = response['resultCode'] == '0000';
+          if(isSucc) {
+            if(this.isPraise) {
+              isPraise = false;
+              CustomToast.show('已取消点赞');
+            }else{
+              isPraise = true;
+              CustomToast.show('点赞成功');
+            }
+          }else{
+            CustomToast.show('${response['msg'].toString()}');
+          }
+          _isPraisePost = false;
+          CustomLoading.hideLoading();
+          if (callback != null) { callback(); }
+        },
+        onFailure: (error) {
+          _isPraisePost = false;
+          CustomLoading.hideLoading();
+          if (callback != null) { callback(); }
+        }
+    );
+  }
 }

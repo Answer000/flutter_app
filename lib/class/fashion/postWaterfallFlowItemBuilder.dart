@@ -5,13 +5,13 @@ import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/class/profile/personal/otherPersonal/otherPersonal.dart';
 import 'package:flutter_app/common/tools/CustomNavigator.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/resource.dart';
 
-class WaterfallFlowView extends StatefulWidget {
+// ignore: must_be_immutable
+class PostWaterfallFlowItemBuilder extends StatefulWidget {
 
   final List<PostEntity> dataSource;
   final int crossAxisCount;
@@ -23,7 +23,7 @@ class WaterfallFlowView extends StatefulWidget {
 
   CustomRefresher refresher;
 
-  WaterfallFlowView({
+  PostWaterfallFlowItemBuilder({
     Key key,
     @required this.dataSource,
     this.crossAxisCount,
@@ -36,11 +36,11 @@ class WaterfallFlowView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return WaterfallFlowViewState();
+    return PostWaterfallFlowItemBuilderState();
   }
 }
 
-class WaterfallFlowViewState extends State<WaterfallFlowView> {
+class PostWaterfallFlowItemBuilderState extends State<PostWaterfallFlowItemBuilder> {
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +65,16 @@ class WaterfallFlowViewState extends State<WaterfallFlowView> {
             onTap: (){
               switch(postEntity.postType) {
                 case PostType.image:
-                  CustomNavigator.push(context: context, page: ImagePostDetail(post: postEntity.post));
+                  CustomNavigator.push(
+                      context: context,
+                      page: ImagePostDetail(post: postEntity.post)
+                  );
                   break;
                 case PostType.video:
-                  CustomNavigator.push(context: context, page: VideoPostDetail());
+                  CustomNavigator.push(
+                      context: context,
+                      page: VideoPostDetail(post: postEntity.post)
+                  );
                   break;
               }
             },
@@ -182,7 +188,7 @@ class WaterfallFlowViewState extends State<WaterfallFlowView> {
                         height: 15.dp,
                         margin: EdgeInsets.only(left: 6.dp),
                         child: Text(
-                          '${post.post.nick}',
+                          '${post.post.nick ?? ""}',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
@@ -205,7 +211,9 @@ class WaterfallFlowViewState extends State<WaterfallFlowView> {
                       child: FlatButton(
                           padding: EdgeInsets.all(0),
                           child: CustomAssetImage.image(
-                            image: post.isPraise ? ImageName.cjm_waterfall_like.imagePath : ImageName.cjm_waterfall_unlike.imagePath,
+                            image: post.isPraise
+                                ? ImageName.cjm_waterfall_like.imagePath
+                                : ImageName.cjm_waterfall_unlike.imagePath,
                           ),
                           onPressed: (){
                             post.praisePost(callback: (isSucc, postEntity){

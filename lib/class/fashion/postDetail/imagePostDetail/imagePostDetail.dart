@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/class/fashion/postDetail/comment_entity.dart';
 import 'package:flutter_app/class/fashion/postDetail/imagePostDetail/imagePostDetailHeaderView.dart';
+import 'package:flutter_app/class/fashion/postDetail/postDetailInputView.dart';
 import 'package:flutter_app/class/fashion/postDetail/postDetailToolBar.dart';
 import 'package:flutter_app/class/fashion/postDetail/postDetailViewModel.dart';
 import 'package:flutter_app/class/fashion/post_model_entity.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/base/base_navigation_bar.dart';
+import 'package:flutter_app/common/base/empty_view.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
 import 'package:flutter_app/resource.dart';
@@ -44,7 +46,9 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
 
   ScrollController _scrollController = ScrollController();
 
-  double _toolBarHeight = Screen.bottomBarHeight + 49;
+  double _toolBarHeight = Screen.bottomBarHeight + 53.dp;
+
+  double _inputViewHeight = Screen.bottomBarHeight + 53.dp;
 
   final ValueNotifier<Color> _navigationBarColor = ValueNotifier<Color>(Colors.transparent);
 
@@ -96,7 +100,6 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
                   _getCommentList(
                       isDown: false,
                       callback: (){
-                        print("${this._viewModel.loadStatus}");
                         refresh.setLoadStatus(this._viewModel.loadStatus);
                       }
                   );
@@ -109,45 +112,34 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
                       if(index == 0) {
                         return ImagePostDetailHeaderView(post: this.widget.post);
                       }else {
+                        if(this._viewModel.entitys.length == 0) {
+                          return Container(
+                            height: 300.dp,
+                            child: EmptyView(
+                                iconPath: ImageName.cjm_empty_comment,
+                                message: "无评论",
+                              messageTextStyle: TextStyle(
+                                  color: CustomColor.hexColor("0x4D606F"),
+                                fontSize: 12.dpFontSize,
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none
+                              ),
+                            ),
+                          );
+                        }
                         return _setRow(this._viewModel.entitys[index-1]);
                       }
                     },
                     separatorBuilder: (context, index) {
-                      if(index == 0) {
-                        return Container(
-                          margin: EdgeInsets.only(left:11.dp, top: 18.dp, bottom: 11.dp),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                color: CustomColor.hexColor("0xDA3F47"),
-                                width: 5.dp,
-                                height: 10.dp,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left:4.dp),
-                                child: Text(
-                                  "共有${this.widget.post.commentNum}条评论",
-                                  style: TextStyle(
-                                    color: CustomColor.hexColor("0x5E5E5E"),
-                                    fontSize: 10.dpFontSize,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      }
                       return Container(
                         margin: EdgeInsets.only(left: 54.dp, right: 54.dp),
                         color: CustomColor.hexColor("0xF5F5F5"),
                         height: 1,
                       );
                     },
-                    itemCount: this._viewModel.entitys.length),
+                    itemCount: this._viewModel.entitys.length == 0
+                        ? 2
+                        : (this._viewModel.entitys.length + 1)),
               ),
             ),
 
@@ -176,6 +168,14 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
               height: _toolBarHeight,
               child: PostDetailToolBar(this.widget.post),
             ),
+
+            Positioned(
+              bottom: _inputViewHeight,
+              left: 0,
+              right: 0,
+              height: _inputViewHeight,
+              child: PostDetailInputView(),
+            ),
           ],
         )
     );
@@ -186,7 +186,7 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
       return Container();
     }
     return Container(
-      margin: EdgeInsets.only(left: 12.dp, top: 26.dp, bottom: 20.dp),
+      margin: EdgeInsets.only(left: 12.dp, top: 26.dp),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,7 +223,7 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          entity.comment.nick,
+                          entity.comment.nick ?? "",
                           style: TextStyle(
                             color: CustomColor.hexColor("0x2E2D2D"),
                             fontSize: 12.dpFontSize,
@@ -233,7 +233,7 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
                         ),
 
                         Text(
-                          entity.comment.createTime,
+                          entity.comment.createTime ?? "",
                           style: TextStyle(
                             color: CustomColor.hexColor("0xB4B4B4"),
                             fontSize: 10.dpFontSize,
@@ -256,7 +256,7 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
                     Container(
                       margin: EdgeInsets.only(top: 4.dp),
                       child: Text(
-                        "${entity.comment.praiseNum.setTrans()}",
+                        entity.comment.praiseNum.setTrans() ?? "0",
                         style: TextStyle(
                           color: entity.isPraise
                               ? CustomColor.hexColor("0xDA3F47")
@@ -279,7 +279,10 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
                           image: entity.isPraise
                               ? ImageName.cjm_post_list_like.imagePath
                               : ImageName.cjm_post_list_unlike.imagePath
-                        )
+                        ),
+                        onPressed: ()=> entity.praisePost(
+                            callback: ()=> this.setState(() {})
+                        ),
                       ),
                     ),
                   ],
@@ -291,7 +294,7 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
           Container(
             margin: EdgeInsets.only(left: 36.dp, top: 5.dp, right: 48.dp),
             child: Text(
-              entity.comment.content,
+              entity.comment.content ?? "",
               style: TextStyle(
                 color: CustomColor.hexColor("0x2E2D2D"),
                 fontSize: 13.dpFontSize,
@@ -320,7 +323,7 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
                     height: entity.subCommentHeightList[index],
                     child: RichText(
                       text: TextSpan(
-                          text: entity.commentReplyList[index].userNick,
+                          text: entity.commentReplyList[index].userNick ?? "",
                           style: TextStyle(
                               color: CustomColor.hexColor("0xDA3F47"),
                               fontSize: entity.subCommentFontSize,
@@ -329,7 +332,7 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
                           ),
                           children: [
                             TextSpan(
-                              text: "：${entity.commentReplyList[index].commentContent}",
+                              text: "：${entity.commentReplyList[index].commentContent ?? ""}",
                               style: TextStyle(
                                   color: CustomColor.hexColor("0x2E2D2D"),
                                   fontSize: entity.subCommentFontSize,

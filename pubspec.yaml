@@ -81,6 +81,7 @@ flutter:
     - resource/cjm_empty_fans.png
     - resource/cjm_empty_publish.png
     - resource/cjm_empty_collect.png
+    - resource/cjm_empty_comment.png
 
     ### login
     - resource/cjm_login_background.png

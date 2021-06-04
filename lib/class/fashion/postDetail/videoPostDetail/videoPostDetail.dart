@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/class/fashion/postDetail/postDetailViewModel.dart';
+import 'package:flutter_app/class/fashion/post_model_entity.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 
 class VideoPostDetail extends BaseContainer {
+
+  PostModelEntity post;
+  VideoPostDetail({this.post});
 
   @override
   BaseContainerState<BaseContainer> getState() {

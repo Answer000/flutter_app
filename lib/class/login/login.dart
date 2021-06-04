@@ -13,8 +13,6 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
 
-  final TextEditingController _controller = TextEditingController();
-
   final LoginViewModel _viewModel = LoginViewModel();
 
   @override
@@ -231,12 +229,15 @@ class LoginState extends State<Login> {
                           width: 60.dp,
                           child: FlatButton(
                             padding: EdgeInsets.all(0),
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
                             child: Text(
                               '取消登录',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 13.dpFontSize,
-                                  fontWeight: FontWeight.normal
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none
                               ),
                             ),
                             onPressed: (){
@@ -321,12 +322,15 @@ class LoginState extends State<Login> {
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 17.dpFontSize,
-                          fontWeight: FontWeight.normal
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none
                       ),
                     ),
                     onPressed: () {
                       loginWithPhone();
                     },
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
                   ),
                 ),
               ),

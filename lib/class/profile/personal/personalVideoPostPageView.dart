@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/class/fashion/attention/fashion_attention_item_builder.dart';
+import 'package:flutter_app/class/fashion/postListItemBuilder.dart';
 import 'package:flutter_app/class/profile/personal/personalPageViewModel.dart';
 import 'package:flutter_app/common/base/base_viewModel.dart';
 import 'package:flutter_app/common/base/empty_view.dart';
@@ -89,7 +89,7 @@ class PersonalVideoPostPageViewState extends BasePageViewState<PersonalVideoPost
         },
         child: ListView.separated(
             itemBuilder: (BuildContext context, int index){
-              return FashionAttentionItemBuilder(postEntity: this._viewModel.items[index]);
+              return PostListItemBuilder(postEntity: this._viewModel.items[index]);
             },
             separatorBuilder: (BuildContext context, int index){
               return Container();

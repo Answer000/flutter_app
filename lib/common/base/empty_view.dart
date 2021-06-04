@@ -9,6 +9,8 @@ class EmptyView extends StatefulWidget {
 
   String message;
 
+  TextStyle messageTextStyle;
+
   String itemTitle;
 
   VoidCallback actionCallback;
@@ -21,9 +23,17 @@ class EmptyView extends StatefulWidget {
   EmptyView({
     this.iconPath = ImageName.cjm_empty_no_network,
     this.message = '网络错误',
+    this.messageTextStyle,
     this.itemTitle,
     this.actionCallback
-  });
+  }) {
+    this.messageTextStyle ?? TextStyle(
+        color: Colors.white,
+        fontSize: 15.dpFontSize,
+        fontWeight: FontWeight.normal,
+        decoration: TextDecoration.none
+    );
+  }
 }
 
 class EmptyViewState extends State<EmptyView> {
@@ -47,14 +57,9 @@ class EmptyViewState extends State<EmptyView> {
                 ? Container(
                     margin: EdgeInsets.only(top: 4.dp),
                     child: Text(
-                              '${this.widget.message}',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.dpFontSize,
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none
-                              ),
-                            ),
+                      '${this.widget.message}',
+                      style: this.widget.messageTextStyle,
+                    ),
                   )
                 : Container(),
 

@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/class/fashion/postDetail/PostGoodsScrollView.dart';
 import 'package:flutter_app/class/fashion/post_model_entity.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 
@@ -146,8 +147,7 @@ class ImagePostDetailHeaderViewState extends State<ImagePostDetailHeaderView> {
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 5.dp),
-                          height: 96.dp,
-                          color: Colors.cyan,
+                          child: PostGoodsScrollView(this.widget.post.postGoods),
                         )
                       ],
                     )
@@ -185,6 +185,33 @@ class ImagePostDetailHeaderViewState extends State<ImagePostDetailHeaderView> {
                   color: CustomColor.hexColor("0x979797"),
                   height: 1,
                   margin: EdgeInsets.only(top: 8.dp),
+                ),
+
+                Container(
+                  margin: EdgeInsets.only(left:11.dp, top: 18.dp, bottom: 11.dp),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        color: CustomColor.hexColor("0xDA3F47"),
+                        width: 5.dp,
+                        height: 10.dp,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left:4.dp),
+                        child: Text(
+                          "共有${this.widget.post.commentNum ?? 0}条评论",
+                          style: TextStyle(
+                            color: CustomColor.hexColor("0x5E5E5E"),
+                            fontSize: 10.dpFontSize,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 )
               ],
             ),

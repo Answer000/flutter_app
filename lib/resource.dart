@@ -112,5 +112,6 @@ enum ImageName {
   cjm_empty_publish,
   cjm_empty_collect,
   cjm_empty_fans,
+  cjm_empty_comment,
 
 }

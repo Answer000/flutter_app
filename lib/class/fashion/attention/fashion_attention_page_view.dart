@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/class/fashion/attention/fashion_attention_item_builder.dart';
 import 'package:flutter_app/class/fashion/attention/fashion_attention_user_view.dart';
 import 'package:flutter_app/class/fashion/attention/fashion_attention_viewModel.dart';
+import 'package:flutter_app/class/fashion/postListItemBuilder.dart';
 import 'package:flutter_app/common/tools/base_page_view.dart';
-import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/common/base/base_viewModel.dart';
 import 'package:flutter_app/common/base/empty_view.dart';
 import 'package:flutter_app/common/extension/extension.dart';
@@ -111,7 +110,7 @@ class FashionAttentionPageViewState extends BasePageViewState<FashionAttentionPa
 
           });
     }else{
-      return FashionAttentionItemBuilder(postEntity: this._viewModel.entityList[index - 1]);
+      return PostListItemBuilder(postEntity: this._viewModel.entityList[index - 1]);
     }
   }
 }

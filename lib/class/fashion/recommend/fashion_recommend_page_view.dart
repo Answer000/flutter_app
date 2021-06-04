@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/class/fashion/postWaterfallFlowItemBuilder.dart';
 import 'package:flutter_app/common/tools/base_page_view.dart';
 import 'package:flutter_app/class/fashion/recommend/fashion_recommend_tagList_entity.dart';
 import 'package:flutter_app/class/fashion/recommend/fashion_recommend_tag_view.dart';
 import 'package:flutter_app/class/fashion/recommend/fashion_recommend_viewModel.dart';
 import 'package:flutter_app/class/fashion/post_entity.dart';
-import 'package:flutter_app/class/fashion/waterfall_flow_view.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/common/tools/custom_loading.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -81,7 +81,7 @@ class FashionRecommendPageViewState extends BasePageViewState<FashionRecommendPa
 
         Expanded(
           child: Container(
-            child: WaterfallFlowView(
+            child: PostWaterfallFlowItemBuilder(
               dataSource: this._postList,
               padding: _viewModel.itemPadding,
               crossAxisSpacing: _viewModel.crossAxisSpacing,
