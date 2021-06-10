@@ -35,6 +35,7 @@ class LoginUserInfoManager {
   static const kTokenExpiryDate = "kTokenExpiryDate";
   static const kTimeDifference = "kTimeDifference";
   static const kIntegral = "kIntegral";
+  static const kNickName = "kNickName";
 
   /// 用户是否登录状态
   Future<bool> get isLogin async {
@@ -59,14 +60,13 @@ class LoginUserInfoManager {
   /// access_token 是否有效
   Future<bool> get isValidOfAccessToken => _isValidOfAccessToken();
 
-  set integral(int value) {
-    this.saveValue(value, kIntegral);
-  }
-  int get integral {
-    int value;
-    _getIntValue(kIntegral).then((v) => value = v);
-    return value ?? 0;
-  }
+  /// 用户积分
+  set integral(int value) => this.saveValue(value, kIntegral);
+  Future<int> get integralValue => _getIntValue(kIntegral);
+
+  /// 用户昵称
+  set nick(String value) => this.saveValue(value, kNickName);
+  Future<String> get nickValue => _getStringValue(kNickName);
 
   /// 持久化用户信息
   Future<bool> saveUserInfo(LoginEntity entity, {BuildContext context}) async {

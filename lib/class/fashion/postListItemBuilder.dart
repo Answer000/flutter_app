@@ -16,7 +16,7 @@ class PostListItemBuilder extends StatefulWidget {
 
   PostListItemBuilder({
     Key key,
-    @required this.postEntity
+    @required this.postEntity,
   }) : super(key : key);
 
   @override
@@ -35,9 +35,12 @@ class PostListItemBuilderState extends State<PostListItemBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      padding: EdgeInsets.all(0),
-      onPressed: (){
+    if(this.widget.postEntity == null) {
+      return Container();
+    }
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: (){
         switch(this.widget.postEntity.postType) {
           case PostType.image:
             CustomNavigator.push(
@@ -73,7 +76,7 @@ class PostListItemBuilderState extends State<PostListItemBuilder> {
                         color: Color(0xff5f5f5f),
                         borderRadius: BorderRadius.circular(30.dp),
                       ),
-                      child: FlatButton(
+                      child: RawMaterialButton(
                         padding: EdgeInsets.all(0),
                         child: CustomImage.memoryNetwork(
                           image: this.widget.postEntity.post.userAvatar,
@@ -119,22 +122,19 @@ class PostListItemBuilderState extends State<PostListItemBuilder> {
                   ],
                 ),
 
-                GestureDetector(
-                  child: Container(
-                      width: 10.dp,
-                      height: 20.dp,
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        width: 4,
-                        child: CustomAssetImage.image(
-                          image: ImageName.cjm_fashion_item_menu.imagePath,
-                        ),
-                      )
-                  ),
-                  onTap: () {
+                Container(
+                    width: 10.dp,
+                    height: 20.dp,
+                    child: RawMaterialButton(
+                      padding: EdgeInsets.all(0),
+                      child: CustomAssetImage.image(
+                        image: ImageName.cjm_fashion_item_menu.imagePath,
+                      ),
+                      onPressed: (){
 
-                  },
-                )
+                      },
+                    )
+                ),
               ],
             ),
 
@@ -157,7 +157,9 @@ class PostListItemBuilderState extends State<PostListItemBuilder> {
                 margin: EdgeInsets.only(top: 8.dp),
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(this.widget.postEntity.postType == PostType.image ? 5.dp : 0),
+                  borderRadius: BorderRadius.circular(
+                      this.widget.postEntity.postType == PostType.image ? 5.dp : 0
+                  ),
                 ),
                 child: _getImageContainer()
             ),
@@ -171,18 +173,16 @@ class PostListItemBuilderState extends State<PostListItemBuilder> {
                   Container(
                     width: 20.dp,
                     height: 20.dp,
-                    child: FlatButton(
+                    child: RawMaterialButton(
                       padding: EdgeInsets.all(0),
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
                       child: CustomAssetImage.image(
                           image: this.widget.postEntity.isPraise
                               ? ImageName.cjm_post_list_like.imagePath
                               : ImageName.cjm_post_list_unlike.imagePath
                       ),
-                      onPressed: (){
-                        this.widget.postEntity.praisePost(callback: (isSucc, postEntity){
-                          setState(() {});
-                        });
-                      },
+                      onPressed: ()=> this.widget.postEntity.praisePost(callback: ()=> setState(() {})),
                     ),
                   ),
 
@@ -270,7 +270,7 @@ class PostListItemBuilderState extends State<PostListItemBuilder> {
                   color: Color(0xff424242),
                   borderRadius: BorderRadius.circular(3.dp),
                 ),
-                child: FlatButton(
+                child: RawMaterialButton(
                   padding: EdgeInsets.all(0),
                   child: CustomImage.memoryNetwork(
                     image: this.widget.postEntity.post.postImgList[index].picUrl,
@@ -303,7 +303,7 @@ class PostListItemBuilderState extends State<PostListItemBuilder> {
 
               Positioned(
                 child: Center(
-                  child: FlatButton(
+                  child: RawMaterialButton(
                     child: CustomAssetImage.image(
                         image: ImageName.cjm_post_play.imagePath
                     ),

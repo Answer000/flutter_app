@@ -74,8 +74,10 @@ class HomePageViewState extends State<HomePageView>  with AutomaticKeepAliveClie
                 children: [
                   Container(
                     height: 20,
-                    child: FlatButton(
+                    child: RawMaterialButton(
                       padding: EdgeInsets.all(0),
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
                       child: Text(
                         '查看更多MORE',
                         style: TextStyle(
@@ -98,17 +100,20 @@ class HomePageViewState extends State<HomePageView>  with AutomaticKeepAliveClie
               )
           );
         }
-        return Container(
-          height: 114.dp,
-          decoration: BoxDecoration(
-            color: Colors.cyan,
-            borderRadius: BorderRadius.circular(5.dp),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(5.dp),
-            child: CustomImage.memoryNetwork(
-              image: this.dataSource[index].picUrl,
-              fit: BoxFit.cover,
+        return GestureDetector(
+          onTap: () => print("${this.dataSource[index].picUrl}"),
+          child: Container(
+            height: 114.dp,
+            decoration: BoxDecoration(
+              color: Colors.cyan,
+              borderRadius: BorderRadius.circular(5.dp),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5.dp),
+              child: CustomImage.memoryNetwork(
+                image: this.dataSource[index].picUrl,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         );

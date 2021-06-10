@@ -73,7 +73,7 @@ class PersonalVideoPostPageViewState extends BasePageViewState<PersonalVideoPost
     }
 
     return Container(
-      margin: EdgeInsets.only(top: 30.dp),
+      margin: EdgeInsets.only(top: 44.dp),
       child: CustomRefresher(
         onRefresh: (refresh) {
           this._loadData(

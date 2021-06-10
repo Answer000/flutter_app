@@ -35,9 +35,13 @@ class LoginViewModel {
             _sendCode(context, params);
           });
           CustomLoading.hideLoading(context: context);
-        }, onFailure: (error){
+          },
+        onSuccessOfOthers: (response){
           CustomLoading.hideLoading(context: context);
-    });
+          },
+        onFailure: (error){
+          CustomLoading.hideLoading(context: context);
+        });
   }
 
   /// 获取验证码
@@ -46,12 +50,16 @@ class LoginViewModel {
       apiPath: APIPath.message_sendverifymessage,
       params: params,
       headers: params,
-      onSuccess: (data) {
+      onSuccess: (response) {
         CustomLoading.hideLoading(context: context);
-        CustomToast.show(data["msg"]);
-      }, onFailure: (error) {
+        CustomToast.show(response["msg"].toString());
+        }, onSuccessOfOthers: (response){
         CustomLoading.hideLoading(context: context);
-    });
+        CustomToast.show(response["msg"].toString());
+        }, onFailure: (error) {
+        CustomLoading.hideLoading(context: context);
+      }
+    );
   }
 
   //调用原生方法

@@ -19,6 +19,19 @@ class MyIntegralHeaderView extends StatefulWidget {
 
 class MyIntegralHeaderViewState extends State<MyIntegralHeaderView> {
 
+  int _integral = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    LoginUserInfoManager().integralValue.then((value){
+      this.setState(() {
+        this._integral = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -47,7 +60,7 @@ class MyIntegralHeaderViewState extends State<MyIntegralHeaderView> {
                 margin: EdgeInsets.only(top: 12.dp),
                 child: Center(
                   child: Text(
-                    '${LoginUserInfoManager().integral}',
+                    '$_integral',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 50.dpFontSize,

@@ -46,7 +46,7 @@ class PersonalHeaderViewState extends State<PersonalHeaderView> {
     // TODO: implement build
     return Container(
       child: Column(
-        mainAxisSize: MainAxisSize.max,
+        // mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(

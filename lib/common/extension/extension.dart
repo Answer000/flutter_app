@@ -61,7 +61,7 @@ extension String_extension on String {
   double calculateTextHeight(double fontSize, FontWeight fontWeight, double maxWidth, int maxLines) {
     TextPainter painter = TextPainter(
       ///AUTO：华为手机如果不指定locale的时候，该方法算出来的文字高度是比系统计算偏小的。
-      locale: Localizations.localeOf(LoginUserInfoManager.appContext, nullOk: true),
+      locale: Localizations.localeOf(LoginUserInfoManager.appContext),
       maxLines: maxLines,
       textDirection: TextDirection.ltr,
       text: TextSpan(

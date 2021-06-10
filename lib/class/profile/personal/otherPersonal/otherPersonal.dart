@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_app/class/profile/personal/personal.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/extension/extension.dart';
@@ -22,6 +22,10 @@ class OtherPersonal extends BaseContainer {
   @override
   // TODO: implement isShowNavigationBar
   bool get isShowNavigationBar => true;
+
+  @override
+  // TODO: implement isEnablePopWhenClickEmpty
+  bool get isEnablePopWhenClickEmpty => false;
 }
 
 class OtherPersonalState extends BaseContainerState<OtherPersonal> {

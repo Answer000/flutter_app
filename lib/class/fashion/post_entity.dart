@@ -165,30 +165,27 @@ extension PostEntityPraise on PostEntity {
       return;
     }
     _isPraisePost = true;
-    CustomLoading.showLoading();
     await Https().post(
         apiPath: APIPath.post_praisePost,
         params: {'postId' : this.postId, 'operationType' : this.isPraise ? '2' : '1'},
         onSuccess: (response) {
-          bool isSucc = response['resultCode'] == '0000';
-          if(isSucc) {
-            if(this.isPraise) {
-              isPraise = false;
-              CustomToast.show('已取消点赞');
-            }else{
-              isPraise = true;
-              CustomToast.show('点赞成功');
-            }
+          if(this.isPraise) {
+            isPraise = false;
+            CustomToast.show('已取消点赞');
           }else{
-            CustomToast.show('${response['msg'].toString()}');
+            isPraise = true;
+            CustomToast.show('点赞成功');
           }
           _isPraisePost = false;
-          CustomLoading.hideLoading();
+          if (callback != null) { callback(); }
+        },
+        onSuccessOfOthers: (response) {
+          CustomToast.show('${response['msg'].toString()}');
+          _isPraisePost = false;
           if (callback != null) { callback(); }
         },
         onFailure: (error) {
           _isPraisePost = false;
-          CustomLoading.hideLoading();
           if (callback != null) { callback(); }
         }
     );
@@ -209,30 +206,27 @@ extension PostEntityCollect on PostEntity {
       return;
     }
     _isCollectPost = true;
-    CustomLoading.showLoading();
     await Https().post(
         apiPath: APIPath.post_collectionPost,
         params: {'postId' : this.postId, 'operationType' : this.isCollect ? '2' : '1'},
         onSuccess: (response) {
-          bool isSucc = response['resultCode'] == '0000';
-          if(isSucc) {
-            if(this.isCollect) {
-              isCollect = false;
-              CustomToast.show('已取消收藏');
-            }else{
-              isCollect = true;
-              CustomToast.show('收藏成功');
-            }
+          if(this.isCollect) {
+            isCollect = false;
+            CustomToast.show('已取消收藏');
           }else{
-            CustomToast.show('${response['msg'].toString()}');
+            isCollect = true;
+            CustomToast.show('收藏成功');
           }
           _isCollectPost = false;
-          CustomLoading.hideLoading();
+          if (callback != null) { callback(); }
+        },
+        onSuccessOfOthers: (response){
+          CustomToast.show('${response['msg'].toString()}');
+          _isCollectPost = false;
           if (callback != null) { callback(); }
         },
         onFailure: (error) {
           _isCollectPost = false;
-          CustomLoading.hideLoading();
           if (callback != null) { callback(); }
         }
     );
@@ -268,24 +262,18 @@ extension FollowHelper on int {
         context: LoginUserInfoManager.appContext).then((value) => isNeedsLogin = value
     );
     if(isNeedsLogin) { return; }
-
-    CustomLoading.showLoading();
     await Https().post(
       apiPath: APIPath.user_attentionUser,
       params: {"userId" : this, "operationType" : (isFollow ? 1 : 2)},
       onSuccess: (response){
-        CustomLoading.hideLoading();
-        bool isSucc = response['resultCode'] == '0000';
-        if(isSucc) {
-          CustomToast.show(isFollow ? "关注成功" : "取消关注成功");
-          onSuccess(response);
-        }else{
+        CustomToast.show(isFollow ? "关注成功" : "取消关注成功");
+        onSuccess(response);
+
+        }, onSuccessOfOthers: (response) {
           CustomToast.show('${response['msg'].toString()}');
           onFailure();
-        }
-      },
-      onFailure: (error){
-        CustomLoading.hideLoading();
+
+        }, onFailure: (error){
         CustomToast.show(isFollow ? "关注失败" : "取消关注失败");
         onFailure();
       }

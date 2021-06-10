@@ -60,6 +60,7 @@ enum APIPath {
 
 
 typedef OnSuccess = void Function(Map response);
+typedef OnSuccessOfOthers = void Function(Map response);
 typedef OnFailure = void Function(Object obj);
 
 class Https {
@@ -118,6 +119,17 @@ class Https {
     });
   }
 
+  bool _hideLoadingAnimationWhenRequest(APIPath apiPath) {
+    if (apiPath == APIPath.user_refreshToken ||
+        apiPath == APIPath.message_getverifycode ||
+        apiPath == APIPath.message_sendverifymessage ||
+        apiPath == APIPath.user_loginuser
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   /// Post请求
   post({
     APIPath apiPath,
@@ -125,6 +137,7 @@ class Https {
     Map<String,dynamic> headers,
     ContentType contentType = ContentType.urlEncoded,
     OnSuccess onSuccess,
+    OnSuccessOfOthers onSuccessOfOthers,
     OnFailure onFailure}) async{
     String accessToken;
     await LoginUserInfoManager().accessToken.then((value) => accessToken = value);
@@ -149,6 +162,7 @@ class Https {
         headers: _headers,
         contentType: contentType,
         onSuccess: onSuccess,
+        onSuccessOfOthers: onSuccessOfOthers,
         onFailure: onFailure
       );
     });
@@ -160,10 +174,14 @@ class Https {
     Map<String,dynamic> headers,
     ContentType contentType = ContentType.urlEncoded,
     OnSuccess onSuccess,
+    OnSuccessOfOthers onSuccessOfOthers,
     OnFailure onFailure}) async {
     String url = '$baseURL/${apiPath.toString().split('.').last.replaceAll('_', '/')}';
     try {
-      // CustomLoading.showLoading();
+      bool isHideLoading = _hideLoadingAnimationWhenRequest(apiPath);
+      if(!isHideLoading) {
+        CustomLoading.showLoading();
+      }
       Response response = await new Dio().post(
         url,
         data: contentType == ContentType.urlEncoded ? FormData.fromMap(params) : params,
@@ -177,25 +195,23 @@ class Https {
             headers: headers
         ),
       );
-
+      if(!isHideLoading) { CustomLoading.hideLoading(); }
       if (response.statusCode == HttpStatus.ok) {
-        // CustomLoading.hideLoading();
         print('\nurl：$url  =========>\nparams：$params \ndatas：$response');
         Map data = json.decode(response.toString());
         if(data["resultCode"] == "0000") {
           onSuccess(data);
-        }else if(data["resultCode"] == "0201") {
-          // 登录验证码发送成功
-          onSuccess(data);
+        // }else if(data["resultCode"] == "0201") {
+        //   // 登录验证码发送成功
+        //   onSuccess(data);
         }else{
-          onFailure(response);
+          onSuccessOfOthers(data);
         }
       }else{
-        // CustomLoading.hideLoading();
         onFailure(response);
       }
     } catch (exception) {
-      // CustomLoading.hideLoading();
+      if(!_hideLoadingAnimationWhenRequest(apiPath)) { CustomLoading.hideLoading(); }
       print('$url  =========> \n$exception.toString()');
       onFailure(exception);
     }

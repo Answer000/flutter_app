@@ -9,7 +9,8 @@ import 'package:flutter_app/resource.dart';
 class PostDetailToolBar extends StatefulWidget {
 
   final PostModelEntity post;
-  PostDetailToolBar(this.post) {
+  final Function commentItemCallback;
+  PostDetailToolBar(this.post, this.commentItemCallback) {
     _postEntity = PostEntity(post: this.post);
   }
 
@@ -113,7 +114,7 @@ class PostDetailToolBarState extends State<PostDetailToolBar> {
                           _createItem(
                               ImageName.cjm_post_detail_comment,
                               "${this.widget.post.commentNum ?? 0}",
-                              ()=> {},
+                              ()=> this.widget.commentItemCallback(),
                           ),
 
                           Padding(padding: EdgeInsets.only(left: 20.dp)),

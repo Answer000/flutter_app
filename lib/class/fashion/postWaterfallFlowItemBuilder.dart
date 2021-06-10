@@ -170,14 +170,17 @@ class PostWaterfallFlowItemBuilderState extends State<PostWaterfallFlowItemBuild
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.dp),
                       ),
-                      child: FlatButton(
+                      child: RawMaterialButton(
                         padding: EdgeInsets.all(0),
                         child: CustomImage.memoryNetwork(
                           image: post.post.userAvatar,
                           size: Size(20.dp, 20.dp),
                         ),
                         onPressed: (){
-                          CustomNavigator.push(context: context, page: OtherPersonal(post.post.userId));
+                          CustomNavigator.push(
+                              context: context,
+                              page: OtherPersonal(post.post.userId)
+                          );
                         },
                       ),
                     ),
@@ -208,7 +211,7 @@ class PostWaterfallFlowItemBuilderState extends State<PostWaterfallFlowItemBuild
                   children: [
                     Container(
                       width: 12.dp,
-                      child: FlatButton(
+                      child: RawMaterialButton(
                           padding: EdgeInsets.all(0),
                           child: CustomAssetImage.image(
                             image: post.isPraise
@@ -216,9 +219,7 @@ class PostWaterfallFlowItemBuilderState extends State<PostWaterfallFlowItemBuild
                                 : ImageName.cjm_waterfall_unlike.imagePath,
                           ),
                           onPressed: (){
-                            post.praisePost(callback: (isSucc, postEntity){
-                              setState(() {});
-                            });
+                            post.praisePost(callback: ()=>  setState(() {}));
                           },
                       ),
                     ),

@@ -33,9 +33,8 @@ class FashionRecommendPageViewState extends BasePageViewState<FashionRecommendPa
       setState(() {
         this._tagList = list;
       });
-      CustomLoading.showLoading();
       await _getPosts(isLoadMore: false, callback: (hasMore){
-        CustomLoading.hideLoading();
+
       });
     });
   }

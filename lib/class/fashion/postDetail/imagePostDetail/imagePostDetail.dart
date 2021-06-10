@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/class/fashion/postDetail/commentDetail/postCommentDetail.dart';
 import 'package:flutter_app/class/fashion/postDetail/comment_entity.dart';
+import 'package:flutter_app/class/fashion/postDetail/comment_model_entity.dart';
 import 'package:flutter_app/class/fashion/postDetail/imagePostDetail/imagePostDetailHeaderView.dart';
+import 'package:flutter_app/class/fashion/postDetail/postChildCommentView.dart';
+import 'package:flutter_app/class/fashion/postDetail/postParentCommentView.dart';
 import 'package:flutter_app/class/fashion/postDetail/postDetailInputView.dart';
 import 'package:flutter_app/class/fashion/postDetail/postDetailToolBar.dart';
 import 'package:flutter_app/class/fashion/postDetail/postDetailViewModel.dart';
 import 'package:flutter_app/class/fashion/post_model_entity.dart';
+import 'package:flutter_app/class/login/loginUserInfoManager.dart';
 import 'package:flutter_app/common/base/base_container.dart';
 import 'package:flutter_app/common/base/base_navigation_bar.dart';
 import 'package:flutter_app/common/base/empty_view.dart';
 import 'package:flutter_app/common/extension/extension.dart';
+import 'package:flutter_app/common/tools/CustomNavigator.dart';
 import 'package:flutter_app/common/tools/custom_refresher.dart';
 import 'package:flutter_app/resource.dart';
 
@@ -40,7 +46,7 @@ class ImagePostDetail extends BaseContainer {
   bool get isCanNavigationBarTransparent => true;
 }
 
-class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
+class ImagePostDetailState extends BaseContainerState<ImagePostDetail> with SingleTickerProviderStateMixin{
 
   PostDetailViewModel _viewModel;
 
@@ -48,9 +54,12 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
 
   double _toolBarHeight = Screen.bottomBarHeight + 53.dp;
 
-  double _inputViewHeight = Screen.bottomBarHeight + 53.dp;
+  double _inputViewHeight = 53.dp;
 
   final ValueNotifier<Color> _navigationBarColor = ValueNotifier<Color>(Colors.transparent);
+
+  double _keyboardHeight = 0;
+  FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -60,6 +69,7 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
     this.navigationBar.navigationBarColor = Colors.white;
 
     _scrollController..addListener(() {
+        this._showKeyboard(false, commentEntity: null);
         double value = _scrollController.offset / 150.0;
         if(value > 1.0) { value = 1.0; }
         if(value < 0.0) { value = 0.0; }
@@ -77,282 +87,274 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> {
     });
   }
 
+  /// 是否显示键盘
+  _showKeyboard(bool isShow, {CommentEntity commentEntity}) {
+    if(isShow) {
+      if(commentEntity != null) {
+        setState(() {
+          this._viewModel.commentEntity = commentEntity;
+          this._viewModel.hintText = "回复：${commentEntity.comment.nick}";
+        });
+      }
+      FocusScope.of(context).requestFocus(this._focusNode);
+    }else{
+      setState(() {
+        this._viewModel.commentEntity = null;
+        this._viewModel.content = "";
+        this._viewModel.hintText = "请输入您的评论...";
+      });
+      this._focusNode.unfocus();
+    }
+  }
+
   @override
   Widget setContentView(BuildContext context) {
     // TODO: implement setContentView
     if(this.widget.post == null) {
       return Container();
     }
-    return Container(
-        color: Colors.white,
-        child: Stack(
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: Screen.statusBarHeight, bottom: _toolBarHeight),
-              child: CustomRefresher(
-                onRefresh: (refresh) {
-                  _getCommentList(
-                      isDown: true,
-                      callback: ()=> refresh.setRefreshCompleted()
-                  );
-                },
-                onLoading: (refresh) {
-                  _getCommentList(
-                      isDown: false,
-                      callback: (){
-                        refresh.setLoadStatus(this._viewModel.loadStatus);
-                      }
-                  );
-                },
-                loadTextColor: Colors.grey,
-                child: ListView.separated(
-                    controller: _scrollController,
-                    padding: EdgeInsets.all(0),
-                    itemBuilder: (context, index){
-                      if(index == 0) {
-                        return ImagePostDetailHeaderView(post: this.widget.post);
-                      }else {
-                        if(this._viewModel.entitys.length == 0) {
-                          return Container(
-                            height: 300.dp,
-                            child: EmptyView(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Container(
+          color: Colors.white,
+          child: Stack(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: Screen.statusBarHeight, bottom: _toolBarHeight),
+                child: CustomRefresher(
+                  onRefresh: (refresh) {
+                    _getCommentList(
+                        isDown: true,
+                        callback: (){
+                          refresh.setRefreshCompleted();
+                        }
+                    );
+                  },
+                  onLoading: (refresh) {
+                    _getCommentList(
+                        isDown: false,
+                        callback: (){
+                          refresh.setLoadStatus(this._viewModel.loadStatus);
+                        }
+                    );
+                  },
+                  loadTextColor: Colors.grey,
+                  child: ListView.separated(
+                      controller: _scrollController,
+                      padding: EdgeInsets.all(0),
+                      itemBuilder: (context, index){
+                        if(index == 0) {
+                          return ImagePostDetailHeaderView(post: this.widget.post);
+                        }else {
+                          if(this._viewModel.entitys.length == 0) {
+                            return Container(
+                              height: 300.dp,
+                              child: EmptyView(
                                 iconPath: ImageName.cjm_empty_comment,
                                 message: "无评论",
-                              messageTextStyle: TextStyle(
-                                  color: CustomColor.hexColor("0x4D606F"),
-                                fontSize: 12.dpFontSize,
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none
+                                messageTextStyle: TextStyle(
+                                    color: CustomColor.hexColor("0x4D606F"),
+                                    fontSize: 12.dpFontSize,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          }
+                          return _setRow(index-1);
                         }
-                        return _setRow(this._viewModel.entitys[index-1]);
-                      }
-                    },
-                    separatorBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.only(left: 54.dp, right: 54.dp),
-                        color: CustomColor.hexColor("0xF5F5F5"),
-                        height: 1,
+                      },
+                      separatorBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(left: 54.dp, right: 54.dp),
+                          color: CustomColor.hexColor("0xF5F5F5"),
+                          height: 1,
+                        );
+                      },
+                      itemCount: this._viewModel.entitys.length == 0
+                          ? 2
+                          : (this._viewModel.entitys.length + 1)),
+                ),
+              ),
+
+              Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: Screen.topBarHeight,
+                  child: ValueListenableBuilder<Color>(
+                    builder: (context, color, child){
+                      return NavigationBar(
+                        barType: NavigationBarType.child,
+                        isShowLogo: false,
+                        navigationBarColor: color,
+                        backCallback: () => this.backCallBack(),
                       );
                     },
-                    itemCount: this._viewModel.entitys.length == 0
-                        ? 2
-                        : (this._viewModel.entitys.length + 1)),
+                    valueListenable: this._navigationBarColor,
+                  )
               ),
-            ),
 
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              height: Screen.topBarHeight,
-              child: ValueListenableBuilder<Color>(
-                builder: (context, color, child){
-                  return NavigationBar(
-                    barType: NavigationBarType.child,
-                    isShowLogo: false,
-                    navigationBarColor: color,
-                    backCallback: () => this.backCallBack(),
-                  );
-                },
-                valueListenable: this._navigationBarColor,
-              )
-            ),
+              Positioned(
+                bottom: this._keyboardHeight,
+                left: 0,
+                right: 0,
+                height: _inputViewHeight,
+                child: PostDetailInputView(
+                  focusNode: this._focusNode,
+                  hintText: this._viewModel.hintText,
+                  content: this._viewModel.content,
+                  onChanged: (value) {
+                    setState(() {
+                      this._viewModel.content = value;
+                    });
+                  },
+                  sendCallback: (){
+                    /// 关闭键盘
+                    _showKeyboard(false);
+                    /// 发送评论
+                    this._viewModel.addPostComment(context, (){
+                      /// 清除输入框数据
+                      setState(() {
+                        this._viewModel.commentEntity = null;
+                        this._viewModel.content = "";
+                        this._viewModel.hintText = "请输入您的评论...";
+                      });
+                    });
+                  },
+                  showKeyboardCallback: (isShow){
+                    this.setState(() {
+                      this._keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+                    });
+                  },
+                )
+              ),
 
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: _toolBarHeight,
-              child: PostDetailToolBar(this.widget.post),
-            ),
-
-            Positioned(
-              bottom: _inputViewHeight,
-              left: 0,
-              right: 0,
-              height: _inputViewHeight,
-              child: PostDetailInputView(),
-            ),
-          ],
-        )
+              Positioned(
+                top: Screen.height - _toolBarHeight,
+                left: 0,
+                right: 0,
+                height: _toolBarHeight,
+                child: PostDetailToolBar(this.widget.post, (){
+                  /// 评论父评论
+                  _showKeyboard(true, commentEntity: null);
+                }),
+              ),
+            ],
+          )
+      ),
     );
   }
 
-  Widget _setRow(CommentEntity entity){
+  Widget _setRow(int index){
+    CommentEntity entity = this._viewModel.entitys[index];
     if(entity == null || entity.comment == null) {
       return Container();
     }
-    return Container(
-      margin: EdgeInsets.only(left: 12.dp, top: 26.dp),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
+
+    return RawMaterialButton(
+      highlightColor: CustomColor.hexColor("0xf5f5f5"),
+      splashColor: Colors.transparent,
+      onLongPress: (){
+        LoginUserInfoManager().userId.then((value){
+          if(value == entity.comment.userId && value.isValid) {
+            _showDeleteWidget((){
+              entity.deleteParentComment((isSucc){
+                Navigator.pop(context);
+                if(isSucc) {
+                  this.setState(()=> this._viewModel.entitys.removeAt(index));
+                }
+              });
+            });
+          }
+        });
+      },
+      child: Container(
+          margin: EdgeInsets.only(left: 12.dp, top: 26.dp, right: 12.dp),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Container(
-                    width: 30.dp,
-                    height: 30.dp,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      color: CustomColor.mainRedColor,
-                      borderRadius: BorderRadius.circular(15.dp),
-                    ),
-                    child: FlatButton(
-                      padding: EdgeInsets.all(0),
-                      child: CustomImage.assetNetwork(
-                          image: entity.comment.userAvatar,
-                          size: Size(30.dp, 30.dp)
-                      ),
-                    ),
-                  ),
+              PostParentCommentView(commentEntity: entity, contentOnPress: (){
+                entity.index = index;
+                _showKeyboard(true, commentEntity: entity);
+              }),
 
-                  Container(
-                    margin: EdgeInsets.only(left: 6.dp),
-                    height: 30.dp,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text(
-                          entity.comment.nick ?? "",
-                          style: TextStyle(
-                            color: CustomColor.hexColor("0x2E2D2D"),
-                            fontSize: 12.dpFontSize,
-                            fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,
-                          ),
-                        ),
-
-                        Text(
-                          entity.comment.createTime ?? "",
-                          style: TextStyle(
-                            color: CustomColor.hexColor("0xB4B4B4"),
-                            fontSize: 10.dpFontSize,
-                            fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
-              Container(
-                margin: EdgeInsets.only(right: 12.dp),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 4.dp),
-                      child: Text(
-                        entity.comment.praiseNum.setTrans() ?? "0",
-                        style: TextStyle(
-                          color: entity.isPraise
-                              ? CustomColor.hexColor("0xDA3F47")
-                              : CustomColor.hexColor("0xB9B9B9"),
-                          fontSize: 13.dpFontSize,
-                          fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none,
-                        ),
-                      ),
-                    ),
-
-                    Container(
-                      width: 16.dp,
-                      height: 16.dp,
-                      margin: EdgeInsets.only(left: 5.dp),
-                      child: FlatButton(
-                        padding: EdgeInsets.all(0),
-                        child: CustomAssetImage.image(
-                          color: entity.isPraise ? null : Colors.grey,
-                          image: entity.isPraise
-                              ? ImageName.cjm_post_list_like.imagePath
-                              : ImageName.cjm_post_list_unlike.imagePath
-                        ),
-                        onPressed: ()=> entity.praisePost(
-                            callback: ()=> this.setState(() {})
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
+              PostChildCommentView(commentEntity: entity, contentOnPress: (childComment){
+                LoginUserInfoManager().userId.then((value){
+                  if(value == childComment.userId && value.isValid) {
+                    _showDeleteWidget((){
+                      childComment.deleteChildComment((isSucc){
+                        Navigator.pop(context);
+                        if(isSucc) {
+                          this.setState(() {
+                            entity.subCommentHeightList.removeAt(index);
+                            entity.subCommentTotalHeight = 0;
+                            entity.commentReplyList.removeAt(index);
+                          });
+                        }
+                      });
+                    });
+                  }
+                });
+              })
             ],
-          ),
+          )
+      ),
+    );
+  }
 
-          Container(
-            margin: EdgeInsets.only(left: 36.dp, top: 5.dp, right: 48.dp),
-            child: Text(
-              entity.comment.content ?? "",
-              style: TextStyle(
-                color: CustomColor.hexColor("0x2E2D2D"),
-                fontSize: 13.dpFontSize,
-                fontWeight: FontWeight.normal,
-                decoration: TextDecoration.none,
+  _showDeleteWidget(Function deleteCallback) {
+    showDialog(useSafeArea: false, context: context, builder: (context) {
+      return Container(
+        width: Screen.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
+              onTap: ()=> deleteCallback(),
+              child: Container(
+                color: Colors.white,
+                height: 54.dp,
+                child: Center(
+                  child: Text(
+                    '删除',
+                    style: TextStyle(
+                        color: CustomColor.hexColor("0x333333"),
+                        fontSize: 14.dpFontSize,
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.none
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-
-          entity.commentReplyList.length == 0
-              ? Container()
-              : Container(
-            margin: entity.margin,
-            padding: entity.padding,
-            decoration: BoxDecoration(
-                color: CustomColor.hexColor("0xF5F5F5"),
-                borderRadius: BorderRadius.circular(5.dp)
+            Container(
+              height: 8.dp,
+              color: CustomColor.hexColor("0xf5f5f5"),
             ),
-            height: entity.subCommentTotalHeight,
-            child: ListView.separated(
-                padding: EdgeInsets.all(0),
-                scrollDirection: Axis.vertical,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: entity.subCommentHeightList[index],
-                    child: RichText(
-                      text: TextSpan(
-                          text: entity.commentReplyList[index].userNick ?? "",
-                          style: TextStyle(
-                              color: CustomColor.hexColor("0xDA3F47"),
-                              fontSize: entity.subCommentFontSize,
-                              fontWeight: entity.subCommentFontWeight,
-                              decoration: TextDecoration.none
-                          ),
-                          children: [
-                            TextSpan(
-                              text: "：${entity.commentReplyList[index].commentContent ?? ""}",
-                              style: TextStyle(
-                                  color: CustomColor.hexColor("0x2E2D2D"),
-                                  fontSize: entity.subCommentFontSize,
-                                  fontWeight: entity.subCommentFontWeight,
-                                  decoration: TextDecoration.none
-                              ),
-                            )
-                          ]
-                      ),
+            GestureDetector(
+              onTap: ()=> Navigator.pop(context),
+              child: Container(
+                color: Colors.white,
+                height: 84.dp,
+                child: Center(
+                  child: Text(
+                    '取消',
+                    style: TextStyle(
+                        color: CustomColor.hexColor("0x333333"),
+                        fontSize: 14.dpFontSize,
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.none
                     ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Container();
-                },
-                itemCount: entity.commentReplyList.length),
-          )
-        ],
-      )
-    );
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    });
   }
 }
 

@@ -1,6 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/class/fashion/postDetail/imagePostDetail/imagePostDetail.dart';
+import 'package:flutter_app/class/fashion/postDetail/videoPostDetail/videoPostDetail.dart';
 import 'package:flutter_app/class/fashion/postListItemBuilder.dart';
+import 'package:flutter_app/class/fashion/post_entity.dart';
 import 'package:flutter_app/common/tools/base_page_view.dart';
 import 'package:flutter_app/class/profile/personal/personalPageViewModel.dart';
 import 'package:flutter_app/common/base/base_viewModel.dart';
@@ -75,7 +78,7 @@ class PersonalImagePostPageViewState extends BasePageViewState<PersonalImagePost
     }
 
     return Container(
-      margin: EdgeInsets.only(top: 30.dp),
+      margin: EdgeInsets.only(top: 44.dp),
       child: CustomRefresher(
         onRefresh: (refresh) {
           this._loadData(
@@ -91,10 +94,13 @@ class PersonalImagePostPageViewState extends BasePageViewState<PersonalImagePost
         },
         child: ListView.separated(
             itemBuilder: (BuildContext context, int index){
-              return PostListItemBuilder(postEntity: this._viewModel.items[index]);
+              PostEntity postEntity = this._viewModel.items[index];
+              return PostListItemBuilder(postEntity: postEntity);
             },
             separatorBuilder: (BuildContext context, int index){
-              return Container();
+              return Container(
+                height: 20,
+              );
             },
             itemCount: this._viewModel.items.length
         ),

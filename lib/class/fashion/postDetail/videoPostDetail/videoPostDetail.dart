@@ -54,7 +54,6 @@ class VideoPostDetailState extends BaseContainerState<VideoPostDetail> {
           onLoading: (refresh){
             _getCommentList(isDown: false,
                 callback: (){
-                  print("--------------");
                   refresh.setLoadStatus(this._viewModel.loadStatus);
                 });
           },

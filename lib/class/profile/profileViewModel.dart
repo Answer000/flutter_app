@@ -134,6 +134,7 @@ class ProfileViewModel {
           ProfileInfoEntity entity = ProfileInfoEntity().fromJson(response);
           this.info = entity.data;
           LoginUserInfoManager().integral = entity.data.user.integral;
+          LoginUserInfoManager().nick = entity.data.user.nick;
           callback(entity.data);
         },
         onFailure: (error){ }

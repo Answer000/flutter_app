@@ -72,7 +72,7 @@ class EmptyViewState extends State<EmptyView> {
                       color: CustomColor.mainRedColor,
                       borderRadius: BorderRadius.circular(12.dp),
                     ),
-                    child: FlatButton(
+                    child: RawMaterialButton(
                       padding: EdgeInsets.all(0),
                       child: Text(
                         "${this.widget.itemTitle}",

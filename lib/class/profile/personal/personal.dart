@@ -15,12 +15,10 @@ class Personal extends StatefulWidget {
   int userId;
   Personal({@required this.userId});
 
-  PersonalState _personalState = PersonalState();
-
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _personalState;
+    return PersonalState();
   }
 }
 
@@ -74,6 +72,42 @@ class PersonalState extends State<Personal> {
   @override
   Widget build(BuildContext context) {
     bool hasData = this._viewModel.userData != null;
+    // return Container(
+    //   color: Colors.red,
+    //   child: ListView.separated(
+    //       itemBuilder: (BuildContext context, int index){
+    //         // PostEntity postEntity = this._viewModel.items[index];
+    //         return GestureDetector(
+    //           child: Container(
+    //             color: Colors.cyan,
+    //             height: 200,
+    //           ),
+    //           onTap: (){
+    //             print(index);
+    //           },
+    //         );
+    //       },
+    //       separatorBuilder: (BuildContext context, int index){
+    //         return Container(
+    //           height: 20,
+    //         );
+    //       },
+    //       itemCount: 10
+    //   ),
+    //   // child: PageView(
+    //   //   scrollDirection: Axis.horizontal,
+    //   //   controller: _pageController,
+    //   //   children: [
+    //   //     PersonalImagePostPageView(isLogin: this._isLogin, userId: this.widget.userId),
+    //   //     PersonalVideoPostPageView(isLogin: this._isLogin, userId: this.widget.userId),
+    //   //   ],
+    //   //   onPageChanged: (index){
+    //   //     this.setState(() {
+    //   //       this._currentIndex = index;
+    //   //     });
+    //   //   },
+    //   // ),
+    // );
     return Container(
         child: NestedScrollView(
           scrollDirection: Axis.vertical,
@@ -84,8 +118,6 @@ class PersonalState extends State<Personal> {
                   return Container(
                     margin: EdgeInsets.only(top: 30.dp, bottom: 20.dp),
                     child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         PersonalHeaderView(
                           isLogin: this._isLogin,
