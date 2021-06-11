@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/class/fashion/postDetail/commentDetail/postCommentDetail.dart';
 import 'package:flutter_app/class/fashion/postDetail/comment_entity.dart';
 import 'package:flutter_app/class/fashion/postDetail/comment_model_entity.dart';
-import 'package:flutter_app/class/login/loginUserInfoManager.dart';
-import 'package:flutter_app/class/profile/personal/otherPersonal/otherPersonal.dart';
 import 'package:flutter_app/common/extension/extension.dart';
 import 'package:flutter_app/common/tools/CustomNavigator.dart';
-import 'package:flutter_app/resource.dart';
 
 class PostChildCommentView extends StatefulWidget {
 
   CommentEntity commentEntity;
 
-  Function(CommentModelCommentReplyCommentReplyList) contentOnPress;
+  Function(int index) contentOnPress;
 
   PostChildCommentView({this.commentEntity, this.contentOnPress});
 
@@ -50,10 +47,9 @@ class PostChildCommentViewState extends State<PostChildCommentView> {
               itemBuilder: (context, index) {
                 CommentModelCommentReplyCommentReplyList childComment = this.widget.commentEntity.commentReplyList[index];
                 return GestureDetector(
-                  behavior: HitTestBehavior.opaque,
                   onLongPress: (){
                     if(this.widget.contentOnPress != null) {
-                      this.widget.contentOnPress(childComment);
+                      this.widget.contentOnPress(index);
                     }
                   },
                   child: Container(

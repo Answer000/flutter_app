@@ -36,6 +36,7 @@ enum APIPath {
   post_videoPost,             // 潮区视频列表
   comment_commentList,        // 获取帖子对应的评论列表
   comment_view_more_comment_list, // 查看二级评论列表
+  comment_commentInfo,        // 获取一条评论详情
   comment_addPostComment,     // 新增帖子评论
   comment_deletePostComment,  // 删除帖子的一级评论
   comment_deletePostComment2, // 删除帖子的二级评论

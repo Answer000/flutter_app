@@ -106,6 +106,7 @@ class PostDetailViewModel extends ASBaseViewModel {
             CommentModelCommentReplyCommentReplyList replyComment = CommentModelCommentReplyCommentReplyList().fromJson(data["commentReply"]);
             List<CommentModelCommentReplyCommentReplyList> commentReplyList = this.entitys[commentEntity.index].commentReplyList;
             commentReplyList.insert(0, replyComment);
+            this.entitys[commentEntity.index].comment.commentReply.total += 1;
             this.entitys[commentEntity.index].commentReplyList = commentReplyList;
           }
           CustomToast.show("评论成功");

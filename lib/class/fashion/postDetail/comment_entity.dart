@@ -11,19 +11,23 @@ class CommentEntity {
 
   CommentModelEntity _comment;
   CommentModelEntity get comment => _comment;
+  set comment(CommentModelEntity value){
+    _comment = value;
+    if(value.commentReply != null) {
+      this.commentReplyList = value.commentReply.commentReplyList;
+    }
+  }
 
   CommentEntity({
     CommentModelEntity comment,
   }) {
-    this._comment = comment;
-    if(comment.commentReply != null) {
-      this.commentReplyList = comment.commentReply.commentReplyList;
-    }
+    this.comment = comment;
   }
 
   /// 二级评论模型数组
   set commentReplyList(List<CommentModelCommentReplyCommentReplyList> value) {
     if(value.isNotValid) { return; }
+    comment.commentReply.commentReplyList = value.length > 3 ? value.getRange(0, 3).toList() : value;
     _subCommentTotalHeight = 0;
     _subCommentHeightList = [];
     _subCommentHeightList = this.commentReplyList.map((e){
@@ -85,7 +89,9 @@ class CommentEntity {
   }
 
   /// 是否显示更多子评论
-  bool get isShowMoreComments => comment.commentReply.total > commentReplyList.length;
+  bool get isShowMoreComments  {
+    return comment.commentReply.total > commentReplyList.length;
+  }
 
   /// 是否显示更多子评论-标题
   String get showMoreCommentsTitle => "查看所有 ${comment.commentReply.total ?? 0} 条回复";
@@ -156,8 +162,9 @@ extension CommentEntityPraise on CommentEntity {
   }
 }
 
-/// 删除父评论
+/// 删除评论
 extension CommentEntityDelete on CommentEntity {
+  /// 删除父评论
   deleteParentComment(Function(bool isSucc) callback) async{
     await Https().post(
         apiPath: APIPath.comment_deletePostComment,
@@ -175,15 +182,73 @@ extension CommentEntityDelete on CommentEntity {
         }
     );
   }
-}
 
-/// 删除子评论
-extension ReplyCommentEntity on CommentModelCommentReplyCommentReplyList {
-  deleteChildComment(Function(bool isSucc) callback) async{
+  /// 删除子评论
+  deleteChildComment(int index, Function(bool isSucc) callback) async{
+    CommentModelCommentReplyCommentReplyList childComment = this.commentReplyList[index];
     await Https().post(
         apiPath: APIPath.comment_deletePostComment2,
-        params: {"commentId" : id},
+        params: {"commentId" : childComment.id},
         onSuccess: (response) {
+          this.getOneCommentInfo((isSucc) => callback(isSucc));
+        },
+        onSuccessOfOthers: (response){
+          CustomToast.show(response["msg"].toString());
+          callback(false);
+        },
+        onFailure: (error) {
+          CustomToast.show("网络错误");
+          callback(false);
+        }
+    );
+  }
+}
+
+
+/// 获取评论
+extension ChildCommentEntityDelete on CommentEntity {
+  /// 获取父评论的子评论列表
+  getChildCommentList(Function(bool isSucc) callback) async{
+    await Https().post(
+        apiPath: APIPath.comment_view_more_comment_list,
+        params: {
+          "postId" : "${this.comment.postId}",
+          "parentCommentId" : "${this.commentId}",
+          "pageSize" : 3,
+          "pageNo" : 1
+        },
+        onSuccess: (response) {
+          // callback(true);
+          List lists = response["data"]["postList"]["lists"];
+          List<CommentEntity> datas = lists.map((e) {
+            return CommentEntity(comment: CommentModelEntity().fromJson(e));
+          }).toList();
+          /// 排除父评论
+          datas.removeWhere((element) => element.comment.status == 1);
+          this.commentReplyList = response["data"]["postList"]["lists"];
+        },
+        onSuccessOfOthers: (response){
+          CustomToast.show(response["msg"].toString());
+          callback(false);
+        },
+        onFailure: (error) {
+          CustomToast.show("网络错误");
+          callback(false);
+        }
+    );
+  }
+
+  /// 获取某一条评论详情
+  getOneCommentInfo(Function(bool isSucc) callback) async{
+    await Https().post(
+        apiPath: APIPath.comment_commentInfo,
+        params: {
+          "commentId" : "${this.commentId}",
+        },
+        onSuccess: (response) {
+          Map comment = response["data"]["comment"];
+          CommentModelEntity modelEntity = CommentModelEntity().fromJson(comment);
+          this.comment = modelEntity;
           callback(true);
         },
         onSuccessOfOthers: (response){

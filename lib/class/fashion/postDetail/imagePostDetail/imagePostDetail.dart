@@ -211,7 +211,7 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> with Sing
                   },
                   sendCallback: (){
                     /// 关闭键盘
-                    _showKeyboard(false);
+                    this._focusNode.unfocus();
                     /// 发送评论
                     this._viewModel.addPostComment(context, (){
                       /// 清除输入框数据
@@ -262,7 +262,7 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> with Sing
               entity.deleteParentComment((isSucc){
                 Navigator.pop(context);
                 if(isSucc) {
-                  this.setState(()=> this._viewModel.entitys.removeAt(index));
+                  this.setState(()=> this._viewModel.entitys.removeWhere((e) => e.commentId == entity.commentId));
                 }
               });
             });
@@ -280,19 +280,13 @@ class ImagePostDetailState extends BaseContainerState<ImagePostDetail> with Sing
                 _showKeyboard(true, commentEntity: entity);
               }),
 
-              PostChildCommentView(commentEntity: entity, contentOnPress: (childComment){
+              PostChildCommentView(commentEntity: entity, contentOnPress: (childIndex){
                 LoginUserInfoManager().userId.then((value){
-                  if(value == childComment.userId && value.isValid) {
+                  if(value == entity.commentReplyList[childIndex].userId && value.isValid) {
                     _showDeleteWidget((){
-                      childComment.deleteChildComment((isSucc){
+                      entity.deleteChildComment(childIndex, (isSucc){
                         Navigator.pop(context);
-                        if(isSucc) {
-                          this.setState(() {
-                            entity.subCommentHeightList.removeAt(index);
-                            entity.subCommentTotalHeight = 0;
-                            entity.commentReplyList.removeAt(index);
-                          });
-                        }
+                        this.setState(() {});
                       });
                     });
                   }
