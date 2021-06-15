@@ -126,19 +126,27 @@ class ProfileViewModel {
     return source;
   }
 
-  getUserInfo(Function(ProfileInfoData) callback) async{
-    await Https().post(
-        apiPath: APIPath.user_getUserDetail,
-        params: {'userId' : '${LoginUserInfoManager().userId}'},
-        onSuccess: (response){
-          ProfileInfoEntity entity = ProfileInfoEntity().fromJson(response);
-          this.info = entity.data;
-          LoginUserInfoManager().integral = entity.data.user.integral;
-          LoginUserInfoManager().nick = entity.data.user.nick;
-          callback(entity.data);
-        },
-        onFailure: (error){ }
-    );
+  getUserInfo(Function callback) async{
+    await LoginUserInfoManager().userId.then((userId) {
+      if(userId.isNotValid) { return; }
+      Https().post(
+          apiPath: APIPath.user_getUserDetail,
+          params: {'userId' : '$userId'},
+          onSuccess: (response){
+            ProfileInfoEntity entity = ProfileInfoEntity().fromJson(response);
+            this.info = entity.data;
+            LoginUserInfoManager().integral = entity.data.user.integral;
+            LoginUserInfoManager().nick = entity.data.user.nick;
+            callback();
+          },
+          onSuccessOfOthers: (response){
+
+          },
+          onFailure: (error){
+            callback();
+          }
+      );
+    });
   }
 }
 

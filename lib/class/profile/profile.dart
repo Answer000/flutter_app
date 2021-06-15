@@ -43,7 +43,6 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
 
     // 监听登录状态变化
     eventManager.add(EventName.login, (arg) {
-      print(arg);
       if (arg) {
         _getUserInfo();
       }else{
@@ -55,16 +54,13 @@ class ProfileState extends BaseContainerState<Profile> with TickerProviderStateM
   }
 
   _getUserInfo() {
-    _viewModel.getUserInfo((info){
-      setState(() {
-        this._viewModel.info = info;
-      });
-    });
+    _viewModel.getUserInfo(()=> setState(() {}));
   }
 
   @override
   Widget setContentView(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 10.dp, bottom: 10.dp),
       child: Stack(
         children: [
           ListView.separated(

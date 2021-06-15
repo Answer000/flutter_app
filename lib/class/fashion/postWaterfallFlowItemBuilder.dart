@@ -212,15 +212,17 @@ class PostWaterfallFlowItemBuilderState extends State<PostWaterfallFlowItemBuild
                     Container(
                       width: 12.dp,
                       child: RawMaterialButton(
-                          padding: EdgeInsets.all(0),
-                          child: CustomAssetImage.image(
-                            image: post.isPraise
-                                ? ImageName.cjm_waterfall_like.imagePath
-                                : ImageName.cjm_waterfall_unlike.imagePath,
-                          ),
-                          onPressed: (){
-                            post.praisePost(callback: ()=>  setState(() {}));
-                          },
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        padding: EdgeInsets.all(0),
+                        child: CustomAssetImage.image(
+                          image: post.isPraise
+                              ? ImageName.cjm_waterfall_like.imagePath
+                              : ImageName.cjm_waterfall_unlike.imagePath,
+                        ),
+                        onPressed: (){
+                          post.praisePost(callback: ()=>  setState(() {}));
+                        },
                       ),
                     ),
 

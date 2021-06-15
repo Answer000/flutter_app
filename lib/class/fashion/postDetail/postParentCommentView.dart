@@ -121,6 +121,8 @@ class PostParentCommentViewState extends State<PostParentCommentView> {
                           height: 16.dp,
                           margin: EdgeInsets.only(left: 5.dp),
                           child: RawMaterialButton(
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
                             child: CustomAssetImage.image(
                                 color: this.widget.commentEntity.isPraise ? null : Colors.grey,
                                 image: this.widget.commentEntity.isPraise

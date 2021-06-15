@@ -87,10 +87,10 @@ class ASTabBarState extends State<ASTabBar> {
     SystemChrome.setEnabledSystemUIOverlays([]);
 
     /// 中间按钮的size
-    Size centerItemSize = Size(50.dp, 50.dp);
+    Size centerItemSize = Size(49.dp, 49.dp);
 
     /// 中间按钮突出距离
-    double centerItemDistance = -20.dp;
+    double centerItemDistance = -25.dp;
 
     return Scaffold(
       /*可以通过设置 这个属性 防止键盘 覆盖内容 或者 键盘 撑起内容*/
@@ -137,7 +137,7 @@ class ASTabBarState extends State<ASTabBar> {
             child: Container(
               width: centerItemSize.width,
               height: centerItemSize.height,
-              child: FlatButton(
+              child: RawMaterialButton(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 onPressed: (){
@@ -152,7 +152,7 @@ class ASTabBarState extends State<ASTabBar> {
   }
 
   List<Widget> _createItems(Size centerItemSize, double centerItemDistance) {
-    List<Widget> items = List();
+    List<Widget> items = [];
     List<Map<String,dynamic>> infos = [
       {'title' : '首页',
         'type' : ASTabBarItemType.home,
@@ -181,6 +181,7 @@ class ASTabBarState extends State<ASTabBar> {
       bool isCenter = infos[i]['type'] == ASTabBarItemType.center;
       items.add(
         GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: (){
             if(!isCenter){
               this.selectIndex = i;
@@ -188,19 +189,24 @@ class ASTabBarState extends State<ASTabBar> {
           },
           child: Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
                   width: isCenter ? centerItemSize.width : 35.dp,
-                  height: isCenter ? centerItemSize.height : 35.dp,
-                  padding: EdgeInsets.all(isCenter ? 0 : 8.dp),
+                  height: isCenter ? centerItemSize.height : 20.dp,
                   transform: Matrix4.translationValues(0, isCenter ? centerItemDistance : 0, 0),
-                  child: CustomAssetImage.image(
-                    image: this.selectIndex == i ? info['selectIcon'] : info['normalIcon'],
+                  child: Center(
+                    child: CustomAssetImage.image(
+                      image: this.selectIndex == i ? info['selectIcon'] : info['normalIcon'],
+                    ),
                   ),
                 ),
 
+                isCenter ? Container() :
                 Container(
+                  margin: EdgeInsets.only(top: 5.dp),
                   child: Text(
                     isCenter ? '' : '${info['title']}',
                     style: TextStyle(

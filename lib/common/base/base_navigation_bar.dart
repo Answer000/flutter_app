@@ -30,10 +30,6 @@ class NavigationBar extends StatefulWidget {
 
   /// 是否显示logo
   Color navigationBarColor;
-  // Color get navigationBarColor => _navigationBarColor;
-  // set navigationBarColor(Color color) {
-  //   _navigationBarColor = color;
-  // }
 
   /// 初始方法
   NavigationBar({
@@ -146,7 +142,7 @@ class NavigationBarState extends State<NavigationBar> {
               Container(
                 margin: EdgeInsets.only(left: 10.dp),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -154,13 +150,14 @@ class NavigationBarState extends State<NavigationBar> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Container(
-                          height: 20.dp,
                           child: Text(
                             this.widget.title,
                             style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.dp,
-                              fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 16.dp,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.none,
+                              height: 1
                             ),
                           ),
                         ),
@@ -171,19 +168,23 @@ class NavigationBarState extends State<NavigationBar> {
                               color: Colors.white,
                               fontSize: 10.dp,
                               fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.none,
+                              height: 1
                             ),
                           ),
                         ),
                       ],
                     ),
                     Container(
-                      height: 12.dp,
+                      margin: EdgeInsets.only(top: 2.dp),
                       child: Text(
                         this.widget.descriptionText,
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10.dp,
-                          fontWeight: FontWeight.normal,
+                            color: Colors.white,
+                            fontSize: 10.dp,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          height: 1
                         ),
                       ),
                     ),
